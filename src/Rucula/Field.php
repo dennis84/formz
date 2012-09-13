@@ -4,6 +4,8 @@ namespace Rucula;
 
 class Field
 {
+    use Twigable;
+
     protected $name;
     protected $value;
     protected $type;
@@ -14,6 +16,7 @@ class Field
     protected $unapply;
     protected $data;
     protected $optional = false;
+    protected $root;
 
     public function __construct($name, $type)
     {
@@ -50,6 +53,21 @@ class Field
         $this->parent = $parent;
     }
 
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function setRoot($root)
+    {
+        $this->root = $root;
+    }
+
+    public function isRoot()
+    {
+        return $this->root;
+    }
+
     public function addChild($field)
     {
         $this->children[$field->getName()] = $field;
@@ -67,16 +85,6 @@ class Field
     public function hasChild($name)
     {
         return array_key_exists($name, $this->children);
-    }
-
-    public function __get($name)
-    {
-        return $this->getChild($name);
-    }
-
-    public function __isset($name)
-    {
-        return $this->hasChild($name);
     }
 
     public function getChildren()
@@ -111,11 +119,11 @@ class Field
 
     public function getNameForField()
     {
-        if ('root' === $this->parent->getName()) {
+        if ($this->parent->isRoot()) {
             return $this->name;
         }
 
-        return $parent->getNameForField() . '-' . $this->name;
+        return $parent->getNameForField() . '.' . $this->name;
     }
 
     public function getData()

@@ -10,6 +10,7 @@ abstract class AbstractBuilder
     protected function buildFieldTree(array $fields)
     {
         $field = new Field('root', new FormType());
+        $field->setRoot(true);
 
         foreach ($fields as $name => $typeOrField) {
             if ($typeOrField instanceof Field) {
