@@ -1,0 +1,17 @@
+{
+    "hash": "f34e40967f79a88e7f3d38d7d0fc0a89",
+    "packages": [
+        {
+            "package": "pimple/pimple",
+            "version": "1.0.0"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ]
+}
