@@ -61,6 +61,9 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * It should not be possible to bind incomplete data to a nested form.
+     * The value could not be mapped to the closure so throw an exception.
+     *
      * @expectedException InvalidArgumentException
      */
     public function testNestedFormAppliedToUserAndAddress()

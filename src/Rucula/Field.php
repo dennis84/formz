@@ -270,11 +270,7 @@ class Field
     {
         $blank = array();
         foreach ($this->children as $name => $child) {
-            //if ($child->hasChildren()) {
-                //$blank[$name] = $child->getBlankData();
-            //} else {
-                $blank[$name] = null;
-            //}
+            $blank[$name] = null;
         }
 
         return $blank;
