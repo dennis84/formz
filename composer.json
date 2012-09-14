@@ -1,7 +1,7 @@
 {
     "name": "dennis84/rucula",
     "autoload": {
-        "psr-0": { "Rucula": "src/" }
+        "psr-0": { "Rucula": ["src/", "tests/"] }
     },
     "require": {
         "php": ">=5.3.2",

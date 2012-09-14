@@ -158,7 +158,9 @@ class Field
 
     public function bind($data = null)
     {
-        $this->setValue($data);
+        if (is_array($data)) {
+            $data = array_merge($this->getBlankData(), $data);
+        }
 
         foreach ($this->children as $child) {
             if (isset($data[$child->getName()])) {
@@ -167,7 +169,7 @@ class Field
                 $data[$child->getName()] = null;
             }
         }
-
+        
         $this->setValue($data);
         $this->validate();
     }
@@ -215,7 +217,17 @@ class Field
     private function applyTree()
     {
         $apply = $this->apply;
-        $data  = call_user_func_array($apply, $this->value);
+
+        try {
+            $data = call_user_func_array($apply, $this->value);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                'The form value could not applied to the closure function. '.
+                'Propably the bound data does not match your form configuration'.
+                'If the form field is optional then wrap the field with the "$rucula->optional" method.'
+            );
+        }
+
         $this->data = $data;
 
         foreach ($this->getChildren() as $child) {
@@ -252,5 +264,19 @@ class Field
         }
 
         $this->value = $value;
+    }
+
+    public function getBlankData()
+    {
+        $blank = array();
+        foreach ($this->children as $name => $child) {
+            //if ($child->hasChildren()) {
+                //$blank[$name] = $child->getBlankData();
+            //} else {
+                $blank[$name] = null;
+            //}
+        }
+
+        return $blank;
     }
 }
