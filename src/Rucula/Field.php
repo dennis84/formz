@@ -38,14 +38,13 @@ class Field
 
     public function getErrorsFlat()
     {
-        $errors = array();
+        $errors = $this->errors;
 
         foreach ($this->getChildren() as $child) {
-            $errors += $child->getErrorsFlat();
+            $errors += array_merge($child->getErrorsFlat(), $errors);
         }
 
-        $this->addErrors($errors);
-        return $this->errors;
+        return $errors;
     }
 
     public function setParent($parent)
@@ -182,7 +181,12 @@ class Field
 
     public function validate()
     {
-        $this->type->validate($this);
+        if (true === $this->type->validate($this->getValue())) {
+            $this->type->onValid($this);
+            return;
+        }
+
+        $this->type->onInvalid($this);
     }
 
     public function fold(\Closure $formWithErrors, \Closure $formData)

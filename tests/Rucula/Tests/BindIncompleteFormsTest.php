@@ -13,7 +13,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text']
         ));
@@ -38,7 +38,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text']
         ), function ($username, $password) {
@@ -70,10 +70,10 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text'],
-            'address' => $rucula['builder.tuple']->build(array(
+            'address' => $rucula->mapping(array(
                 'city' => $rucula['type.text'],
                 'street' => $rucula['type.text']
             ), function ($city, $street) {
@@ -99,10 +99,10 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text'],
-            'address' => $rucula->optional($rucula['builder.tuple']->build(array(
+            'address' => $rucula->optional($rucula->mapping(array(
                 'city' => $rucula['type.text'],
                 'street' => $rucula['type.text']
             ), function ($city, $street) {

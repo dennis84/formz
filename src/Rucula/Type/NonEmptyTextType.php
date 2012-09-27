@@ -7,12 +7,13 @@ use Rucula\Error;
 
 class NonEmptyTextType extends TextType
 {
-    public function validate(Field $field)
+    public function validate($value)
     {
-        parent::validate($field);
+        return '' !== $value ? true : false;
+    }
 
-        if ('' === $field->getValue()) {
-            $field->addError(new Error('The value must not be empty'));
-        }
+    public function onInvalid(Field $field)
+    {
+        $field->addError(new Error('non_empty_text', 'The value must not be empty'));
     }
 }

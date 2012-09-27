@@ -28,17 +28,4 @@ class DataMapper
 
         return $obj;
     }
-
-    //public function objectToData($obj)
-    //{
-        //$r = new \ReflectionClass($obj);
-        //$d = array();
-
-        //foreach ($r->getProperties() as $prop) {
-            //$prop->setAccessible(true);
-            //$d[$prop->getName()] = $prop->getValue($r);
-        //}
-
-        //return $d;
-    //}
 }

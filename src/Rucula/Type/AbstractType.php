@@ -6,5 +6,16 @@ use Rucula\Field;
 
 abstract class AbstractType implements TypeInterface
 {
-    abstract public function validate(Field $field);
+    public function validate($value)
+    {
+        return true;
+    }
+
+    public function onValid(Field $field)
+    {
+    }
+
+    public function onInvalid(Field $field)
+    {
+    }
 }

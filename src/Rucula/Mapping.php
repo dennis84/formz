@@ -1,12 +1,34 @@
 <?php
 
-namespace Rucula\Builder;
+namespace Rucula;
 
 use Rucula\Field;
 use Rucula\Type\FormType;
 
-abstract class AbstractBuilder
+trait Mapping
 {
+    public function mapping(array $fields, \Closure $apply = null, \Closure $unapply = null)
+    {
+        $dataMapper = $this->dataMapper;
+        $root       = $this->buildFieldTree($fields);
+
+        if (!$apply) {
+            $root->setApply(function () use ($root, $dataMapper) {
+                return $dataMapper->fieldToArray($root);
+            });
+        } else {
+            $root->setApply($apply);
+        }
+
+        if (!$unapply) {
+            $root->setUnapply(function () {});
+        } else {
+            $root->setUnapply($unapply);
+        }
+
+        return $root;
+    }
+
     protected function buildFieldTree(array $fields)
     {
         $field = new Field('root', new FormType());

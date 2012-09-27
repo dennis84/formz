@@ -13,7 +13,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text']
         ));
@@ -36,7 +36,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text']
         ), function ($username, $password) {
@@ -63,10 +63,10 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
 
-        $form = $rucula['builder.tuple']->build(array(
+        $form = $rucula->mapping(array(
             'username' => $rucula['type.text'],
             'password' => $rucula['type.text'],
-            'address' => $rucula['builder.tuple']->build(array(
+            'address' => $rucula->mapping(array(
                 'city' => $rucula['type.text'],
                 'street' => $rucula['type.text']
             ), function ($city, $street) {
