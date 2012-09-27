@@ -50,10 +50,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula->mapping(
+            'choices' => $rucula->multiple($rucula->mapping(array(
                 'key'   => $rucula['type.text'],
                 'value' => $rucula['type.text'],
-            )),
+            ))),
         ));
 
         $form->bind(array(
