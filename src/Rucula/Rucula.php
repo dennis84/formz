@@ -14,8 +14,6 @@ class Rucula extends \Pimple
         $this['type.text']           = new Type\TextType();
         $this['type.non_empty_text'] = new Type\NonEmptyTextType();
         $this['type.boolean']        = new Type\BooleanType();
-        //$this['data.mapper']         = new Util\DataMapper();
-        //$this['builder.tuple']       = new Builder\Tuple($this['data.mapper']);
         $this->dataMapper = new Util\DataMapper();
     }
 }

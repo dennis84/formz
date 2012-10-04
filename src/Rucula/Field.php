@@ -2,6 +2,8 @@
 
 namespace Rucula;
 
+use Rucula\Type\FormType;
+
 class Field
 {
     use Twigable;
@@ -16,7 +18,9 @@ class Field
     protected $unapply;
     protected $data;
     protected $optional = false;
+    protected $multiple = false;
     protected $root;
+    protected $prototype;
 
     public function __construct($name, $type)
     {
@@ -86,6 +90,14 @@ class Field
         return array_key_exists($name, $this->children);
     }
 
+    public function setChildren(array $children)
+    {
+        $this->children = array();
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
     public function getChildren()
     {
         return $this->children;
@@ -145,9 +157,29 @@ class Field
         return (boolean) (empty($this->value) && $this->isOptional());
     }
 
+    public function setMultiple($multiple)
+    {
+        $this->multiple = $multiple;
+    }
+
+    public function isMultiple()
+    {
+        return (boolean) $this->multiple;
+    }
+
+    public function setPrototype($prototype)
+    {
+        $this->prototype = $prototype;
+    }
+
     public function setApply(\Closure $apply = null)
     {
         $this->apply = $apply;
+    }
+
+    public function getApply()
+    {
+        return $this->apply;
     }
 
     public function setUnapply(\Closure $unapply = null)
@@ -155,10 +187,23 @@ class Field
         $this->unapply = $unapply;
     }
 
+    public function getUnapply()
+    {
+        return $this->unapply;
+    }
+
     public function bind($data = null)
     {
+        if ($this->isMultiple()) {
+            foreach ($data as $index => $value) {
+                $choice = $this->prototype->copy();
+                $choice->setName($index);
+                $this->addChild($choice);
+            }
+        }
+
         if (is_array($data)) {
-            $data = array_merge($this->getBlankData(), $data);
+            $data += $this->getBlankData();
         }
 
         foreach ($this->children as $child) {
@@ -168,7 +213,7 @@ class Field
                 $data[$child->getName()] = null;
             }
         }
-        
+
         $this->setValue($data);
         $this->validate();
     }
@@ -202,11 +247,6 @@ class Field
     private function unapplyTree($data)
     {
         $unapply = $this->unapply;
-
-        if (is_object($data)) {
-            $data = array('obj' => $data);
-        }
-
         $value = call_user_func_array($unapply, $data);
 
         foreach ($this->getChildren() as $child) {
@@ -239,11 +279,14 @@ class Field
                 continue;
             }
 
-            if ($child->hasChildren()) {
+            if (!$child->hasChildren()) {
+                if (is_array($data)) {
+                    $data[$child->getName()] = $child->getValue();
+                }
+            } elseif ($child->hasChildren()) {
                 if (is_array($data)) {
                     $data[$child->getName()] = $child->applyTree();
-                }
-                elseif (is_object($data)) {
+                } elseif (is_object($data)) {
                     $refl = new \ReflectionObject($data);
                     $prop = $refl->getProperty($child->getName());
                     $prop->setAccessible(true);
@@ -278,5 +321,26 @@ class Field
         }
 
         return $blank;
+    }
+
+    public function copy()
+    {
+        $copy = clone $this;
+
+        $copy->type = clone $this->type;
+
+        if ($this->apply) {
+            $this->apply->bindTo($copy);
+        }
+
+        if ($this->unapply) {
+            $this->unapply->bindTo($copy);
+        }
+
+        $copy->setChildren(array_map(function ($child) {
+            return $child->copy();
+        }, $copy->getChildren()));
+
+        return $copy;
     }
 }

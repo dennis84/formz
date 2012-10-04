@@ -4,6 +4,7 @@ namespace Rucula;
 
 use Rucula\Type\TypeInterface;
 use Rucula\Type\MultipleType;
+use Rucula\Type\FormType;
 
 trait Multiple
 {
@@ -12,9 +13,20 @@ trait Multiple
         if ($typeOfField instanceof TypeInterface) {
             return new MultipleType($typeOfField);
         }
-           
+
+        $dataMapper = $this->dataMapper;
+
         if ($typeOfField instanceof Field) {
-            return $typeOfField;
+            $choices = new Field('choices', new FormType());
+            $choices->setMultiple(true);
+            $typeOfField->setParent($choices);
+            $choices->setPrototype($typeOfField);
+
+            $choices->setApply(function () use ($dataMapper, $choices) {
+                return $dataMapper->fieldToArray($choices);
+            });
+
+            return $choices;
         }
 
         throw new \InvalidArgumentException('You must pass an instance of TypeInterface of Field to multiple method.');

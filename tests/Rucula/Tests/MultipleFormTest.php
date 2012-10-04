@@ -56,17 +56,25 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             ))),
         ));
 
-        $form->bind(array(
+        $data = array(
             'choices' => array(
-                array('key' => 'foo', 'value' => 'bar'),
-                array('key' => 'bla', 'value' => 'blubb')
+                array(
+                    'key' => 'foo',
+                    'value' => 'bar'
+                ),
+                array(
+                    'key' => 'bla',
+                    'value' => 'blubb'
+                ),
             ),
-        ));
+        );
+
+        $form->bind($data);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            print_r($formData);
+        }, function ($formData) use ($data) {
+            $this->assertEquals($formData, $data);
         });
     }
 }
