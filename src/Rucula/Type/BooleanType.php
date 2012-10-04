@@ -21,4 +21,9 @@ class BooleanType extends AbstractType
     {
         $field->addError(new Error('boolean', 'The value must be true or false.'));
     }
+
+    public function getName()
+    {
+        return 'boolean';
+    }
 }

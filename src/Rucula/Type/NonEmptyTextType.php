@@ -16,4 +16,9 @@ class NonEmptyTextType extends TextType
     {
         $field->addError(new Error('non_empty_text', 'The value must not be empty'));
     }
+
+    public function getName()
+    {
+        return 'non_empty_text';
+    }
 }

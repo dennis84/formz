@@ -10,8 +10,8 @@ class NonEmptyTextTypeTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'username' => $rucula['type.non_empty_text'],
-            'password' => $rucula['type.non_empty_text'],
+            'username' => $rucula->type('non_empty_text'),
+            'password' => $rucula->type('non_empty_text'),
         ));
 
         $data = array(
@@ -32,8 +32,8 @@ class NonEmptyTextTypeTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'username' => $rucula['type.non_empty_text'],
-            'password' => $rucula['type.non_empty_text'],
+            'username' => $rucula->type('non_empty_text'),
+            'password' => $rucula->type('non_empty_text'),
         ));
 
         $form->bind(array(

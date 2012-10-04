@@ -18,4 +18,6 @@ abstract class AbstractType implements TypeInterface
     public function onInvalid(Field $field)
     {
     }
+
+    abstract public function getName();
 }

@@ -10,7 +10,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula['type.text']),
+            'choices' => $rucula->multiple($rucula->type('text')),
         ));
 
         $form->bind(array(
@@ -30,7 +30,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula['type.text']),
+            'choices' => $rucula->multiple($rucula->type('text')),
         ));
 
         $form->bind(array(
@@ -51,8 +51,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
             'choices' => $rucula->multiple($rucula->mapping(array(
-                'key'   => $rucula['type.text'],
-                'value' => $rucula['type.text'],
+                'key'   => $rucula->type('text'),
+                'value' => $rucula->type('text'),
             ))),
         ));
 

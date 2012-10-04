@@ -20,4 +20,9 @@ class MultipleType extends AbstractType
             $this->baseType->validate($choice);
         }
     }
+
+    public function getName()
+    {
+        return 'multiple';
+    }
 }

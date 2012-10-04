@@ -10,8 +10,8 @@ class BooleanTypeTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'accept' => $rucula['type.boolean'],
-            'done'   => $rucula['type.boolean'],
+            'accept' => $rucula->type('boolean'),
+            'done'   => $rucula->type('boolean'),
         ));
 
         $form->bind(array(
@@ -33,10 +33,10 @@ class BooleanTypeTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucula();
         $form = $rucula->mapping(array(
-            'accept'  => $rucula['type.boolean'],
-            'done'    => $rucula['type.boolean'],
-            'checked' => $rucula['type.boolean'],
-            'foo'     => $rucula['type.boolean'],
+            'accept'  => $rucula->type('boolean'),
+            'done'    => $rucula->type('boolean'),
+            'checked' => $rucula->type('boolean'),
+            'foo'     => $rucula->type('boolean'),
         ));
 
         $form->bind(array(

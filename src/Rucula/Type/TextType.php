@@ -7,4 +7,8 @@ use Rucula\Error;
 
 class TextType extends AbstractType
 {
+    public function getName()
+    {
+        return 'text';
+    }
 }

@@ -4,7 +4,6 @@
         "psr-0": { "Rucula": ["src/", "tests/"] }
     },
     "require": {
-        "php": ">=5.3.2",
-        "pimple/pimple": "1.*"
+        "php": ">=5.3.2"
     }
 }
