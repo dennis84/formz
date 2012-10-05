@@ -1,9 +1,9 @@
 <?php
 
-namespace Rucula\Type;
+namespace Rucola\Type;
 
-use Rucula\Field;
-use Rucula\Error;
+use Rucola\Field;
+use Rucola\Error;
 
 class BooleanType extends AbstractType
 {

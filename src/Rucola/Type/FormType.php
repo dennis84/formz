@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucula\Type;
+namespace Rucola\Type;
 
-use Rucula\Field;
+use Rucola\Field;
 
 class FormType extends AbstractType
 {

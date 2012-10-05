@@ -1,17 +1,17 @@
 <?php
 
-namespace Rucula\Tests\Type;
+namespace Rucola\Tests\Type;
 
-use Rucula\Rucula;
+use Rucola\Rucola;
 
 class BooleanTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testPass()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'accept' => $rucula->type('boolean'),
-            'done'   => $rucula->type('boolean'),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'accept' => $rucola->type('boolean'),
+            'done'   => $rucola->type('boolean'),
         ));
 
         $form->bind(array(
@@ -31,12 +31,12 @@ class BooleanTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'accept'  => $rucula->type('boolean'),
-            'done'    => $rucula->type('boolean'),
-            'checked' => $rucula->type('boolean'),
-            'foo'     => $rucula->type('boolean'),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'accept'  => $rucola->type('boolean'),
+            'done'    => $rucola->type('boolean'),
+            'checked' => $rucola->type('boolean'),
+            'foo'     => $rucola->type('boolean'),
         ));
 
         $form->bind(array(

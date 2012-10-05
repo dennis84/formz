@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucula\Tests\Model;
+namespace Rucola\Tests\Model;
 
 class Address
 {

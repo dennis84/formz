@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucula;
+namespace Rucola;
 
-use Rucula\Type\TypeInterface;
+use Rucola\Type\TypeInterface;
 
 trait Type
 {

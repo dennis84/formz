@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucula\Type;
+namespace Rucola\Type;
 
 interface TypeInterface
 {

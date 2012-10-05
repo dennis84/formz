@@ -1,17 +1,17 @@
 <?php
 
-namespace Rucula\Tests\Type;
+namespace Rucola\Tests\Type;
 
-use Rucula\Rucula;
+use Rucola\Rucola;
 
 class NonEmptyTextTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testPass()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'username' => $rucula->type('non_empty_text'),
-            'password' => $rucula->type('non_empty_text'),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'username' => $rucola->type('non_empty_text'),
+            'password' => $rucola->type('non_empty_text'),
         ));
 
         $data = array(
@@ -30,10 +30,10 @@ class NonEmptyTextTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'username' => $rucula->type('non_empty_text'),
-            'password' => $rucula->type('non_empty_text'),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'username' => $rucola->type('non_empty_text'),
+            'password' => $rucola->type('non_empty_text'),
         ));
 
         $form->bind(array(

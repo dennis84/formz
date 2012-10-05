@@ -1,10 +1,10 @@
 <?php
 
-namespace Rucula;
+namespace Rucola;
 
-use Rucula\Type\TypeInterface;
-use Rucula\Type\MultipleType;
-use Rucula\Type\FormType;
+use Rucola\Type\TypeInterface;
+use Rucola\Type\MultipleType;
+use Rucola\Type\FormType;
 
 trait Multiple
 {

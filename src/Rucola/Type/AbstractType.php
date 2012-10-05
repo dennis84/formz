@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucula\Type;
+namespace Rucola\Type;
 
-use Rucula\Field;
+use Rucola\Field;
 
 abstract class AbstractType implements TypeInterface
 {

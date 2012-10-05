@@ -1,9 +1,9 @@
 <?php
 
-namespace Rucula;
+namespace Rucola;
 
-use Rucula\Field;
-use Rucula\Type\FormType;
+use Rucola\Field;
+use Rucola\Type\FormType;
 
 trait Mapping
 {

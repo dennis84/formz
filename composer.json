@@ -1,7 +1,7 @@
 {
-    "name": "dennis84/rucula",
+    "name": "dennis84/rucola",
     "autoload": {
-        "psr-0": { "Rucula": ["src/", "tests/"] }
+        "psr-0": { "Rucola": ["src/", "tests/"] }
     },
     "require": {
         "php": ">=5.3.2"

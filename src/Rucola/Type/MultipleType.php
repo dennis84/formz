@@ -1,9 +1,9 @@
 <?php
 
-namespace Rucula\Type;
+namespace Rucola\Type;
 
-use Rucula\Field;
-use Rucula\Error;
+use Rucola\Field;
+use Rucola\Error;
 
 class MultipleType extends AbstractType
 {
@@ -16,6 +16,10 @@ class MultipleType extends AbstractType
 
     public function validate($value)
     {
+        if (!is_array($value)) {
+            throw new \InvalidArgumentException('The data bind to the multiple field must be an array.');
+        }
+
         foreach ($value as $choice) {
             $this->baseType->validate($choice);
         }

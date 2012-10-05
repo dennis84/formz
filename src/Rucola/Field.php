@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucula;
+namespace Rucola;
 
-use Rucula\Type\FormType;
+use Rucola\Type\FormType;
 
 class Field
 {
@@ -268,7 +268,7 @@ class Field
             throw new \InvalidArgumentException(
                 'The form value could not applied to the closure function. '.
                 'Propably the bound data does not match your form configuration'.
-                'If the form field is optional then wrap the field with the "$rucula->optional" method.'
+                'If the form field is optional then wrap the field with the "$rucola->optional" method.'
             );
         }
 

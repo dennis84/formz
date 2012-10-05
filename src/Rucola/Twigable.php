@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucula;
+namespace Rucola;
 
 trait Twigable
 {

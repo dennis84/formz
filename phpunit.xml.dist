@@ -12,14 +12,14 @@
          bootstrap="tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Rucula Test Suite">
-            <directory>tests/Rucula/</directory>
+        <testsuite name="Rucola Test Suite">
+            <directory>tests/Rucola/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Rucula/</directory>
+            <directory suffix=".php">src/Rucola/</directory>
         </whitelist>
     </filter>
 </phpunit>

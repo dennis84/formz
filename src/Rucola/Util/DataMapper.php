@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucula\Util;
+namespace Rucola\Util;
 
-use Rucula\Field;
+use Rucola\Field;
 
 class DataMapper
 {

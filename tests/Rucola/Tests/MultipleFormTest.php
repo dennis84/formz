@@ -1,16 +1,16 @@
 <?php
 
-namespace Rucula\Tests;
+namespace Rucola\Tests;
 
-use Rucula\Rucula;
+use Rucola\Rucola;
 
 class MultipleFormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPass()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula->type('text')),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'choices' => $rucola->multiple($rucola->type('text')),
         ));
 
         $form->bind(array(
@@ -28,9 +28,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function testPassEmpty()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula->type('text')),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'choices' => $rucola->multiple($rucola->type('text')),
         ));
 
         $form->bind(array(
@@ -48,11 +48,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function testPassNested()
     {
-        $rucula = new Rucula();
-        $form = $rucula->mapping(array(
-            'choices' => $rucula->multiple($rucula->mapping(array(
-                'key'   => $rucula->type('text'),
-                'value' => $rucula->type('text'),
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'choices' => $rucola->multiple($rucola->mapping(array(
+                'key'   => $rucola->type('text'),
+                'value' => $rucola->type('text'),
             ))),
         ));
 
@@ -76,5 +76,20 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         }, function ($formData) use ($data) {
             $this->assertEquals($formData, $data);
         });
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testNonArrayValueToMultipleType()
+    {
+        $rucola = new Rucola();
+        $form = $rucola->mapping(array(
+            'choices' => $rucola->multiple($rucola->type('text')),
+        ));
+
+        $form->bind(array(
+            'choices' => 'foo',
+        ));
     }
 }
