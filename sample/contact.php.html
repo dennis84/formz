@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Contact Form</title>
+  </head>
+
+  <body>
+    <form action="#" method="post">
+      <?php if ($form->hasErrors()): ?>
+      <ul>
+        <?php foreach ($form->getErrorsFlat() as $error) : ?>
+        <li><?php echo $error->getMessage() ?></li>
+        <?php endforeach ?>
+      </ul>
+      <?php endif ?>
+
+      <input type="text" name="<?php echo $form['email']->getName() ?>" value="<?php echo $form['email']->getValue() ?>">
+      <br>
+      <textarea name="<?php echo $form['message']->getName() ?>"><?php echo $form['message']->getValue() ?></textarea>
+      <br>
+
+      <input type="submit">
+    </form>
+  </body>
+</html>
+

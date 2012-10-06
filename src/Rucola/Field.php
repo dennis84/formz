@@ -4,7 +4,7 @@ namespace Rucola;
 
 use Rucola\Type\FormType;
 
-class Field
+class Field implements \ArrayAccess
 {
     use Twigable;
 
@@ -49,6 +49,11 @@ class Field
         }
 
         return $errors;
+    }
+
+    public function hasErrors()
+    {
+        return count($this->getErrorsFlat()) > 0;
     }
 
     public function setParent($parent)
@@ -327,20 +332,27 @@ class Field
     {
         $copy = clone $this;
 
-        $copy->type = clone $this->type;
-
-        if ($this->apply) {
-            $this->apply->bindTo($copy);
-        }
-
-        if ($this->unapply) {
-            $this->unapply->bindTo($copy);
-        }
-
         $copy->setChildren(array_map(function ($child) {
             return $child->copy();
         }, $copy->getChildren()));
 
         return $copy;
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->getChild($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+    }
+
+    public function offsetExists($offset)
+    {
+    }
+
+    public function offsetUnset($offset)
+    {
     }
 }
