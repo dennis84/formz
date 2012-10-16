@@ -21,9 +21,12 @@ trait Mapping
         }
 
         if (!$unapply) {
-            $root->setUnapply(function () {});
+            $root->setUnapply(function ($data) use ($root, $dataMapper) {
+                return $data;
+            });
         } else {
             $root->setUnapply($unapply);
+            $root->setCustomUnapply();
         }
 
         return $root;

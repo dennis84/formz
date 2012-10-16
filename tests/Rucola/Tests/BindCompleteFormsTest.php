@@ -82,7 +82,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             'address' => array(
                 'city'   => 'Footown',
                 'street' => 'Foostreet 12',
-            )
+            ),
         );
 
         $form->bind($data);

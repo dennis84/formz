@@ -16,6 +16,7 @@ class Field implements \ArrayAccess
     protected $errors = array();
     protected $apply;
     protected $unapply;
+    protected $customUnapply = false;
     protected $data;
     protected $optional = false;
     protected $multiple = false;
@@ -197,6 +198,11 @@ class Field implements \ArrayAccess
         return $this->unapply;
     }
 
+    public function setCustomUnapply()
+    {
+        $this->customUnapply = true;
+    }
+
     public function bind($data = null)
     {
         if ($this->isMultiple()) {
@@ -251,6 +257,14 @@ class Field implements \ArrayAccess
 
     private function unapplyTree($data)
     {
+        if (!is_array($data)) {
+            $data = array($data);
+        }
+
+        if (false === $this->customUnapply) {
+            $data = array('data' => $data);
+        }
+
         $unapply = $this->unapply;
         $value = call_user_func_array($unapply, $data);
 

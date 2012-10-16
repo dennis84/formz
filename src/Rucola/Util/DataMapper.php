@@ -28,4 +28,17 @@ class DataMapper
 
         return $obj;
     }
+
+    public function objectToArray($obj)
+    {
+        $attributs = array();
+        $r = new \ReflectionObject($obj);
+        
+        foreach ($r->getProperties() as $prop) {
+            $prop->setAccessible(true);
+            $attributs[$prop->getName()] = $prop->getValue($obj);
+        }
+
+        return $attributs;
+    }
 }
