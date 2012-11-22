@@ -23,20 +23,24 @@ class Constraint
      * Applies the check function with passed field.
      *
      * @param Field $field The field object
+     *
+     * @return boolean
      */
     public function check(Field $field)
     {
         $check = $this->check;
-        $value = $field->getValue();
+        $data  = $field->getData();
 
-        if (!is_array($value)) {
-            $value = array($value);
+        if (!is_array($data)) {
+            $data = array($data);
         }
 
-        $result = call_user_func_array($check, $value);
+        $result = call_user_func_array($check, $data);
 
         if (false === $result) {
             $field->addError(new Error('error', $this->message));
         }
+
+        return $result;
     }
 }

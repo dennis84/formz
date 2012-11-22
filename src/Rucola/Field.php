@@ -9,13 +9,15 @@ use Rucola\Util\DataMapper;
  */
 class Field
 {
-    use Constraints;
+    use Constraints, Events;
 
     protected $name;
     protected $constraints = array();
     protected $children = array();
     protected $errors = array();
+    protected $events = array();
     protected $value;
+    protected $data;
     protected $apply;
     protected $unapply;
     protected $optional = false;
@@ -206,6 +208,26 @@ class Field
     }
 
     /**
+     * Sets the client data.
+     *
+     * @param mixed $data The data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Gets the client data.
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
      * Sets the apply function.
      *
      * @param Closure $apply The closure object
@@ -255,6 +277,44 @@ class Field
     }
 
     /**
+     * Adds a event.
+     *
+     * @param string  $name     The event name.
+     * @param Closure $function The event handler
+     */
+    public function on($name, \Closure $function)
+    {
+        $this->events[$name][] = $function;
+    }
+
+    /**
+     * Triggers all events by name and returns filtered data.
+     *
+     * @param string $name The event name
+     * @param mixed  $data The data that is passed into the event function
+     *
+     * @return mixed The filtered data
+     */
+    public function trigger($name, $data)
+    {
+        if (!array_key_exists($name, $this->events)) {
+            return $data;
+        }
+
+        $filtered = null;
+
+        foreach ($this->events[$name] as $event) {
+            if (!is_array($data)) {
+                $data = array($data);
+            }
+
+            $filtered = call_user_func_array($event, $data);
+        }
+
+        return $filtered;
+    }
+
+    /**
      * Binds the client data to the field and all children.
      *
      * @param mixed $data The data to bind to the field
@@ -297,8 +357,12 @@ class Field
             }
         }
 
+        $this->setData($data);
+        if (true === $this->validate()) {
+            $data = $this->trigger('bind_value', $data);
+        }
+
         $this->setValue($data);
-        $this->validate();
     }
 
     /**
@@ -489,13 +553,28 @@ class Field
     }
 
     /**
-     * Validates the current field.
+     * Validates the current field. And returns true if this field is 
+     * valid, otherwise false.
+     *
+     * @return boolean
      */
     protected function validate()
     {
         foreach ($this->constraints as $constraint) {
             $constraint->check($this);
         }
+
+        return $this->isValid();
+    }
+
+    /**
+     * Returns true if form has no errors, otherwise false.
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return count($this->getErrorsFlat()) === 0;
     }
 
     /**

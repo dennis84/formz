@@ -22,4 +22,17 @@ trait Constraints
 
         return $this;
     }
+
+    public function number($message = 'This field must contain numeric values.')
+    {
+        $this->addConstraint(new Constraint($message, function ($value) {
+            return is_numeric($value);
+        }));
+
+        $this->on('bind_value', function ($value) {
+            return (float) $value;
+        });
+
+        return $this;
+    }
 }
