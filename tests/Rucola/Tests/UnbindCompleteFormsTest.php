@@ -13,9 +13,9 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ));
 
         $form->fill(array(
@@ -31,12 +31,12 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address'  => $rucola->mapping(array(
-                'city'   => $rucola->type('text'),
-                'street' => $rucola->type('text'),
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->form('address', array(
+                $rucola->field('city'),
+                $rucola->field('street'),
             )),
         ));
 
@@ -64,12 +64,11 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     public function testFormWithUnapply()
     {
         $rucola = new Rucola();
-
         $user = new User('dennis84', 'demo123');
-        
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
+
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ), null, function (User $user) {
             return array('username' => $user->username, 'password' => $user->password);
         });
@@ -87,16 +86,16 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $location = new Location('50', '8');
         $address  = new Address('Footown', 'Foostreet', $location);
         $user     = new User('dennis84', 'demo123', $address);
-        
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address'  => $rucola->mapping(array(
-                'city'   => $rucola->type('text'),
-                'street' => $rucola->type('text'),
-                'location' => $rucola->mapping(array(
-                    'lat' => $rucola->type('text'),
-                    'lng' => $rucola->type('text'),
+
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->form('address', array(
+                $rucola->field('city'),
+                $rucola->field('street'),
+                $rucola->form('location', array(
+                    $rucola->field('lat'),
+                    $rucola->field('lng'),
                 ), null, function (Location $location) {
                     return array('lat' => $location->lat, 'lng' => $location->lng);
                 })

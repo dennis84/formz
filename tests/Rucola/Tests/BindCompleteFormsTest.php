@@ -9,13 +9,13 @@ use Rucola\Tests\Model\Location;
 
 class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFormWithoutApply()
+    public function testBindFlatFormWithoutApply()
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ));
 
         $data = array(
@@ -32,13 +32,13 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testFormAppliedToUser()
+    public function testBindFlatFormWithApply()
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ), function ($username, $password) {
             return new User($username, $password);
         });
@@ -63,12 +63,12 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address' => $rucola->mapping(array(
-                'city' => $rucola->type('text'),
-                'street' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->form('address', array(
+                $rucola->field('city'),
+                $rucola->field('street'),
             ), function ($city, $street) {
                 return new Address($city, $street);
             }),

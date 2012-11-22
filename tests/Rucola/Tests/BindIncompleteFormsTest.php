@@ -9,13 +9,13 @@ use Rucola\Tests\Model\Location;
 
 class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFormWithoutApply()
+    public function testFlatFormWithoutApply()
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ));
 
         $data = array(
@@ -34,13 +34,13 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testFormAppliedToUser()
+    public function testFlatFormAppliedToUser()
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ), function ($username, $password) {
             return new User($username, $password);
         });
@@ -70,12 +70,12 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address' => $rucola->mapping(array(
-                'city' => $rucola->type('text'),
-                'street' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->form('address', array(
+                $rucola->field('city'),
+                $rucola->field('street')
             ), function ($city, $street) {
                 return new Address($city, $street);
             }),
@@ -99,15 +99,15 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address' => $rucola->optional($rucola->mapping(array(
-                'city' => $rucola->type('text'),
-                'street' => $rucola->type('text')
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->optionalForm('address', array(
+                $rucola->field('city'),
+                $rucola->field('street')
             ), function ($city, $street) {
                 return new Address($city, $street);
-            })),
+            }),
         ), function ($username, $password, $address) {
             return new User($username, $password, $address);
         });

@@ -4,9 +4,20 @@ namespace Rucola\Util;
 
 use Rucola\Field;
 
+/**
+ * DataMapper.
+ */
 class DataMapper
 {
-    public function fieldToArray(Field $tree)
+    /**
+     * Maps the field object to an array. This is the default field apply
+     * strategy if no custom apply method is set.
+     *
+     * @param Field $field The field object
+     *
+     * @return array
+     */
+    public static function fieldToArray(Field $tree)
     {
         $data = array();
         foreach ($tree->getChildren() as $child) {
@@ -16,7 +27,15 @@ class DataMapper
         return $data;
     }
 
-    public function dataToObject(array $data, $obj)
+    /**
+     * Maps the an array of data to an object.
+     *
+     * @param array  $data   The data array
+     * @param object $object The object
+     *
+     * @return object
+     */
+    public static function dataToObject(array $data, $obj)
     {
         $r = new \ReflectionObject($obj);
         foreach ($r->getProperties() as $prop) {
@@ -27,18 +46,5 @@ class DataMapper
         }
 
         return $obj;
-    }
-
-    public function objectToArray($obj)
-    {
-        $attributs = array();
-        $r = new \ReflectionObject($obj);
-        
-        foreach ($r->getProperties() as $prop) {
-            $prop->setAccessible(true);
-            $attributs[$prop->getName()] = $prop->getValue($obj);
-        }
-
-        return $attributs;
     }
 }

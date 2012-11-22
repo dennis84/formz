@@ -9,8 +9,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPass()
     {
         $rucola = new Rucola();
-        $form = $rucola->mapping(array(
-            'choices' => $rucola->multiple($rucola->type('text')),
+        $form = $rucola->form('form', array(
+            $rucola->field('choices')->multiple(),
         ));
 
         $form->bind(array(
@@ -29,8 +29,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPassEmpty()
     {
         $rucola = new Rucola();
-        $form = $rucola->mapping(array(
-            'choices' => $rucola->multiple($rucola->type('text')),
+        $form = $rucola->form('form', array(
+            $rucola->field('choices')->multiple(),
         ));
 
         $form->bind(array(
@@ -49,11 +49,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPassNested()
     {
         $rucola = new Rucola();
-        $form = $rucola->mapping(array(
-            'choices' => $rucola->multiple($rucola->mapping(array(
-                'key'   => $rucola->type('text'),
-                'value' => $rucola->type('text'),
-            ))),
+        $form = $rucola->form('form', array(
+            $rucola->form('choices', array(
+                $rucola->field('key'),
+                $rucola->field('value'),
+            ))->multiple(),
         ));
 
         $data = array(
@@ -84,8 +84,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testNonArrayValueToMultipleType()
     {
         $rucola = new Rucola();
-        $form = $rucola->mapping(array(
-            'choices' => $rucola->multiple($rucola->type('text')),
+        $form = $rucola->form('form', array(
+            $rucola->field('choices')->multiple(),
         ));
 
         $form->bind(array(

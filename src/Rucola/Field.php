@@ -2,45 +2,144 @@
 
 namespace Rucola;
 
-use Rucola\Type\FormType;
+use Rucola\Util\DataMapper;
 
-class Field implements \ArrayAccess
+/**
+ * Field.
+ */
+class Field
 {
-    use Twigable;
+    use Constraints;
 
     protected $name;
-    protected $value;
-    protected $type;
-    protected $parent;
+    protected $constraints = array();
     protected $children = array();
     protected $errors = array();
+    protected $value;
     protected $apply;
     protected $unapply;
-    protected $customUnapply = false;
-    protected $data;
     protected $optional = false;
     protected $multiple = false;
-    protected $root;
-    protected $prototype;
+    protected $customUnapply = false;
 
-    public function __construct($name, $type)
+    /**
+     * Constructor.
+     *
+     * @param string $name The field name
+     */
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->type = $type;
     }
 
+    /**
+     * Sets the field name.
+     *
+     * @param string $name The field name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Gets the field name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Resets the existing field children and sets the new ones.
+     *
+     * @param array $children An array of field obejcts
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = array();
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
+    /**
+     * Returns true if the field has children, otherwise false.
+     *
+     * @return boolean
+     */
+    public function hasChildren()
+    {
+        return count($this->children) > 0 ? true : false;
+    }
+
+    /**
+     * Gets the field children.
+     *
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Adds a child field.
+     *
+     * @param Field $field The field obejct
+     */
+    public function addChild(Field $child)
+    {
+        $this->children[$child->getName()] = $child;
+    }
+
+    /**
+     * Returns true if a child by name exists, otherwise false.
+     *
+     * @param boolean $name The field name
+     *
+     * @return boolean
+     */
+    public function hasChild($name)
+    {
+        return array_key_exists($name, $this->children);
+    }
+
+    /**
+     * Gets a child by name.
+     *
+     * @param string $name The field name.
+     *
+     * @return Field
+     *
+     * @throws InvalidArgumentException If the child by name does not exists
+     */
+    public function getChild($name)
+    {
+        if (!$this->hasChild($name)) {
+            throw new \InvalidArgumentException(sprintf('There was no child with name "%s" registered.', $name));
+        }
+
+        return $this->children[$name];
+    }
+
+    /**
+     * Adds a error to the field.
+     *
+     * @param Error $error The error object
+     */
     public function addError(Error $error)
     {
         $this->errors[] = $error;
     }
 
-    public function addErrors(array $errors)
-    {
-        foreach ($errors as $error) {
-            $this->addError($error);
-        }
-    }
-
+    /**
+     * Gets all errors from field and children as an flat array.
+     *
+     * @return array
+     */
     public function getErrorsFlat()
     {
         $errors = $this->errors;
@@ -52,165 +151,138 @@ class Field implements \ArrayAccess
         return $errors;
     }
 
+    /**
+     * Returns true if the field has errors, otherwise false.
+     *
+     * @return boolean
+     */
     public function hasErrors()
     {
         return count($this->getErrorsFlat()) > 0;
     }
 
-    public function setParent($parent)
+    /**
+     * Adds a custom constraint to the field.
+     *
+     * @param string  $message The error message if the contraint matches an error
+     * @param Closure $check   The check method
+     *
+     * @return Field
+     */
+    public function verifying($message, $check)
     {
-        $this->parent = $parent;
+        $this->addConstraint(new Constraint($message, $check));
+        return $this;
     }
 
-    public function getParent()
+    /**
+     * Adds a constraint to the field.
+     *
+     * @param Constraint $constraint The constaint object
+     */
+    public function addConstraint(Constraint $constraint)
     {
-        return $this->parent;
+        $this->constraints[] = $constraint;
     }
 
-    public function setRoot($root)
-    {
-        $this->root = $root;
-    }
-
-    public function isRoot()
-    {
-        return $this->root;
-    }
-
-    public function addChild($field)
-    {
-        $this->children[$field->getName()] = $field;
-    }
-
-    public function getChild($name)
-    {
-        if (!$this->hasChild($name)) {
-            throw new \InvalidArgumentException(sprintf('There was no child with name "%s" registered.', $name));
-        }
-
-        return $this->children[$name];
-    }
-
-    public function hasChild($name)
-    {
-        return array_key_exists($name, $this->children);
-    }
-
-    public function setChildren(array $children)
-    {
-        $this->children = array();
-        foreach ($children as $child) {
-            $this->addChild($child);
-        }
-    }
-
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    public function hasChildren()
-    {
-        return count($this->children) > 0 ? true : false;
-    }
-
+    /**
+     * Sets the value.
+     *
+     * @param mixed $value The value
+     */
     public function setValue($value)
     {
         $this->value = $value;
     }
 
+    /**
+     * Gets the value.
+     *
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getNameForField()
-    {
-        if ($this->parent->isRoot()) {
-            return $this->name;
-        }
-
-        return $parent->getNameForField() . '.' . $this->name;
-    }
-
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function setOptional($optional)
-    {
-        $this->optional = $optional;
-    }
-
-    public function isOptional()
-    {
-        return (boolean) $this->optional;
-    }
-
-    public function isOptionalAndEmpty()
-    {
-        return (boolean) (empty($this->value) && $this->isOptional());
-    }
-
-    public function setMultiple($multiple)
-    {
-        $this->multiple = $multiple;
-    }
-
-    public function isMultiple()
-    {
-        return (boolean) $this->multiple;
-    }
-
-    public function setPrototype($prototype)
-    {
-        $this->prototype = $prototype;
-    }
-
-    public function setApply(\Closure $apply = null)
+    /**
+     * Sets the apply function.
+     *
+     * @param Closure $apply The closure object
+     */
+    public function setApply(\Closure $apply)
     {
         $this->apply = $apply;
     }
 
+    /**
+     * Gets the apply function.
+     *
+     * @return Closure
+     */
     public function getApply()
     {
         return $this->apply;
     }
 
-    public function setUnapply(\Closure $unapply = null)
-    {
-        $this->unapply = $unapply;
-    }
-
-    public function getUnapply()
-    {
-        return $this->unapply;
-    }
-
+    /**
+     * Sets custom apply to true. This is impotrtant to unbind the value with a
+     * custom function correctly.
+     */
     public function setCustomUnapply()
     {
         $this->customUnapply = true;
     }
 
-    public function bind($data = null)
+    /**
+     * Sets the unapply function.
+     *
+     * @param Closure $unapply The closure object
+     */
+    public function setUnapply(\Closure $unapply)
+    {
+        $this->unapply = $unapply;
+    }
+
+    /**
+     * Gets the unapply function.
+     *
+     * @return Closure
+     */
+    public function getUnapply()
+    {
+        return $this->unapply;
+    }
+
+    /**
+     * Binds the client data to the field and all children.
+     *
+     * @param mixed $data The data to bind to the field
+     */
+    public function bind($data)
     {
         if ($this->isMultiple()) {
-            foreach ($data as $index => $value) {
-                $choice = $this->prototype->copy();
-                $choice->setName($index);
-                $this->addChild($choice);
+            if (!is_array($data)) {
+                throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
             }
+
+            $choices = array();
+            foreach ($data as $index => $value) {
+                $choice = $this->copy();
+                $choice->setName((string) $index);
+                $choice->multiple(false);
+                if ($apply = $choice->getApply()) {
+                    $apply = \Closure::bind($apply, $choice);
+                    $choice->setApply($apply);
+                }
+
+                $choices[] = $choice;
+            }
+
+            $this->setChildren($choices);
+            $this->setApply(function () {
+                return DataMapper::fieldToArray($this);
+            });
         }
 
         if (is_array($data)) {
@@ -229,22 +301,26 @@ class Field implements \ArrayAccess
         $this->validate();
     }
 
+    /**
+     * Fills teh data to the field and all children.
+     *
+     * @param mixed $data The data to fill as value
+     */
     public function fill($data)
     {
         $value = $this->unapplyTree($data);
         $this->fillValue($value);
     }
 
-    public function validate()
-    {
-        if (true === $this->type->validate($this->getValue())) {
-            $this->type->onValid($this);
-            return;
-        }
-
-        $this->type->onInvalid($this);
-    }
-
+    /**
+     * Gets the result by passing two functions. The first one has the current
+     * field with errors and the second has the mapped form data as argument.
+     *
+     * @param Closure $formWithErrors The current field with errors
+     * @param Closure $formData       The mapped and valid form data
+     *
+     * returns mixed The response of the functions
+     */
     public function fold(\Closure $formWithErrors, \Closure $formData)
     {
         $data = $this->applyTree();
@@ -255,29 +331,12 @@ class Field implements \ArrayAccess
         return $formData($data);
     }
 
-    private function unapplyTree($data)
-    {
-        if (!is_array($data)) {
-            $data = array($data);
-        }
-
-        if (false === $this->customUnapply) {
-            $data = array('data' => $data);
-        }
-
-        $unapply = $this->unapply;
-        $value = call_user_func_array($unapply, $data);
-
-        foreach ($this->getChildren() as $child) {
-            if ($child->hasChildren()) {
-                $value[$child->getName()] = $child->unapplyTree($value[$child->getName()]);
-            }
-        }
-
-        return $value;
-    }
-
-    private function applyTree()
+    /**
+     * Applies the tree.
+     *
+     * @return mixed
+     */
+    protected function applyTree()
     {
         $apply = $this->apply;
 
@@ -286,8 +345,7 @@ class Field implements \ArrayAccess
         } catch (\Exception $e) {
             throw new \InvalidArgumentException(
                 'The form value could not applied to the closure function. '.
-                'Propably the bound data does not match your form configuration'.
-                'If the form field is optional then wrap the field with the "$rucola->optional" method.'
+                'Propably the bound data does not match your form configuration'
             );
         }
 
@@ -317,21 +375,40 @@ class Field implements \ArrayAccess
         return $data;
     }
 
-    private function fillValue($value)
+    /**
+     * Unapply tree.
+     *
+     * @param mixed $data The data which passed though the unapply function.
+     *
+     * @return mixed
+     */
+    public function unapplyTree($data)
     {
-        if (!is_array($value)) {
-            $this->value = $value;
+        if (!is_array($data)) {
+            $data = array($data);
         }
 
-        foreach ($this->children as $child) {
-            if (isset($value[$child->getName()])) {
-                $child->fillValue($value[$child->getName()]);
+        if (false === $this->customUnapply) {
+            $data = array('data' => $data);
+        }
+
+        $unapply = $this->unapply;
+        $value = call_user_func_array($unapply, $data);
+
+        foreach ($this->getChildren() as $child) {
+            if ($child->hasChildren()) {
+                $value[$child->getName()] = $child->unapplyTree($value[$child->getName()]);
             }
         }
 
-        $this->value = $value;
+        return $value;
     }
 
+    /**
+     * Gets an blank array but with the children array keys.
+     *
+     * @return array
+     */
     public function getBlankData()
     {
         $blank = array();
@@ -342,6 +419,64 @@ class Field implements \ArrayAccess
         return $blank;
     }
 
+    /**
+     * Sets the form as optional.
+     *
+     * @return Field
+     */
+    public function optional()
+    {
+        $this->optional = true;
+        return $this;
+    }
+
+    /**
+     * Returns true if the field is optional, otherwise false.
+     *
+     * @return boolean
+     */
+    public function isOptional()
+    {
+        return $this->optional;
+    }
+
+    /**
+     * Returns true if the field is optional and the value is empty, otherwise
+     * false.
+     *
+     * @return boolean
+     */
+    public function isOptionalAndEmpty()
+    {
+        return (empty($this->value) && true === $this->isOptional());
+    }
+
+    /**
+     * Sets the field as multiple.
+     *
+     * @return Field
+     */
+    public function multiple($multiple = true)
+    {
+        $this->multiple = $multiple;
+        return $this;
+    }
+
+    /**
+     * Returns true if the field is multiple, otherwise false.
+     *
+     * @return boolean
+     */
+    public function isMultiple()
+    {
+        return $this->multiple;
+    }
+
+    /**
+     * Returns a clone of the field with cloned children.
+     *
+     * @return Field
+     */
     public function copy()
     {
         $copy = clone $this;
@@ -353,20 +488,34 @@ class Field implements \ArrayAccess
         return $copy;
     }
 
-    public function offsetGet($offset)
+    /**
+     * Validates the current field.
+     */
+    protected function validate()
     {
-        return $this->getChild($offset);
+        foreach ($this->constraints as $constraint) {
+            $constraint->check($this);
+        }
     }
 
-    public function offsetSet($offset, $value)
+    /**
+     * Fills the value to the form.
+     *
+     * @param mixed $value The value
+     */
+    protected function fillValue($value)
     {
-    }
+        if (!is_array($value)) {
+            $this->value = $value;
+            return;
+        }
 
-    public function offsetExists($offset)
-    {
-    }
+        foreach ($this->children as $child) {
+            if (isset($value[$child->getName()])) {
+                $child->fillValue($value[$child->getName()]);
+            }
+        }
 
-    public function offsetUnset($offset)
-    {
+        $this->value = $value;
     }
 }

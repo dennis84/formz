@@ -13,9 +13,9 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
         ));
 
         $form->fill(array('username' => 'dennis84'));
@@ -28,12 +28,12 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->mapping(array(
-            'username' => $rucola->type('text'),
-            'password' => $rucola->type('text'),
-            'address'  => $rucola->mapping(array(
-                'city'   => $rucola->type('text'),
-                'street' => $rucola->type('text'),
+        $form = $rucola->form('form', array(
+            $rucola->field('username'),
+            $rucola->field('password'),
+            $rucola->form('address', array(
+                $rucola->field('city'),
+                $rucola->field('street'),
             )),
         ));
 
