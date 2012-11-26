@@ -407,6 +407,13 @@ class Field
         try {
             $data = call_user_func_array($apply, $this->value);
         } catch (\Exception $e) {
+            if (
+                false === strpos($e->getMessage(), 'Rucola\{closure}()') &&
+                false === strpos($e->getMessage(), 'call_user_func_array')
+            ) {
+                throw $e;
+            }
+
             throw new \InvalidArgumentException(
                 'The form value could not applied to the closure function. '.
                 'Propably the bound data does not match your form configuration'

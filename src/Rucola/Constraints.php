@@ -23,6 +23,13 @@ trait Constraints
         return $this;
     }
 
+    /**
+     * Checks if the field value is numeric.
+     *
+     * @param string message The error message
+     *
+     * @return Field
+     */
     public function number($message = 'This field must contain numeric values.')
     {
         $this->addConstraint(new Constraint($message, function ($value) {
@@ -31,6 +38,30 @@ trait Constraints
 
         $this->on('bind_value', function ($value) {
             return (float) $value;
+        });
+
+        return $this;
+    }
+
+    /**
+     * Checks if the field value is boolean.
+     *
+     * @param string message The error message
+     *
+     * @return Field
+     */
+    public function boolean($message = 'This field must contain a boolean value')
+    {
+        $this->addConstraint(new Constraint($message, function ($value) {
+            return 'true' === $value || 'false' === $value || true === $value || false === $value;
+        }));
+
+        $this->on('bind_value', function ($value) {
+            if ('false' === $value) {
+                $value = false;
+            }
+
+            return (boolean) $value;
         });
 
         return $this;

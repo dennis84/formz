@@ -65,4 +65,32 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(12.23, $formData['float']);
         });
     }
+
+    public function testBoolean()
+    {
+        $rucula = new Rucola();
+
+        $form = $rucula->form('form', array(
+            $rucula->field('a')->boolean(),
+            $rucula->field('b')->boolean(),
+            $rucula->field('c')->boolean(),
+            $rucula->field('d')->boolean(),
+        ));
+
+        $form->bind(array(
+            'a' => true,
+            'b' => false,
+            'c' => 'true',
+            'd' => 'false',
+        ));
+
+        $form->fold(function ($formWithErrors) {
+            $this->fail('The form must be valid here.');
+        }, function ($formData) {
+            $this->assertTrue($formData['a']);
+            $this->assertFalse($formData['b']);
+            $this->assertTrue($formData['c']);
+            $this->assertFalse($formData['d']);
+        });
+    }
 }
