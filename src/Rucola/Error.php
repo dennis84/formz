@@ -7,29 +7,29 @@ namespace Rucola;
  */
 class Error
 {
-    protected $type;
+    protected $field;
     protected $message;
 
     /**
      * Constructor.
      *
-     * @param string $type    The error type
+     * @param string $field   The field name
      * @param string $message The error message
      */
-    public function __construct($type, $message)
+    public function __construct($field, $message)
     {
-        $this->type = $type;
+        $this->field = $field;
         $this->message = $message;
     }
 
     /**
-     * Gets the type.
+     * Gets field name.
      *
      * @return string
      */
-    public function getType()
+    public function getField()
     {
-        return $this->type;
+        return $this->field;
     }
 
     /**

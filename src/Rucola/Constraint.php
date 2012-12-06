@@ -38,7 +38,7 @@ class Constraint
         $result = call_user_func_array($check, $data);
 
         if (false === $result) {
-            $field->addError(new Error('error', $this->message));
+            $field->addError(new Error($field->getName(), $this->message));
         }
 
         return $result;

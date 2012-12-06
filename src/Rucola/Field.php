@@ -7,9 +7,9 @@ use Rucola\Util\DataMapper;
 /**
  * Field.
  */
-class Field
+class Field implements \ArrayAccess
 {
-    use Constraints, Events;
+    use Constraints;
 
     protected $name;
     protected $constraints = array();
@@ -603,5 +603,35 @@ class Field
         }
 
         $this->value = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->getChild($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($offset)
+    {
+        return $this->hasChild($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
     }
 }
