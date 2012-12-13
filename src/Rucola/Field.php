@@ -147,10 +147,15 @@ class Field implements \ArrayAccess
         $errors = $this->errors;
 
         foreach ($this->getChildren() as $child) {
-            $errors += array_merge($child->getErrorsFlat(), $errors);
+            $errors = array_merge($errors, $child->getErrorsFlat());
         }
 
         return $errors;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
     /**
