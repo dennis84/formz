@@ -412,6 +412,15 @@ class Field implements \ArrayAccess
             });
         }
 
+        // Unset data for missing fields.
+        if (is_array($data)) {
+            foreach ($data as $name => $value) {
+                if (!$this->hasChild($name)) {
+                    unset($data[$name]);
+                }
+            }
+        }
+
         if (is_array($data)) {
             $data += $this->getBlankData();
         }
