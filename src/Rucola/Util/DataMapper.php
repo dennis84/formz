@@ -21,7 +21,7 @@ class DataMapper
     {
         $data = array();
         foreach ($tree->getChildren() as $child) {
-            $data[$child->getName()] = $child->getValue();
+            $data[$child->getFieldName()] = $child->getValue();
         }
 
         return $data;
@@ -39,9 +39,9 @@ class DataMapper
     {
         $r = new \ReflectionObject($obj);
         foreach ($r->getProperties() as $prop) {
-            if (isset($data[$prop->getName()])) {
+            if (isset($data[$prop->getFieldName()])) {
                 $prop->setAccessible(true);
-                $prop->setValue($obj, $data[$prop->getName()]);
+                $prop->setValue($obj, $data[$prop->getFieldName()]);
             }
         }
 

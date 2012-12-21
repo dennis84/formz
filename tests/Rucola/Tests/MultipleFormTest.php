@@ -9,7 +9,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPass()
     {
         $rucola = new Rucola();
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('choices')->multiple(),
         ));
 
@@ -29,7 +29,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPassEmpty()
     {
         $rucola = new Rucola();
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('choices')->multiple(),
         ));
 
@@ -49,8 +49,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPassNested()
     {
         $rucola = new Rucola();
-        $form = $rucola->form('form', array(
-            $rucola->form('choices', array(
+        $form = $rucola->form(array(
+            $rucola->embed('choices', array(
                 $rucola->field('key'),
                 $rucola->field('value'),
             ))->multiple(),
@@ -84,7 +84,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testNonArrayValueToMultipleType()
     {
         $rucola = new Rucola();
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('choices')->multiple(),
         ));
 

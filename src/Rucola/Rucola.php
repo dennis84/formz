@@ -10,7 +10,23 @@ use Rucola\Util\DataMapper;
 class Rucola
 {
     /**
-     * Use this function to build the root form or embedded forms.
+     * Use this function to build the root form.
+     *
+     * @param Closure $apply   This apply function
+     * @param Closure $unapply The unapply function
+     *
+     * @return Field
+     */
+    public function form(array $fields, \Closure $apply = null, \Closure $unapply = null)
+    {
+        $form = $this->embed('', $fields, $apply, $unapply);
+        $form->setRoot(true);
+
+        return $form;
+    }
+
+    /**
+     * Use this function to build embedded forms.
      *
      * @param string  $name    The field name
      * @param Closure $apply   This apply function
@@ -18,10 +34,12 @@ class Rucola
      *
      * @return Field
      */
-    public function form($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
+    public function embed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
     {
         $form = new Field($name);
+
         foreach ($fields as $field) {
+            $field->setParent($form);
             $form->addChild($field);
         }
 
@@ -48,6 +66,8 @@ class Rucola
         return $form;
     }
 
+
+
     /**
      * Use this function to define a optional form. This form must not get any
      * data from the client.
@@ -58,9 +78,9 @@ class Rucola
      *
      * return field
      */
-    public function optionalForm($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
+    public function optionalEmbed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
     {
-        $form = $this->form($name, $fields, $apply, $unapply);
+        $form = $this->embed($name, $fields, $apply, $unapply);
         $form->optional();
 
         return $form;

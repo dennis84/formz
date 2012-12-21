@@ -10,7 +10,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('username')->nonEmptyText()
         ));
 
@@ -29,7 +29,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('number')->number()
         ));
 
@@ -48,7 +48,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('integer')->number(),
             $rucula->field('float')->number(),
         ));
@@ -70,7 +70,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('a')->boolean(),
             $rucula->field('b')->boolean(),
             $rucula->field('c')->boolean(),

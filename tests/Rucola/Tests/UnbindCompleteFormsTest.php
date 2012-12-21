@@ -13,7 +13,7 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
         ));
@@ -31,10 +31,10 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->form('address', array(
+            $rucola->embed('address', array(
                 $rucola->field('city'),
                 $rucola->field('street'),
             )),
@@ -66,7 +66,7 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $rucola = new Rucola();
         $user = new User('dennis84', 'demo123');
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
         ), null, function (User $user) {
@@ -87,13 +87,13 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $address  = new Address('Footown', 'Foostreet', $location);
         $user     = new User('dennis84', 'demo123', $address);
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->form('address', array(
+            $rucola->embed('address', array(
                 $rucola->field('city'),
                 $rucola->field('street'),
-                $rucola->form('location', array(
+                $rucola->embed('location', array(
                     $rucola->field('lat'),
                     $rucola->field('lng'),
                 ), null, function (Location $location) {

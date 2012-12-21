@@ -12,10 +12,12 @@ class Field implements \ArrayAccess
     use Constraints;
 
     protected $name;
+    protected $root = false;
     protected $constraints = array();
     protected $children = array();
     protected $errors = array();
     protected $events = array();
+    protected $parent;
     protected $value;
     protected $data;
     protected $apply;
@@ -39,7 +41,7 @@ class Field implements \ArrayAccess
      *
      * @param string $name The field name
      */
-    public function setName($name)
+    public function setFieldName($name)
     {
         $this->name = $name;
     }
@@ -49,9 +51,49 @@ class Field implements \ArrayAccess
      *
      * @return string
      */
-    public function getName()
+    public function getFieldName()
     {
         return $this->name;
+    }
+
+    /**
+     * Gets the name for form view.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        $parent = $this->getParent();
+
+        if (null !== $parent) {
+            if ($parent->isRoot()) {
+                return $this->getFieldName();
+            }
+
+            return $parent->getName() . '[' . $this->getFieldName() . ']';
+        }
+
+        return $this->getFieldName();
+    }
+
+    /**
+     * Sets the field to root.
+     *
+     * @param boolean $root The root value
+     */
+    public function setRoot($root)
+    {
+        $this->root = (boolean) $root;
+    }
+
+    /**
+     * Returns true or false if the field is a root one or not.
+     *
+     * @return boolean
+     */
+    public function isRoot()
+    {
+        return $this->root;
     }
 
     /**
@@ -94,7 +136,7 @@ class Field implements \ArrayAccess
      */
     public function addChild(Field $child)
     {
-        $this->children[$child->getName()] = $child;
+        $this->children[$child->getFieldName()] = $child;
     }
 
     /**
@@ -125,6 +167,26 @@ class Field implements \ArrayAccess
         }
 
         return $this->children[$name];
+    }
+
+    /**
+     * Sets the parent field.
+     *
+     * @param Field $field The parent field object
+     */
+    public function setParent(Field $parent)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * Gets the parent field.
+     *
+     * @return Field
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 
     /**
@@ -334,7 +396,7 @@ class Field implements \ArrayAccess
             $choices = array();
             foreach ($data as $index => $value) {
                 $choice = $this->copy();
-                $choice->setName((string) $index);
+                $choice->setFieldName((string) $index);
                 $choice->multiple(false);
                 if ($apply = $choice->getApply()) {
                     $apply = \Closure::bind($apply, $choice);
@@ -355,10 +417,10 @@ class Field implements \ArrayAccess
         }
 
         foreach ($this->children as $child) {
-            if (isset($data[$child->getName()])) {
-                $child->bind($data[$child->getName()]);
+            if (isset($data[$child->getFieldName()])) {
+                $child->bind($data[$child->getFieldName()]);
             } elseif ($child->isOptional()) {
-                $data[$child->getName()] = null;
+                $data[$child->getFieldName()] = null;
             }
         }
 
@@ -434,14 +496,14 @@ class Field implements \ArrayAccess
 
             if (!$child->hasChildren()) {
                 if (is_array($data)) {
-                    $data[$child->getName()] = $child->getValue();
+                    $data[$child->getFieldName()] = $child->getValue();
                 }
             } elseif ($child->hasChildren()) {
                 if (is_array($data)) {
-                    $data[$child->getName()] = $child->applyTree();
+                    $data[$child->getFieldName()] = $child->applyTree();
                 } elseif (is_object($data)) {
                     $refl = new \ReflectionObject($data);
-                    $prop = $refl->getProperty($child->getName());
+                    $prop = $refl->getProperty($child->getFieldName());
                     $prop->setAccessible(true);
                     $prop->setValue($data, $child->applyTree());
                 }
@@ -473,7 +535,7 @@ class Field implements \ArrayAccess
 
         foreach ($this->getChildren() as $child) {
             if ($child->hasChildren()) {
-                $value[$child->getName()] = $child->unapplyTree($value[$child->getName()]);
+                $value[$child->getFieldName()] = $child->unapplyTree($value[$child->getFieldName()]);
             }
         }
 
@@ -602,8 +664,8 @@ class Field implements \ArrayAccess
         }
 
         foreach ($this->children as $child) {
-            if (isset($value[$child->getName()])) {
-                $child->fillValue($value[$child->getName()]);
+            if (isset($value[$child->getFieldName()])) {
+                $child->fillValue($value[$child->getFieldName()]);
             }
         }
 

@@ -10,7 +10,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('username')->verifying('Username taken.', function ($username) {
                 return 'dennis84' !== $username;
             })
@@ -31,7 +31,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form('form', array(
+        $form = $rucula->form(array(
             $rucula->field('username'),
             $rucula->field('password'),
             $rucula->field('password2'),

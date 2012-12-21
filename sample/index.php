@@ -28,7 +28,7 @@ class Contact
 
 $rucola = new \Rucola\Rucola();
 
-$form = $rucola->form('contact', array(
+$form = $rucola->form(array(
     $rucola->field('subject')->nonEmptyText(),
     $rucola->field('message')->nonEmptyText()
 ), function ($subject, $message) {

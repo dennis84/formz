@@ -13,7 +13,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
         ));
@@ -36,7 +36,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
         ), function ($username, $password) {
@@ -63,10 +63,10 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->form('address', array(
+            $rucola->embed('address', array(
                 $rucola->field('city'),
                 $rucola->field('street'),
             ), function ($city, $street) {

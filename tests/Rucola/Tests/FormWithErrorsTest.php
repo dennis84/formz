@@ -10,10 +10,10 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form('form', array(
+        $form = $rucola->form(array(
             $rucola->field('username')->nonEmptyText(),
             $rucola->field('password')->nonEmptyText(),
-            $rucola->form('address', array(
+            $rucola->embed('address', array(
                 $rucola->field('city')->nonEmptyText(),
                 $rucola->field('street')->nonEmptyText(),
             )),
