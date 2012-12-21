@@ -1,19 +1,29 @@
-<form method="post">
-  <?php if ($form->hasErrors()) : ?>
-  <ul class="errors">
-    <?php foreach ($form->getErrorsFlat() as $error) : ?>
-    <li><?php echo $error->getField() ?>: <?php echo $error->getMessage() ?></li>
-    <?php endforeach ?>
-  </ul>
-  <?php endif ?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rucola Sample Form</title>
+  </head>
 
-  <label for="subject">Subject</label>
-  <input type="text" name="<?php echo $form['subject']->getName() ?>" value="<?php echo $form['subject']->getValue() ?>">
-  <br>
+  <body>
+    <form method="post">
+      <?php if ($form->hasErrors()) : ?>
+      <ul class="errors">
+        <?php foreach ($form->getErrorsFlat() as $error) : ?>
+        <li><?php echo $error->getField() ?>: <?php echo $error->getMessage() ?></li>
+        <?php endforeach ?>
+      </ul>
+      <?php endif ?>
 
-  <label for="message">Message</label>
-  <textarea name="<?php echo $form['message']->getName() ?>"><?php echo $form['message']->getValue() ?></textarea>
-  <br>
+      <label for="subject">Subject</label>
+      <input type="text" name="<?php echo $form['subject']->getName() ?>" value="<?php echo $form['subject']->getValue() ?>">
+      <br>
 
-  <input type="submit">
-</form>
+      <label for="message">Message</label>
+      <textarea name="<?php echo $form['message']->getName() ?>"><?php echo $form['message']->getValue() ?></textarea>
+      <br>
+
+      <input type="submit">
+    </form>
+  </body>
+</html>
