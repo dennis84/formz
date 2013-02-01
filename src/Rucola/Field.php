@@ -430,6 +430,9 @@ class Field implements \ArrayAccess
                 $child->bind($data[$child->getFieldName()]);
             } elseif ($child->isOptional()) {
                 $data[$child->getFieldName()] = null;
+            } elseif ($child->isMultiple()) {
+                //$data[$child->getFieldName()] = array();
+                //$child->bind(array());
             }
         }
 
@@ -560,7 +563,12 @@ class Field implements \ArrayAccess
     {
         $blank = array();
         foreach ($this->children as $name => $child) {
-            $blank[$name] = null;
+            $value = null;
+            if ($child->isMultiple()) {
+                $value = array();
+            }
+
+            $blank[$name] = $value;
         }
 
         return $blank;

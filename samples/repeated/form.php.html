@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Repeated Form</title>
+  </head>
+
+  <body>
+    <form method="post">
+      <?php if ($form->hasErrors()) : ?>
+      <ul class="errors">
+        <?php foreach ($form->getErrorsFlat() as $error) : ?>
+        <li><?php echo $error->getField() ?>: <?php echo $error->getMessage() ?></li>
+        <?php endforeach ?>
+      </ul>
+      <?php endif ?>
+
+      <label for="tags">Tags</label>
+      <select name="tags[]" multiple>
+        <option value="foo">Foo</option>
+        <option value="bar">Bar</option>
+        <option value="baz">Baz</option>
+      </select>
+      <br>
+
+      <script>
+        function addAttribute(e) {
+          e.preventDefault()
+          var createNode = function (i) {
+            var node = document.createElement("div")
+            node.innerHTML = "\
+              <input type='text' name='attributes["+ i +"][name]' placeholder='Name'>\
+              <input type='text' name='attributes["+ i +"][value]' placeholder='Value'>"
+
+            return node
+          }
+
+          var container = document.getElementById("attributes")
+          container.appendChild(createNode(container.childNodes.length))
+        }
+      </script>
+      <div id="attributes"></div>
+      <button onclick="addAttribute(event);">Add Attribute</button>
+      <br>
+
+      <input type="submit">
+    </form>
+  </body>
+</html>

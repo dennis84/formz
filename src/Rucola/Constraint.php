@@ -35,6 +35,10 @@ class Constraint
             $data = array($data);
         }
 
+        if (empty($data)) {
+            $data = array('');
+        }
+
         $result = call_user_func_array($check, $data);
 
         if (false === $result) {
