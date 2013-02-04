@@ -17,7 +17,7 @@ trait Constraints
     public function nonEmptyText($message = 'This field must not be empty.')
     {
         $this->addConstraint(new Constraint($message, function ($value) {
-            return '' !== $value;
+            return null !== $value && '' !== $value;
         }));
 
         return $this;

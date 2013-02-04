@@ -426,13 +426,10 @@ class Field implements \ArrayAccess
         }
 
         foreach ($this->children as $child) {
-            if (isset($data[$child->getFieldName()])) {
+            if (is_array($data) && array_key_exists($child->getFieldName(), $data)) {
                 $child->bind($data[$child->getFieldName()]);
             } elseif ($child->isOptional()) {
                 $data[$child->getFieldName()] = null;
-            } elseif ($child->isMultiple()) {
-                //$data[$child->getFieldName()] = array();
-                //$child->bind(array());
             }
         }
 
