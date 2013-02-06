@@ -13,15 +13,15 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ));
+        ]);
 
-        $form->fill(array(
+        $form->fill([
             'username' => 'dennis84',
             'password' => 'demo123',
-        ));
+        ]);
 
         $this->assertEquals('dennis84', $form->getChild('username')->getValue());
         $this->assertEquals('demo123', $form->getChild('password')->getValue());
@@ -31,31 +31,31 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('city'),
                 $rucola->field('street'),
-            )),
-        ));
+            ]),
+        ]);
 
-        $form->fill(array(
+        $form->fill([
             'username' => 'dennis84',
             'password' => 'demo123',
-            'address' => array(
+            'address' => [
                 'city' => 'Footown',
                 'street' => 'Foostreet',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertEquals('dennis84', $form->getChild('username')->getValue());
         $this->assertEquals('demo123', $form->getChild('password')->getValue());
         
-        $this->assertEquals(array(
+        $this->assertEquals([
             'city'   => 'Footown',
             'street' => 'Foostreet',
-        ), $form->getChild('address')->getValue());
+        ], $form->getChild('address')->getValue());
 
         $this->assertEquals('Footown', $form->getChild('address')->getChild('city')->getValue());
         $this->assertEquals('Foostreet', $form->getChild('address')->getChild('street')->getValue());
@@ -66,11 +66,11 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $rucola = new Rucola();
         $user = new User('dennis84', 'demo123');
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ), null, function (User $user) {
-            return array('username' => $user->username, 'password' => $user->password);
+        ], null, function (User $user) {
+            return ['username' => $user->username, 'password' => $user->password];
         });
 
         $form->fill($user);
@@ -87,23 +87,23 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $address  = new Address('Footown', 'Foostreet', $location);
         $user     = new User('dennis84', 'demo123', $address);
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('city'),
                 $rucola->field('street'),
-                $rucola->embed('location', array(
+                $rucola->embed('location', [
                     $rucola->field('lat'),
                     $rucola->field('lng'),
-                ), null, function (Location $location) {
-                    return array('lat' => $location->lat, 'lng' => $location->lng);
+                ], null, function (Location $location) {
+                    return ['lat' => $location->lat, 'lng' => $location->lng];
                 })
-            ), null, function (Address $address) {
-                return array('city' => $address->city, 'street' => $address->street, 'location' => $address->location);
+            ], null, function (Address $address) {
+                return ['city' => $address->city, 'street' => $address->street, 'location' => $address->location];
             })
-        ), null, function (User $user) {
-            return array('username' => $user->username, 'password' => $user->password, 'address' => $user->address);
+        ], null, function (User $user) {
+            return ['username' => $user->username, 'password' => $user->password, 'address' => $user->address];
         });
 
         $form->fill($user);
@@ -111,14 +111,14 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('dennis84', $form->getChild('username')->getValue());
         $this->assertEquals('demo123', $form->getChild('password')->getValue());
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'city'   => 'Footown',
             'street' => 'Foostreet',
-            'location' => array(
+            'location' => [
                 'lat' => '50',
                 'lng' => '8',
-            ),
-        ), $form->getChild('address')->getValue());
+            ],
+        ], $form->getChild('address')->getValue());
 
         $this->assertEquals('Footown', $form->getChild('address')->getChild('city')->getValue());
         $this->assertEquals('Foostreet', $form->getChild('address')->getChild('street')->getValue());

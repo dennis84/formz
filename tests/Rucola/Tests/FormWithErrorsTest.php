@@ -10,23 +10,23 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username')->nonEmptyText(),
             $rucola->field('password')->nonEmptyText(),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('city')->nonEmptyText(),
                 $rucola->field('street')->nonEmptyText(),
-            )),
-        ));
+            ]),
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'username' => '',
             'password' => '',
-            'address' => array(
+            'address' => [
                 'city' => '',
                 'street' => '',
-            ),
-        ));
+            ],
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $errors = $formWithErrors->getErrorsFlat();

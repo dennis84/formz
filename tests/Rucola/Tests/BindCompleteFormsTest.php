@@ -13,15 +13,15 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ));
+        ]);
 
-        $data = array(
+        $data = [
             'username' => 'dennis84',
             'password' => 'demo123'
-        );
+        ];
 
         $form->bind($data);
 
@@ -36,17 +36,17 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ), function ($username, $password) {
+        ], function ($username, $password) {
             return new User($username, $password);
         });
 
-        $data = array(
+        $data = [
             'username' => 'dennis84',
             'password' => 'demo123'
-        );
+        ];
 
         $form->bind($data);
 
@@ -63,27 +63,27 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('city'),
                 $rucola->field('street'),
-            ), function ($city, $street) {
+            ], function ($city, $street) {
                 return new Address($city, $street);
             }),
-        ), function ($username, $password, $address) {
+        ], function ($username, $password, $address) {
             return new User($username, $password, $address);
         });
 
-        $data = array(
+        $data = [
             'username' => 'dennis84',
             'password' => 'demo123',
-            'address' => array(
+            'address' => [
                 'city'   => 'Footown',
                 'street' => 'Foostreet 12',
-            ),
-        );
+            ],
+        ];
 
         $form->bind($data);
 

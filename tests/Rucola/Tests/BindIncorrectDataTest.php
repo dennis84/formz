@@ -13,17 +13,17 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ));
+        ]);
 
-        $data = array(
-            'foo' => array(
+        $data = [
+            'foo' => [
                 'username' => 'dennis84',
                 'password' => 'demo123',
-            ),
-        );
+            ],
+        ];
 
         $form->bind($data);
 
@@ -39,19 +39,19 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ), function ($username, $password) {
+        ], function ($username, $password) {
             return new User($username, $password);
         });
 
-        $data = array(
-            'foo' => array(
+        $data = [
+            'foo' => [
                 'username' => 'dennis84',
                 'password' => 'demo123',
-            ),
-        );
+            ],
+        ];
 
         $form->bind($data);
 

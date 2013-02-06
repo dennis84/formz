@@ -13,10 +13,10 @@ class Field implements \ArrayAccess
 
     protected $name;
     protected $root = false;
-    protected $constraints = array();
-    protected $children = array();
-    protected $errors = array();
-    protected $events = array();
+    protected $constraints = [];
+    protected $children = [];
+    protected $errors = [];
+    protected $events = [];
     protected $parent;
     protected $value;
     protected $data;
@@ -103,7 +103,7 @@ class Field implements \ArrayAccess
      */
     public function setChildren(array $children)
     {
-        $this->children = array();
+        $this->children = [];
         foreach ($children as $child) {
             $this->addChild($child);
         }
@@ -372,7 +372,7 @@ class Field implements \ArrayAccess
 
         foreach ($this->events[$name] as $event) {
             if (!is_array($data)) {
-                $data = array($data);
+                $data = [$data];
             }
 
             $filtered = call_user_func_array($event, $data);
@@ -393,7 +393,7 @@ class Field implements \ArrayAccess
                 throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
             }
 
-            $choices = array();
+            $choices = [];
             foreach ($data as $index => $value) {
                 $choice = $this->copy();
                 $choice->setFieldName((string) $index);
@@ -428,8 +428,6 @@ class Field implements \ArrayAccess
         foreach ($this->children as $child) {
             if (is_array($data) && array_key_exists($child->getFieldName(), $data)) {
                 $child->bind($data[$child->getFieldName()]);
-            } elseif ($child->isOptional()) {
-                $data[$child->getFieldName()] = null;
             }
         }
 
@@ -532,11 +530,11 @@ class Field implements \ArrayAccess
     public function unapplyTree($data)
     {
         if (!is_array($data)) {
-            $data = array($data);
+            $data = [$data];
         }
 
         if (false === $this->customUnapply) {
-            $data = array('data' => $data);
+            $data = ['data' => $data];
         }
 
         $unapply = $this->unapply;
@@ -558,11 +556,11 @@ class Field implements \ArrayAccess
      */
     public function getBlankData()
     {
-        $blank = array();
+        $blank = [];
         foreach ($this->children as $name => $child) {
             $value = null;
             if ($child->isMultiple()) {
-                $value = array();
+                $value = [];
             }
 
             $blank[$name] = $value;

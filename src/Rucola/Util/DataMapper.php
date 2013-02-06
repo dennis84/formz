@@ -19,7 +19,7 @@ class DataMapper
      */
     public static function fieldToArray(Field $tree)
     {
-        $data = array();
+        $data = [];
         foreach ($tree->getChildren() as $child) {
             $data[$child->getFieldName()] = $child->getValue();
         }

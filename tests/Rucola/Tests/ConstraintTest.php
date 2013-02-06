@@ -10,13 +10,13 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form(array(
+        $form = $rucula->form([
             $rucula->field('username')->nonEmptyText()
-        ));
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'username' => '',
-        ));
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->assertEquals('This field must not be empty.', $formWithErrors->getErrorsFlat()[0]->getMessage());
@@ -29,9 +29,9 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form(array(
+        $form = $rucula->form([
             $rucula->field('username')->nonEmptyText()
-        ));
+        ]);
 
         $form->bind([]);
 
@@ -46,13 +46,13 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form(array(
+        $form = $rucula->form([
             $rucula->field('number')->number()
-        ));
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'number' => '12a',
-        ));
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->assertEquals('This field must contain numeric values.', $formWithErrors->getErrorsFlat()[0]->getMessage());
@@ -65,15 +65,15 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form(array(
+        $form = $rucula->form([
             $rucula->field('integer')->number(),
             $rucula->field('float')->number(),
-        ));
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'integer' => '12',
             'float' => '12.23',
-        ));
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
@@ -87,19 +87,19 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $rucula = new Rucola();
 
-        $form = $rucula->form(array(
+        $form = $rucula->form([
             $rucula->field('a')->boolean(),
             $rucula->field('b')->boolean(),
             $rucula->field('c')->boolean(),
             $rucula->field('d')->boolean(),
-        ));
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'a' => true,
             'b' => false,
             'c' => 'true',
             'd' => 'false',
-        ));
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');

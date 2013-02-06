@@ -10,17 +10,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('street'),
-            )),
-            $rucola->embed('choices', array(
+            ]),
+            $rucola->embed('choices', [
                 $rucola->field('key'),
                 $rucola->field('value'),
-            ))->multiple(),
-        ));
+            ])->multiple(),
+        ]);
 
         $this->assertEquals('username', $form['username']->getName());
         $this->assertEquals('address[street]', $form['address']['street']->getName());

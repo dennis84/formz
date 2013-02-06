@@ -11,58 +11,58 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testPass()
     {
         $rucola = new Rucola();
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('choices')->multiple(),
-        ));
+        ]);
 
-        $form->bind(array(
-            'choices' => array('foo', 'bar', 'baz'),
-        ));
+        $form->bind([
+            'choices' => ['foo', 'bar', 'baz'],
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) {
-            $this->assertEquals($formData, array(
-                'choices' => array('foo', 'bar', 'baz'),
-            ));
+            $this->assertEquals($formData, [
+                'choices' => ['foo', 'bar', 'baz'],
+            ]);
         });
     }
 
     public function testPassEmpty()
     {
         $rucola = new Rucola();
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('choices')->multiple(),
-        ));
+        ]);
 
-        $form->bind(array(
-            'choices' => array(),
-        ));
+        $form->bind([
+            'choices' => [],
+        ]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) {
-            $this->assertEquals($formData, array(
-                'choices' => array(),
-            ));
+            $this->assertEquals($formData, [
+                'choices' => [],
+            ]);
         });
     }
 
     public function testPassNothing()
     {
         $rucola = new Rucola();
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('choices')->multiple(),
-        ));
+        ]);
 
-        $form->bind(array());
+        $form->bind([]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) {
-            $this->assertEquals($formData, array(
-                'choices' => array(),
-            ));
+            $this->assertEquals($formData, [
+                'choices' => [],
+            ]);
         });
     }
 
@@ -70,63 +70,63 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('title'),
             $rucola->field('tags')->multiple(),
-            $rucola->embed('attributes', array(
+            $rucola->embed('attributes', [
                 $rucola->field('name'),
                 $rucola->field('name'),
-            ), function ($name, $value) {
+            ], function ($name, $value) {
                 return new Attribute($name, $value);
             }, function (Attribute $attr) {
-                return array(
+                return [
                     'name' => $attr->getName(),
                     'value' => $attr->getName(),
-                );
+                ];
             })->multiple(),
-        ), function ($title, array $tags, array $attrs) {
+        ], function ($title, array $tags, array $attrs) {
             return new Post($title, $tags, $attrs);
         }, function (Post $post) {
-            return array(
+            return [
                 'title' => $post->getTitle(),
                 'tags' => $post->getTags(),
                 'attributes' => $post->getAttributes(),
-            );
+            ];
         });
 
-        $form->bind(array());
+        $form->bind([]);
 
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) {
             $this->assertNull($formData->getTitle());
-            $this->assertSame(array(), $formData->getTags());
-            $this->assertSame(array(), $formData->getAttributes());
+            $this->assertSame([], $formData->getTags());
+            $this->assertSame([], $formData->getAttributes());
         });
     }
 
     public function testPassNested()
     {
         $rucola = new Rucola();
-        $form = $rucola->form(array(
-            $rucola->embed('choices', array(
+        $form = $rucola->form([
+            $rucola->embed('choices', [
                 $rucola->field('key'),
                 $rucola->field('value'),
-            ))->multiple(),
-        ));
+            ])->multiple(),
+        ]);
 
-        $data = array(
-            'choices' => array(
-                array(
+        $data = [
+            'choices' => [
+                [
                     'key' => 'foo',
                     'value' => 'bar'
-                ),
-                array(
+                ],
+                [
                     'key' => 'bla',
                     'value' => 'blubb'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $form->bind($data);
 
@@ -143,12 +143,12 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     public function testNonArrayValueToMultipleType()
     {
         $rucola = new Rucola();
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('choices')->multiple(),
-        ));
+        ]);
 
-        $form->bind(array(
+        $form->bind([
             'choices' => 'foo',
-        ));
+        ]);
     }
 }

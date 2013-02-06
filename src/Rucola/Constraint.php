@@ -32,11 +32,11 @@ class Constraint
         $data  = $field->getData();
 
         if (!is_array($data)) {
-            $data = array($data);
+            $data = [$data];
         }
 
         if (empty($data)) {
-            $data = array('');
+            $data = [null];
         }
 
         $result = call_user_func_array($check, $data);

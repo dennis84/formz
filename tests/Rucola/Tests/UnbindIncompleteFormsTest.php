@@ -13,12 +13,12 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-        ));
+        ]);
 
-        $form->fill(array('username' => 'dennis84'));
+        $form->fill(['username' => 'dennis84']);
 
         $this->assertEquals('dennis84', $form->getChild('username')->getValue());
         $this->assertEquals('', $form->getChild('password')->getValue());
@@ -28,21 +28,21 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
     {
         $rucola = new Rucola();
 
-        $form = $rucola->form(array(
+        $form = $rucola->form([
             $rucola->field('username'),
             $rucola->field('password'),
-            $rucola->embed('address', array(
+            $rucola->embed('address', [
                 $rucola->field('city'),
                 $rucola->field('street'),
-            )),
-        ));
+            ]),
+        ]);
 
-        $form->fill(array(
+        $form->fill([
             'username' => 'dennis84',
-            'address' => array(
+            'address' => [
                 'street' => 'Foostreet',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertEquals('dennis84', $form->getChild('username')->getValue());
         $this->assertEquals('', $form->getChild('password')->getValue());

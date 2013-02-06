@@ -26,35 +26,35 @@ class Contact
 
 $rucola = new \Rucola\Rucola();
 
-$form = $rucola->form(array(
+$form = $rucola->form([
     $rucola->field('subject')->nonEmptyText(),
     $rucola->field('message')->nonEmptyText()
-), function ($subject, $message) {
+], function ($subject, $message) {
     return new Contact($subject, $message);
 }, function (Contact $contact) {
-    return array(
+    return [
         'subject' => $contact->getSubject(),
         'message' => $contact->getMessage(),
-    );
+    ];
 });
 
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $form->bind($_POST);
 
     $form->fold(function ($formWithErrors) {
-        echo render('form.php.html', array(
+        echo render('form.php.html', [
             'form' => $formWithErrors,
-        ));
+        ]);
     }, function ($formData) {
         print_r($formData);
     });
 } else {
-    echo render('form.php.html', array(
+    echo render('form.php.html', [
         'form' => $form,
-    ));
+    ]);
 }
 
-function render($template, array $parameters = array())
+function render($template, array $parameters = [])
 {
     ob_start();
     extract($parameters);

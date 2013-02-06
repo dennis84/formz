@@ -5,8 +5,8 @@ namespace Rucola\Tests\Model;
 class Post
 {
     protected $title;
-    protected $tags = array();
-    protected $attributes = array();
+    protected $tags = [];
+    protected $attributes = [];
 
     public function __construct($title, array $tags, array $attributes)
     {
