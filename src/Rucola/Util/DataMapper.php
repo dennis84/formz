@@ -6,6 +6,8 @@ use Rucola\Field;
 
 /**
  * DataMapper.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class DataMapper
 {
@@ -21,30 +23,9 @@ class DataMapper
     {
         $data = [];
         foreach ($tree->getChildren() as $child) {
-            $data[$child->getFieldName()] = $child->getValue();
+            $data[$child->getFieldName()] = $child->getData();
         }
 
         return $data;
-    }
-
-    /**
-     * Maps the an array of data to an object.
-     *
-     * @param array  $data   The data array
-     * @param object $object The object
-     *
-     * @return object
-     */
-    public static function dataToObject(array $data, $obj)
-    {
-        $r = new \ReflectionObject($obj);
-        foreach ($r->getProperties() as $prop) {
-            if (isset($data[$prop->getFieldName()])) {
-                $prop->setAccessible(true);
-                $prop->setValue($obj, $data[$prop->getFieldName()]);
-            }
-        }
-
-        return $obj;
     }
 }

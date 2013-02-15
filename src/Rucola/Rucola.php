@@ -6,6 +6,8 @@ use Rucola\Util\DataMapper;
 
 /**
  * Rucola. This is a helper to build field objects.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Rucola
 {
@@ -65,8 +67,6 @@ class Rucola
 
         return $form;
     }
-
-
 
     /**
      * Use this function to define a optional form. This form must not get any

@@ -137,6 +137,41 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
+    public function testPassNestedAppliedToObject()
+    {
+        $rucola = new Rucola();
+        $form = $rucola->form([
+            $rucola->embed('choices', [
+                $rucola->field('name'),
+                $rucola->field('value'),
+            ], function ($name, $value) {
+                return new Attribute($name, $value);
+            })->multiple(),
+        ]);
+
+        $data = [
+            'choices' => [
+                [
+                    'name' => 'foo',
+                    'value' => 'bar'
+                ],
+                [
+                    'name' => 'bla',
+                    'value' => 'blubb'
+                ],
+            ],
+        ];
+
+        $form->bind($data);
+
+        $form->fold(function ($formWithErrors) {
+            $this->fail('The form must be valid here.');
+        }, function ($formData) use ($data) {
+            $this->assertInstanceOf('Rucola\Tests\Model\Attribute', $formData['choices'][0]);
+            $this->assertInstanceOf('Rucola\Tests\Model\Attribute', $formData['choices'][1]);
+        });
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */

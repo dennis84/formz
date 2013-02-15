@@ -24,6 +24,28 @@ class Post
     }
 }
 
+class Attribute
+{
+    protected $name;
+    protected $value;
+
+    public function __construct($name, $value)
+    {
+        $this->name = $name;
+        $this->value = $value;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
+}
+
 $rucola = new \Rucola\Rucola();
 
 $form = $rucola->form([
@@ -31,7 +53,9 @@ $form = $rucola->form([
     $rucola->embed('attributes', [
         $rucola->field('name')->nonEmptyText(),
         $rucola->field('value')->nonEmptyText(),
-    ])->multiple(),
+    ], function ($name, $value) {
+        return new Attribute($name, $value);
+    })->multiple(),
 ], function (array $tags, array $attributes) {
     return new Post($tags, $attributes);
 }, function (Post $post) {

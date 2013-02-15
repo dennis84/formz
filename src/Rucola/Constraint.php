@@ -4,6 +4,8 @@ namespace Rucola;
 
 /**
  * Constraint.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Constraint
 {
@@ -29,7 +31,7 @@ class Constraint
     public function check(Field $field)
     {
         $check = $this->check;
-        $data  = $field->getData();
+        $data  = $field->getValue();
 
         if (!is_array($data)) {
             $data = [$data];

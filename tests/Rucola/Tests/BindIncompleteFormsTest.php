@@ -60,12 +60,6 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    /**
-     * It should not be possible to bind incomplete data to a nested form.
-     * The value could not be mapped to the closure so throw an exception.
-     *
-     * @expectedException InvalidArgumentException
-     */
     public function testNestedFormAppliedToUserAndAddress()
     {
         $rucola = new Rucola();
@@ -78,8 +72,8 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
                 $rucola->field('street')
             ], function ($city, $street) {
                 return new Address($city, $street);
-            }),
-        ], function ($username, $password, $address) {
+            })->required(),
+        ], function ($username, $password, Address $address) {
             return new User($username, $password, $address);
         });
 
@@ -91,7 +85,9 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form->bind($data);
 
         $form->fold(function ($formWithErrors) {
+            $this->assertSame(true, true);
         }, function ($formData) {
+            $this->fail('The form must be invalid here.');
         });
     }
 
@@ -108,7 +104,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),
-        ], function ($username, $password, $address) {
+        ], function ($username, $password, Address $address = null) {
             return new User($username, $password, $address);
         });
 

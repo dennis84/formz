@@ -72,7 +72,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),
-        ], function ($username, $password, $address) {
+        ], function ($username, $password, Address $address) {
             return new User($username, $password, $address);
         });
 

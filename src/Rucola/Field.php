@@ -6,8 +6,10 @@ use Rucola\Util\DataMapper;
 
 /**
  * Field.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Field implements \ArrayAccess
+class Field implements \IteratorAggregate, \ArrayAccess
 {
     use Constraints;
 
@@ -215,6 +217,11 @@ class Field implements \ArrayAccess
         return $errors;
     }
 
+    /**
+     * Gets the field errors.
+     *
+     * @return array
+     */
     public function getErrors()
     {
         return $this->errors;
@@ -275,7 +282,7 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Sets the client data.
+     * Sets the applied data.
      *
      * @param mixed $data The data
      */
@@ -285,7 +292,7 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Gets the client data.
+     * Gets the applied data.
      *
      * @return mixed
      */
@@ -398,6 +405,11 @@ class Field implements \ArrayAccess
                 $choice = $this->copy();
                 $choice->setFieldName((string) $index);
                 $choice->multiple(false);
+                $choice->setParent($this);
+                foreach ($choice->getChildren() as $child) {
+                    $child->setParent($choice);
+                }
+
                 if ($apply = $choice->getApply()) {
                     $apply = \Closure::bind($apply, $choice);
                     $choice->setApply($apply);
@@ -431,7 +443,7 @@ class Field implements \ArrayAccess
             }
         }
 
-        $this->setData($data);
+        $this->setValue($data);
         if (true === $this->validate()) {
             $data = $this->trigger('bind_value', $data);
         }
@@ -462,7 +474,7 @@ class Field implements \ArrayAccess
     public function fold(\Closure $formWithErrors, \Closure $formData)
     {
         $data = $this->applyTree();
-        if (count($this->getErrorsFlat()) > 0) {
+        if ($this->hasErrors()) {
             return $formWithErrors($this);
         }
 
@@ -470,54 +482,35 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Applies the tree.
+     * Executes the apply function of all fields with their values.
      *
      * @return mixed
      */
     protected function applyTree()
     {
-        $apply = $this->apply;
-
-        try {
-            $data = call_user_func_array($apply, $this->value);
-        } catch (\Exception $e) {
-            if (
-                false === strpos($e->getMessage(), 'Rucola\{closure}()') &&
-                false === strpos($e->getMessage(), 'call_user_func_array')
-            ) {
-                throw $e;
-            }
-
-            throw new \InvalidArgumentException(
-                'The form value could not applied to the closure function. '.
-                'Propably the bound data does not match your form configuration'
-            );
-        }
-
-        $this->data = $data;
-
-        foreach ($this->getChildren() as $child) {
-            if ($child->isOptionalAndEmpty()) {
+        foreach ($this->reverseFields() as $field) {
+            if ($field->isOptionalAndEmpty()) {
+                $field->setData(null);
                 continue;
             }
 
-            if (!$child->hasChildren()) {
-                if (is_array($data)) {
-                    $data[$child->getFieldName()] = $child->getValue();
-                }
-            } elseif ($child->hasChildren()) {
-                if (is_array($data)) {
-                    $data[$child->getFieldName()] = $child->applyTree();
-                } elseif (is_object($data)) {
-                    $refl = new \ReflectionObject($data);
-                    $prop = $refl->getProperty($child->getFieldName());
-                    $prop->setAccessible(true);
-                    $prop->setValue($data, $child->applyTree());
-                }
+            if (!$field->hasChildren()) {
+                $field->setData($field->getValue());
+                continue;
             }
+
+            $data = [];
+            foreach ($field->getChildren() as $child) {
+                $data[$child->getFieldName()] = $child->getData();
+            }
+
+            $apply = $field->getApply();
+            $data = call_user_func_array($apply, $data);
+ 
+            $field->setData($data);
         }
 
-        return $data;
+        return $this->getData();
     }
 
     /**
@@ -650,17 +643,7 @@ class Field implements \ArrayAccess
             $constraint->check($this);
         }
 
-        return $this->isValid();
-    }
-
-    /**
-     * Returns true if form has no errors, otherwise false.
-     *
-     * @return boolean
-     */
-    public function isValid()
-    {
-        return count($this->getErrorsFlat()) === 0;
+        return count($this->errors) === 0;
     }
 
     /**
@@ -712,5 +695,43 @@ class Field implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \RecursiveIteratorIterator(
+            new RecursiveFieldIterator($this),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+    }
+
+    /**
+     * Generates a sorted array of field objects starting from the last with the
+     * highest depth.
+     *
+     * @Returns array
+     */
+    protected function reverseFields()
+    {
+        $flatFields = [];
+        $iterator = $this->getIterator();
+        foreach ($iterator as $field) {
+            $flatFields[$iterator->getDepth()][] = $field;
+        }
+
+        krsort($flatFields);
+        $reverse = [];
+
+        foreach ($flatFields as $children) {
+            foreach ($children as $field) {
+                $reverse[] = $field;
+            }
+        }
+
+        $reverse[] = $this;
+        return $reverse;
     }
 }

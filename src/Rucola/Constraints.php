@@ -4,9 +4,27 @@ namespace Rucola;
 
 /**
  * Some default constaint extensions for the field object.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 trait Constraints
 {
+    /**
+     * Check if this field is empty or not.
+     *
+     * @param string $message The error message
+     *
+     * @return Field
+     */
+    public function required($message = 'This field is required.')
+    {
+        $this->addConstraint(new Constraint($message, function ($value) {
+            return null !== $value || !empty($value);
+        }));
+
+        return $this;
+    }
+
     /**
      * Checks if the field value is not empty.
      *
