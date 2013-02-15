@@ -11,16 +11,16 @@ Rucola is a simple form mapper for PHP. This library is based on the ScalaForms 
 
 $rucola = new \Rucola\Rucola();
 
-$form = $rucola->form(array(
+$form = $rucola->form([
     $rucola->field('subject')->nonEmptyText(),
     $rucola->field('message')->nonEmptyText()
-), function ($subject, $message) {
+], function ($subject, $message) {
     return new Contact($subject, $message);
 }, function (Contact $contact) {
-    return array(
+    return [
         'subject' => $contact->getSubject(),
         'message' => $contact->getMessage(),
-    );
+    ];
 });
 
 $form->bind($_POST);

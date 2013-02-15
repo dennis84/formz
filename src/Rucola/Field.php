@@ -3,6 +3,7 @@
 namespace Rucola;
 
 use Rucola\Util\DataMapper;
+use Rucola\Util\RecursiveFieldIterator;
 
 /**
  * Field.
@@ -11,7 +12,8 @@ use Rucola\Util\DataMapper;
  */
 class Field implements \IteratorAggregate, \ArrayAccess
 {
-    use Constraints;
+    use Extensions\Constraints;
+    use Extensions\Symfonify;
 
     protected $name;
     protected $root = false;

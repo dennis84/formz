@@ -1,6 +1,8 @@
 <?php
 
-namespace Rucola;
+namespace Rucola\Util;
+
+use Rucola\Field;
 
 /**
  * RecursiveFieldIterator.
@@ -22,16 +24,16 @@ class RecursiveFieldIterator extends \ArrayIterator implements \RecursiveIterato
     /**
      * {@inheritdoc}
      */
-	function hasChildren()
+    function hasChildren()
     {
-		return $this->current()->hasChildren();
-	}
+        return $this->current()->hasChildren();
+    }
 
     /**
      * {@inheritdoc}
      */
-	function getChildren()
-	{
+    function getChildren()
+    {
         return new self($this->current());
-	}
+    }
 }

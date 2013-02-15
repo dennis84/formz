@@ -117,14 +117,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $data = [
             'choices' => [
-                [
-                    'key' => 'foo',
-                    'value' => 'bar'
-                ],
-                [
-                    'key' => 'bla',
-                    'value' => 'blubb'
-                ],
+                ['key' => 'foo', 'value' => 'bar'],
+                ['key' => 'bla', 'value' => 'blubb'],
             ],
         ];
 
@@ -151,14 +145,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $data = [
             'choices' => [
-                [
-                    'name' => 'foo',
-                    'value' => 'bar'
-                ],
-                [
-                    'name' => 'bla',
-                    'value' => 'blubb'
-                ],
+                ['name' => 'foo', 'value' => 'bar'],
+                ['name' => 'bla', 'value' => 'blubb'],
             ],
         ];
 
@@ -185,5 +173,33 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind([
             'choices' => 'foo',
         ]);
+    }
+
+    public function testGetName()
+    {
+        $rucola = new Rucola();
+        $form = $rucola->form([
+            $rucola->embed('choices', [
+                $rucola->field('key'),
+                $rucola->field('value'),
+            ])->multiple(),
+        ]);
+
+        $this->assertEquals('choices[key]', $form['choices']['key']->getName());
+        $this->assertEquals('choices[value]', $form['choices']['value']->getName());
+
+        $data = [
+            'choices' => [
+                ['key' => 'foo', 'value' => 'bar'],
+                ['key' => 'bla', 'value' => 'blubb'],
+            ],
+        ];
+
+        $form->bind($data);
+
+        $this->assertEquals('choices[0][key]', $form['choices']['0']['key']->getName());
+        $this->assertEquals('choices[0][value]', $form['choices']['0']['value']->getName());
+        $this->assertEquals('choices[1][key]', $form['choices']['1']['key']->getName());
+        $this->assertEquals('choices[1][value]', $form['choices']['1']['value']->getName());
     }
 }

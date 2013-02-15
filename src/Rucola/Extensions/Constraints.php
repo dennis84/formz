@@ -1,6 +1,8 @@
 <?php
 
-namespace Rucola;
+namespace Rucola\Extensions;
+
+use Rucola\Constraint;
 
 /**
  * Some default constaint extensions for the field object.
