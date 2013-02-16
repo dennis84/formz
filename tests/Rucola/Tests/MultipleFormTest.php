@@ -8,7 +8,7 @@ use Rucola\Tests\Model\Attribute;
 
 class MultipleFormTest extends \PHPUnit_Framework_TestCase
 {
-    public function testPass()
+    public function test_bind_and_pass()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -28,7 +28,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testPassEmpty()
+    public function test_bind_and_pass_empty()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -48,7 +48,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testPassNothing()
+    public function test_bind_and_pass_with_nothing()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -66,7 +66,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testPassNothingAppliedToModel()
+    public function test_bind_and_pass_with_nothing_applied_to_object()
     {
         $rucola = new Rucola();
 
@@ -105,7 +105,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testPassNested()
+    public function test_bind_and_pass_nested_applied_to_array()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -131,7 +131,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testPassNestedAppliedToObject()
+    public function test_bind_and_pass_nested_applied_to_object()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -163,7 +163,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testNonArrayValueToMultipleType()
+    public function test_bind_and_fail_with_non_array_value()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -175,7 +175,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testGetName()
+    public function test_bind_and_getName()
     {
         $rucola = new Rucola();
         $form = $rucola->form([
@@ -201,5 +201,44 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('choices[0][value]', $form['choices']['0']['value']->getName());
         $this->assertEquals('choices[1][key]', $form['choices']['1']['key']->getName());
         $this->assertEquals('choices[1][value]', $form['choices']['1']['value']->getName());
+    }
+
+    public function test_fill_flat_form_unapplied_from_array()
+    {
+        $rucola = new Rucola();
+        $form = $rucola->form([
+            $rucola->field('choices')->multiple(),
+        ]);
+
+        $form->fill([
+            'choices' => ['foo', 'bar', 'baz'],
+        ]);
+
+        $this->assertEquals('foo', $form['choices']['0']->getValue());
+        $this->assertEquals('bar', $form['choices']['1']->getValue());
+        $this->assertEquals('baz', $form['choices']['2']->getValue());
+    }
+
+    public function test_fill_nested_form_unapplied_from_array()
+    {
+        $rucola = new Rucola();
+        $form = $rucola->form([
+            $rucola->embed('choices', [
+                $rucola->field('key'),
+                $rucola->field('value'),
+            ])->multiple(),
+        ]);
+
+        $form->fill([
+            'choices' => [
+                ['key' => 'foo', 'value' => 'bar'],
+                ['key' => 'bla', 'value' => 'blubb'],
+            ],
+        ]);
+
+        $this->assertEquals('foo', $form['choices']['0']['key']->getValue());
+        $this->assertEquals('bar', $form['choices']['0']['value']->getValue());
+        $this->assertEquals('bla', $form['choices']['1']['key']->getValue());
+        $this->assertEquals('blubb', $form['choices']['1']['value']->getValue());
     }
 }

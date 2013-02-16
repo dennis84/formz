@@ -397,34 +397,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function bind($data)
     {
-        if ($this->isMultiple()) {
-            if (!is_array($data)) {
-                throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
-            }
-
-            $choices = [];
-            foreach ($data as $index => $value) {
-                $choice = $this->copy();
-                $choice->setFieldName((string) $index);
-                $choice->multiple(false);
-                $choice->setParent($this);
-                foreach ($choice->getChildren() as $child) {
-                    $child->setParent($choice);
-                }
-
-                if ($apply = $choice->getApply()) {
-                    $apply = \Closure::bind($apply, $choice);
-                    $choice->setApply($apply);
-                }
-
-                $choices[] = $choice;
-            }
-
-            $this->setChildren($choices);
-            $this->setApply(function () {
-                return DataMapper::fieldToArray($this);
-            });
-        }
+        $this->maybePrepareMultipleFields($data);
 
         // Unset data for missing fields.
         if (is_array($data)) {
@@ -460,8 +433,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function fill($data)
     {
-        $value = $this->unapplyTree($data);
-        $this->fillValue($value);
+        $this->unapplyTree($data);
     }
 
     /**
@@ -484,38 +456,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Executes the apply function of all fields with their values.
-     *
-     * @return mixed
-     */
-    protected function applyTree()
-    {
-        foreach ($this->reverseFields() as $field) {
-            if ($field->isOptionalAndEmpty()) {
-                $field->setData(null);
-                continue;
-            }
-
-            if (!$field->hasChildren()) {
-                $field->setData($field->getValue());
-                continue;
-            }
-
-            $data = [];
-            foreach ($field->getChildren() as $child) {
-                $data[$child->getFieldName()] = $child->getData();
-            }
-
-            $apply = $field->getApply();
-            $data = call_user_func_array($apply, $data);
- 
-            $field->setData($data);
-        }
-
-        return $this->getData();
-    }
-
-    /**
      * Unapply tree.
      *
      * @param mixed $data The data which passed though the unapply function.
@@ -524,6 +464,13 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function unapplyTree($data)
     {
+        $this->maybePrepareMultipleFields($data);
+
+        if (!$this->hasChildren()) {
+            $this->setValue($data);
+            return $data;
+        }
+
         if (!is_array($data)) {
             $data = [$data];
         }
@@ -533,35 +480,18 @@ class Field implements \IteratorAggregate, \ArrayAccess
         }
 
         $unapply = $this->unapply;
-        $value = call_user_func_array($unapply, $data);
+        $appliedData = call_user_func_array($unapply, $data);
+        $value = [];
 
         foreach ($this->getChildren() as $child) {
-            if ($child->hasChildren()) {
-                $value[$child->getFieldName()] = $child->unapplyTree($value[$child->getFieldName()]);
+            if (isset($appliedData[$child->getFieldName()])) {
+                $value[$child->getFieldName()] = $child->unapplyTree($appliedData[$child->getFieldName()]);
             }
         }
+
+        $this->setValue($value);
 
         return $value;
-    }
-
-    /**
-     * Gets an blank array but with the children array keys.
-     *
-     * @return array
-     */
-    public function getBlankData()
-    {
-        $blank = [];
-        foreach ($this->children as $name => $child) {
-            $value = null;
-            if ($child->isMultiple()) {
-                $value = [];
-            }
-
-            $blank[$name] = $value;
-        }
-
-        return $blank;
     }
 
     /**
@@ -634,42 +564,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Validates the current field. And returns true if this field is 
-     * valid, otherwise false.
-     *
-     * @return boolean
-     */
-    protected function validate()
-    {
-        foreach ($this->constraints as $constraint) {
-            $constraint->check($this);
-        }
-
-        return count($this->errors) === 0;
-    }
-
-    /**
-     * Fills the value to the form.
-     *
-     * @param mixed $value The value
-     */
-    protected function fillValue($value)
-    {
-        if (!is_array($value)) {
-            $this->value = $value;
-            return;
-        }
-
-        foreach ($this->children as $child) {
-            if (isset($value[$child->getFieldName()])) {
-                $child->fillValue($value[$child->getFieldName()]);
-            }
-        }
-
-        $this->value = $value;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function offsetGet($offset)
@@ -711,6 +605,73 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Executes the apply function of all fields with their values.
+     *
+     * @return mixed
+     */
+    protected function applyTree()
+    {
+        foreach ($this->reverseFields() as $field) {
+            if ($field->isOptionalAndEmpty()) {
+                $field->setData(null);
+                continue;
+            }
+
+            if (!$field->hasChildren()) {
+                $field->setData($field->getValue());
+                continue;
+            }
+
+            $data = [];
+            foreach ($field->getChildren() as $child) {
+                $data[$child->getFieldName()] = $child->getData();
+            }
+
+            $apply = $field->getApply();
+            $data = call_user_func_array($apply, $data);
+ 
+            $field->setData($data);
+        }
+
+        return $this->getData();
+    }
+
+    /**
+     * Validates the current field. And returns true if this field is 
+     * valid, otherwise false.
+     *
+     * @return boolean
+     */
+    protected function validate()
+    {
+        foreach ($this->constraints as $constraint) {
+            $constraint->check($this);
+        }
+
+        return count($this->errors) === 0;
+    }
+
+    /**
+     * Gets an blank array but with the children array keys.
+     *
+     * @return array
+     */
+    public function getBlankData()
+    {
+        $blank = [];
+        foreach ($this->children as $name => $child) {
+            $value = null;
+            if ($child->isMultiple()) {
+                $value = [];
+            }
+
+            $blank[$name] = $value;
+        }
+
+        return $blank;
+    }
+
+    /**
      * Generates a sorted array of field objects starting from the last with the
      * highest depth.
      *
@@ -735,5 +696,55 @@ class Field implements \IteratorAggregate, \ArrayAccess
 
         $reverse[] = $this;
         return $reverse;
+    }
+
+    /**
+     * Prepares the current field if multiple is true.
+     *
+     * @param mixed $data The bind or fill data
+     *
+     * @throws InvalidArgumentException If multiple is true and data in not an array
+     */
+    protected function maybePrepareMultipleFields($data)
+    {
+        if ($this->isMultiple()) {
+            if (!is_array($data)) {
+                throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
+            }
+
+            $choices = [];
+            foreach ($data as $index => $value) {
+                $choice = $this->copy();
+                $choice->setFieldName((string) $index);
+                $choice->multiple(false);
+                $choice->setParent($this);
+                foreach ($choice->getChildren() as $child) {
+                    $child->setParent($choice);
+                }
+
+                if ($apply = $choice->getApply()) {
+                    $apply = \Closure::bind($apply, $choice);
+                    $choice->setApply($apply);
+                }
+
+                if ($unapply = $choice->getUnapply()) {
+                    $unapply = \Closure::bind($unapply, $choice);
+                    $choice->setUnapply($unapply);
+                }
+
+                $choices[] = $choice;
+            }
+
+            $this->setChildren($choices);
+            $this->setApply(function () {
+                return DataMapper::fieldToArray($this);
+            });
+
+            $this->setUnapply(function ($data) {
+                return $data;
+            });
+
+            $this->customUnapply = false;
+        }
     }
 }

@@ -6,7 +6,7 @@ use Rucola\Rucola;
 
 class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFormErrors()
+    public function test_form_errors()
     {
         $rucola = new Rucola();
 

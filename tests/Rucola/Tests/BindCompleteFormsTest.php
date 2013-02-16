@@ -9,7 +9,7 @@ use Rucola\Tests\Model\Location;
 
 class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testBindFlatFormWithoutApply()
+    public function test_flat_form_applied_to_array()
     {
         $rucola = new Rucola();
 
@@ -32,7 +32,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testBindFlatFormWithApply()
+    public function test_flat_form_applied_to_object()
     {
         $rucola = new Rucola();
 
@@ -59,7 +59,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testNestedFormWithApplyToUserAndAddress()
+    public function test_nested_form_applied_to_object()
     {
         $rucola = new Rucola();
 

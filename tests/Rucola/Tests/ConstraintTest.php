@@ -6,7 +6,7 @@ use Rucola\Rucola;
 
 class ConstraintTest extends \PHPUnit_Framework_TestCase
 {
-    public function testNonEmptyText()
+    public function test_nonEmptyText_with_empty_string()
     {
         $rucula = new Rucola();
 
@@ -25,7 +25,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testNonEmptyTextBoundWithNothing()
+    public function test_nonEmptyText_with_nothing()
     {
         $rucula = new Rucola();
 
@@ -42,7 +42,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testNumberFails()
+    public function test_number_fail()
     {
         $rucula = new Rucola();
 
@@ -61,7 +61,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testNumberPass()
+    public function test_number_pass()
     {
         $rucula = new Rucola();
 
@@ -83,7 +83,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testBoolean()
+    public function test_boolean()
     {
         $rucula = new Rucola();
 

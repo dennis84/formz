@@ -9,7 +9,7 @@ use Rucola\Tests\Model\Location;
 
 class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFormWithoutUnapply()
+    public function test_flat_form_unapplied_from_array()
     {
         $rucola = new Rucola();
 
@@ -20,11 +20,11 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $form->fill(['username' => 'dennis84']);
 
-        $this->assertEquals('dennis84', $form->getChild('username')->getValue());
-        $this->assertEquals('', $form->getChild('password')->getValue());
+        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertEquals('', $form['password']->getValue());
     }
 
-    public function testNestedFormWithoutUnapply()
+    public function test_nested_form_unapplied_from_array()
     {
         $rucola = new Rucola();
 
@@ -44,10 +44,10 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertEquals('dennis84', $form->getChild('username')->getValue());
-        $this->assertEquals('', $form->getChild('password')->getValue());
+        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertEquals('', $form['password']->getValue());
         
-        $this->assertEquals('', $form->getChild('address')->getChild('city')->getValue());
-        $this->assertEquals('Foostreet', $form->getChild('address')->getChild('street')->getValue());
+        $this->assertEquals('', $form['address']['city']->getValue());
+        $this->assertEquals('Foostreet', $form['address']['street']->getValue());
     }
 }

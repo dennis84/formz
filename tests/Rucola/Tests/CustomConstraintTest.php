@@ -6,7 +6,7 @@ use Rucola\Rucola;
 
 class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 {
-    public function testVerifySingleField()
+    public function test_verify_single_field()
     {
         $rucula = new Rucola();
 
@@ -27,7 +27,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testVerifySimpleForm()
+    public function test_verify_simple_form()
     {
         $rucula = new Rucola();
 

@@ -9,7 +9,7 @@ use Rucola\Tests\Model\Location;
 
 class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAppliedToArray()
+    public function test_flat_form_applied_to_array()
     {
         $rucola = new Rucola();
 
@@ -35,7 +35,7 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    public function testAppliedToObject()
+    public function test_flat_form_applied_to_object()
     {
         $rucola = new Rucola();
 

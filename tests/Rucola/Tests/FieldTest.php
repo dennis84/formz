@@ -6,7 +6,7 @@ use Rucola\Rucola;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetName()
+    public function test_getName()
     {
         $rucola = new Rucola();
 
