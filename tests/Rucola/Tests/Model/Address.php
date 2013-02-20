@@ -2,10 +2,22 @@
 
 namespace Rucola\Tests\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Address
 {
+    /**
+     * @Assert\Length(min=5)
+     * @Assert\NotBlank
+     */
     public $city;
+
+    /**
+     * @Assert\Length(min=5)
+     * @Assert\NotBlank
+     */
     public $street;
+
     public $location;
 
     public function __construct($city, $street, $location = null)

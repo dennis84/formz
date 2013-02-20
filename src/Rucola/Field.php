@@ -290,6 +290,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function setData($data)
     {
+        $data = $this->trigger('change_data', $data);
         $this->data = $data;
     }
 
@@ -398,7 +399,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
         $this->maybePrepareMultipleFields($data);
 
         if (is_array($data)) {
-            // Unset data for missing fields.
             foreach ($data as $name => $value) {
                 if (!$this->hasChild($name)) {
                     unset($data[$name]);
@@ -412,11 +412,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
             if (is_array($data) && array_key_exists($child->getFieldName(), $data)) {
                 $child->bind($data[$child->getFieldName()]);
             }
-        }
-
-        $this->setValue($data);
-        if (true === $this->validate()) {
-            $data = $this->trigger('bind_value', $data);
         }
 
         $this->setValue($data);
@@ -488,6 +483,16 @@ class Field implements \IteratorAggregate, \ArrayAccess
         $this->setValue($value);
 
         return $value;
+    }
+
+    /**
+     * Applies all constraints of current field.
+     */
+    public function validate()
+    {
+        foreach ($this->constraints as $constraint) {
+            $constraint->check($this);
+        }
     }
 
     /**
@@ -608,6 +613,8 @@ class Field implements \IteratorAggregate, \ArrayAccess
     protected function applyTree()
     {
         foreach ($this->reverseFields() as $field) {
+            $field->validate();
+
             if ($field->isOptionalAndEmpty()) {
                 $field->setData(null);
                 continue;
@@ -630,21 +637,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
         }
 
         return $this->getData();
-    }
-
-    /**
-     * Validates the current field. And returns true if this field is 
-     * valid, otherwise false.
-     *
-     * @return boolean
-     */
-    protected function validate()
-    {
-        foreach ($this->constraints as $constraint) {
-            $constraint->check($this);
-        }
-
-        return count($this->errors) === 0;
     }
 
     /**

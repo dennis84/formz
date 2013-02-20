@@ -5,5 +5,10 @@
     },
     "require": {
         "php": ">=5.4.0"
-    }
+    },
+    "require-dev": {
+        "symfony/validator": "2.2.*",
+        "doctrine/common": "~2.2"
+    },
+    "minimum-stability": "dev"
 }

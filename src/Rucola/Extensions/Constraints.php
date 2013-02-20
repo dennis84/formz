@@ -56,7 +56,7 @@ trait Constraints
             return is_numeric($value);
         }));
 
-        $this->on('bind_value', function ($value) {
+        $this->on('change_data', function ($value) {
             return (float) $value;
         });
 
@@ -76,7 +76,7 @@ trait Constraints
             return 'true' === $value || 'false' === $value || true === $value || false === $value;
         }));
 
-        $this->on('bind_value', function ($value) {
+        $this->on('change_data', function ($value) {
             if ('false' === $value) {
                 $value = false;
             }

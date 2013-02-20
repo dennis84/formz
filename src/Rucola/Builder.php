@@ -95,7 +95,6 @@ class Builder
      */
     public function field($name)
     {
-        $field = new Field($name);
-        return $field;
+        return new Field($name);
     }
 }

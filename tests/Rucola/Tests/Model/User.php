@@ -2,10 +2,22 @@
 
 namespace Rucola\Tests\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class User
 {
+    /**
+     * @Assert\Length(min=5)
+     * @Assert\NotBlank
+     */
     public $username;
+
+    /**
+     * @Assert\Length(min=5)
+     * @Assert\NotBlank
+     */
     public $password;
+
     public $address;
 
     public function __construct($username, $password, $address  = null)
@@ -15,4 +27,3 @@ class User
         $this->address  = $address;
     }
 }
-
