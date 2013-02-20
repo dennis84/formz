@@ -2,23 +2,23 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
     public function test_getName()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
-            $rucola->embed('address', [
-                $rucola->field('street'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->embed('address', [
+                $builder->field('street'),
             ]),
-            $rucola->embed('choices', [
-                $rucola->field('key'),
-                $rucola->field('value'),
+            $builder->embed('choices', [
+                $builder->field('key'),
+                $builder->field('value'),
             ])->multiple(),
         ]);
 

@@ -2,16 +2,16 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 
 class ConstraintTest extends \PHPUnit_Framework_TestCase
 {
     public function test_nonEmptyText_with_empty_string()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('username')->nonEmptyText()
+        $form = $builder->form([
+            $builder->field('username')->nonEmptyText()
         ]);
 
         $form->bind([
@@ -27,10 +27,10 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function test_nonEmptyText_with_nothing()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('username')->nonEmptyText()
+        $form = $builder->form([
+            $builder->field('username')->nonEmptyText()
         ]);
 
         $form->bind([]);
@@ -44,10 +44,10 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function test_number_fail()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('number')->number()
+        $form = $builder->form([
+            $builder->field('number')->number()
         ]);
 
         $form->bind([
@@ -63,11 +63,11 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function test_number_pass()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('integer')->number(),
-            $rucula->field('float')->number(),
+        $form = $builder->form([
+            $builder->field('integer')->number(),
+            $builder->field('float')->number(),
         ]);
 
         $form->bind([
@@ -85,13 +85,13 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function test_boolean()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('a')->boolean(),
-            $rucula->field('b')->boolean(),
-            $rucula->field('c')->boolean(),
-            $rucula->field('d')->boolean(),
+        $form = $builder->form([
+            $builder->field('a')->boolean(),
+            $builder->field('b')->boolean(),
+            $builder->field('c')->boolean(),
+            $builder->field('d')->boolean(),
         ]);
 
         $form->bind([

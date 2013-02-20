@@ -2,7 +2,7 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 use Rucola\Tests\Model\User;
 use Rucola\Tests\Model\Address;
 use Rucola\Tests\Model\Location;
@@ -11,11 +11,11 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
 {
     public function test_flat_form_applied_to_array()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
         ]);
 
         $data = [
@@ -37,11 +37,11 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
 
     public function test_flat_form_applied_to_object()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
         ], function ($username, $password) {
             return new User($username, $password);
         });

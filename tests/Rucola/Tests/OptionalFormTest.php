@@ -2,7 +2,7 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 use Rucola\Tests\Model\Address;
 use Rucola\Tests\Model\User;
 
@@ -10,14 +10,14 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
 {
     public function test_bind_nested_form_applied_to_object()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
-            $rucola->optionalEmbed('address', [
-                $rucola->field('city'),
-                $rucola->field('street')
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->optionalEmbed('address', [
+                $builder->field('city'),
+                $builder->field('street')
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),

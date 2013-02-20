@@ -2,7 +2,7 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 use Rucola\Tests\Model\User;
 use Rucola\Tests\Model\Address;
 use Rucola\Tests\Model\Location;
@@ -11,11 +11,11 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_flat_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
         ]);
 
         $form->fill([
@@ -29,14 +29,14 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
     public function test_nested_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
-            $rucola->embed('address', [
-                $rucola->field('city'),
-                $rucola->field('street'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->embed('address', [
+                $builder->field('city'),
+                $builder->field('street'),
             ]),
         ]);
 
@@ -63,12 +63,12 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
     public function test_flat_form_unapplied_from_object()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
         $user = new User('dennis84', 'demo123');
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
         ], null, function (User $user) {
             return ['username' => $user->username, 'password' => $user->password];
         });
@@ -81,21 +81,21 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
     public function test_nested_form_unapplied_from_object()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
         $location = new Location('50', '8');
         $address  = new Address('Footown', 'Foostreet', $location);
         $user     = new User('dennis84', 'demo123', $address);
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
-            $rucola->embed('address', [
-                $rucola->field('city'),
-                $rucola->field('street'),
-                $rucola->embed('location', [
-                    $rucola->field('lat'),
-                    $rucola->field('lng'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->embed('address', [
+                $builder->field('city'),
+                $builder->field('street'),
+                $builder->embed('location', [
+                    $builder->field('lat'),
+                    $builder->field('lng'),
                 ], null, function (Location $location) {
                     return [
                         'lat' => $location->lat,

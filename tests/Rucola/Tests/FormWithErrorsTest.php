@@ -2,20 +2,20 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 
 class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_form_errors()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username')->nonEmptyText(),
-            $rucola->field('password')->nonEmptyText(),
-            $rucola->embed('address', [
-                $rucola->field('city')->nonEmptyText(),
-                $rucola->field('street')->nonEmptyText(),
+        $form = $builder->form([
+            $builder->field('username')->nonEmptyText(),
+            $builder->field('password')->nonEmptyText(),
+            $builder->embed('address', [
+                $builder->field('city')->nonEmptyText(),
+                $builder->field('street')->nonEmptyText(),
             ]),
         ]);
 

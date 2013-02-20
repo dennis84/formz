@@ -46,13 +46,13 @@ class Attribute
     }
 }
 
-$rucola = new \Rucola\Rucola();
+$builder = new \Rucola\Builder();
 
-$form = $rucola->form([
-    $rucola->field('tags')->nonEmptyText()->multiple(),
-    $rucola->embed('attributes', [
-        $rucola->field('name')->nonEmptyText(),
-        $rucola->field('value')->nonEmptyText(),
+$form = $builder->form([
+    $builder->field('tags')->nonEmptyText()->multiple(),
+    $builder->embed('attributes', [
+        $builder->field('name')->nonEmptyText(),
+        $builder->field('value')->nonEmptyText(),
     ], function ($name, $value) {
         return new Attribute($name, $value);
     })->multiple(),

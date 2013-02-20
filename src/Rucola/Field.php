@@ -120,7 +120,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function hasChildren()
     {
-        return count($this->children) > 0 ? true : false;
+        return count($this->children) > 0;
     }
 
     /**
@@ -377,17 +377,15 @@ class Field implements \IteratorAggregate, \ArrayAccess
             return $data;
         }
 
-        $filtered = null;
-
         foreach ($this->events[$name] as $event) {
             if (!is_array($data)) {
                 $data = [$data];
             }
 
-            $filtered = call_user_func_array($event, $data);
+            $data = call_user_func_array($event, $data);
         }
 
-        return $filtered;
+        return $data;
     }
 
     /**
@@ -399,16 +397,14 @@ class Field implements \IteratorAggregate, \ArrayAccess
     {
         $this->maybePrepareMultipleFields($data);
 
-        // Unset data for missing fields.
         if (is_array($data)) {
+            // Unset data for missing fields.
             foreach ($data as $name => $value) {
                 if (!$this->hasChild($name)) {
                     unset($data[$name]);
                 }
             }
-        }
 
-        if (is_array($data)) {
             $data += $this->getBlankData();
         }
 
@@ -427,7 +423,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Fills teh data to the field and all children.
+     * Fills the data to the field and all children.
      *
      * @param mixed $data The data to fill as value
      */

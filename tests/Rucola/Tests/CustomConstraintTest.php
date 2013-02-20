@@ -2,16 +2,16 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 
 class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 {
     public function test_verify_single_field()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('username')->verifying('Username taken.', function ($username) {
+        $form = $builder->form([
+            $builder->field('username')->verifying('Username taken.', function ($username) {
                 return 'dennis84' !== $username;
             })
         ]);
@@ -29,14 +29,16 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function test_verify_simple_form()
     {
-        $rucula = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucula->form([
-            $rucula->field('username'),
-            $rucula->field('password'),
-            $rucula->field('password2'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->field('password2'),
         ])->verifying('Invalid password or username.', function ($username, $password, $password2) {
             return $password === $password2;
+        })->verifying('Username taken.', function ($username, $password, $password2) {
+            return 'dennis84' !== $username;
         });
 
         $form->bind([
@@ -47,6 +49,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 
         $form->fold(function ($formWithErrors) {
             $this->assertEquals('Invalid password or username.', $formWithErrors->getErrorsFlat()[0]->getMessage());
+            $this->assertEquals('Username taken.', $formWithErrors->getErrorsFlat()[1]->getMessage());
         }, function ($formData) {
             $this->fail('The form must be invalid here.');
         });

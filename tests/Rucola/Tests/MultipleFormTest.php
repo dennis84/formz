@@ -2,7 +2,7 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 use Rucola\Tests\Model\Post;
 use Rucola\Tests\Model\Attribute;
 
@@ -10,9 +10,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 {
     public function test_bind_and_pass()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->field('choices')->multiple(),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
         ]);
 
         $form->bind([
@@ -30,9 +30,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_pass_empty()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->field('choices')->multiple(),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
         ]);
 
         $form->bind([
@@ -50,9 +50,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_pass_with_nothing()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->field('choices')->multiple(),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
         ]);
 
         $form->bind([]);
@@ -68,14 +68,14 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_pass_with_nothing_applied_to_object()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('title'),
-            $rucola->field('tags')->multiple(),
-            $rucola->embed('attributes', [
-                $rucola->field('name'),
-                $rucola->field('name'),
+        $form = $builder->form([
+            $builder->field('title'),
+            $builder->field('tags')->multiple(),
+            $builder->embed('attributes', [
+                $builder->field('name'),
+                $builder->field('name'),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             }, function (Attribute $attr) {
@@ -107,11 +107,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_pass_nested_applied_to_array()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->embed('choices', [
-                $rucola->field('key'),
-                $rucola->field('value'),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->embed('choices', [
+                $builder->field('key'),
+                $builder->field('value'),
             ])->multiple(),
         ]);
 
@@ -133,11 +133,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_pass_nested_applied_to_object()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->embed('choices', [
-                $rucola->field('name'),
-                $rucola->field('value'),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->embed('choices', [
+                $builder->field('name'),
+                $builder->field('value'),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             })->multiple(),
@@ -165,9 +165,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
      */
     public function test_bind_and_fail_with_non_array_value()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->field('choices')->multiple(),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
         ]);
 
         $form->bind([
@@ -177,11 +177,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_bind_and_getName()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->embed('choices', [
-                $rucola->field('key'),
-                $rucola->field('value'),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->embed('choices', [
+                $builder->field('key'),
+                $builder->field('value'),
             ])->multiple(),
         ]);
 
@@ -205,9 +205,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_fill_flat_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->field('choices')->multiple(),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
         ]);
 
         $form->fill([
@@ -221,11 +221,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
     public function test_fill_nested_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
-        $form = $rucola->form([
-            $rucola->embed('choices', [
-                $rucola->field('key'),
-                $rucola->field('value'),
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->embed('choices', [
+                $builder->field('key'),
+                $builder->field('value'),
             ])->multiple(),
         ]);
 

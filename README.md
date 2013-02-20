@@ -3,17 +3,17 @@
 Rucola is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.
 
 
-## Example
+## Simple Form
 
 ```php
 
 <?php
 
-$rucola = new \Rucola\Rucola();
+$builder = new \Rucola\Builder();
 
-$form = $rucola->form([
-    $rucola->field('subject')->nonEmptyText(),
-    $rucola->field('message')->nonEmptyText()
+$form = $builder->form([
+    $builder->field('subject')->nonEmptyText(),
+    $builder->field('message')->nonEmptyText()
 ], function ($subject, $message) {
     return new Contact($subject, $message);
 }, function (Contact $contact) {
@@ -32,3 +32,4 @@ $form->fold(function (Field $formWithErrors) {
 });
 
 ```
+

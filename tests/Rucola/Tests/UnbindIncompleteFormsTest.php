@@ -2,7 +2,7 @@
 
 namespace Rucola\Tests;
 
-use Rucola\Rucola;
+use Rucola\Builder;
 use Rucola\Tests\Model\User;
 use Rucola\Tests\Model\Address;
 use Rucola\Tests\Model\Location;
@@ -11,11 +11,11 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_flat_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
         ]);
 
         $form->fill(['username' => 'dennis84']);
@@ -26,14 +26,14 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 
     public function test_nested_form_unapplied_from_array()
     {
-        $rucola = new Rucola();
+        $builder = new Builder();
 
-        $form = $rucola->form([
-            $rucola->field('username'),
-            $rucola->field('password'),
-            $rucola->embed('address', [
-                $rucola->field('city'),
-                $rucola->field('street'),
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->embed('address', [
+                $builder->field('city'),
+                $builder->field('street'),
             ]),
         ]);
 

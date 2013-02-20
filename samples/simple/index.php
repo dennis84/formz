@@ -24,11 +24,11 @@ class Contact
     }
 }
 
-$rucola = new \Rucola\Rucola();
+$builder = new \Rucola\Builder();
 
-$form = $rucola->form([
-    $rucola->field('subject')->nonEmptyText(),
-    $rucola->field('message')->nonEmptyText()
+$form = $builder->form([
+    $builder->field('subject')->nonEmptyText(),
+    $builder->field('message')->nonEmptyText()
 ], function ($subject, $message) {
     return new Contact($subject, $message);
 }, function (Contact $contact) {

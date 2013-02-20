@@ -5,11 +5,11 @@ namespace Rucola;
 use Rucola\Util\DataMapper;
 
 /**
- * Rucola. This is a helper to build field objects.
+ * This is a helper to build field objects.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Rucola
+class Builder
 {
     /**
      * Use this function to build the root form.
