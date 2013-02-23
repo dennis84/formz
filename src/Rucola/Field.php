@@ -12,8 +12,7 @@ use Rucola\Util\RecursiveFieldIterator;
  */
 class Field implements \IteratorAggregate, \ArrayAccess
 {
-    use Extensions\Constraints;
-    use Extensions\Symfonify;
+    use Constraints;
 
     protected $name;
     protected $root = false;

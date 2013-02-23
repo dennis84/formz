@@ -40,6 +40,8 @@ trait Symfonify
                     $violation->getMessage()
                 ));
             }
+
+            return $data;
         });
 
         return $this;

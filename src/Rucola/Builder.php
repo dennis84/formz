@@ -38,7 +38,7 @@ class Builder
      */
     public function embed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
     {
-        $form = new Field($name);
+        $form = $this->createField($name);
 
         foreach ($fields as $field) {
             $field->setParent($form);
@@ -94,6 +94,18 @@ class Builder
      * @return Field
      */
     public function field($name)
+    {
+        return $this->createField($name);
+    }
+
+    /**
+     * Creates a new field object.
+     *
+     * @param string $name The field name
+     *
+     * @return Field
+     */
+    protected function createField($name)
     {
         return new Field($name);
     }

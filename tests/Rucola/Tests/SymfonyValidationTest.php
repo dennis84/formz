@@ -2,15 +2,29 @@
 
 namespace Rucola\Tests;
 
+use Rucola\Field;
 use Rucola\Builder;
 use Rucola\Tests\Model\User;
 use Rucola\Tests\Model\Address;
 
+class SfField extends Field
+{
+    use \Rucola\Extensions\Symfonify;
+}
+
+class SfBuilder extends Builder
+{
+    protected function createField($name)
+    {
+        return new SfField($name);
+    }
+}
+
 class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_with_annotation_assets()
+    public function test_with_annotation_asserts()
     {
-        $builder = new Builder();
+        $builder = new SfBuilder();
 
         $form = $builder->form([
             $builder->field('username'),
