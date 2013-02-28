@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucola\Extensions;
+namespace Formz\Extensions;
 
-use Rucola\Error;
+use Formz\Error;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 
@@ -22,7 +22,7 @@ trait Symfonify
      */
     public function bindFromRequest(Request $request)
     {
-        $this->bind($request->request);
+        $this->bind($request->request->all());
     }
 
     /**

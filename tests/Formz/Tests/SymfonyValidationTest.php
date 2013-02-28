@@ -1,15 +1,15 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Field;
-use Rucola\Builder;
-use Rucola\Tests\Model\User;
-use Rucola\Tests\Model\Address;
+use Formz\Field;
+use Formz\Builder;
+use Formz\Tests\Model\User;
+use Formz\Tests\Model\Address;
 
 class SfField extends Field
 {
-    use \Rucola\Extensions\Symfonify;
+    use \Formz\Extensions\Symfonify;
 }
 
 class SfBuilder extends Builder

@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucola\Util;
+namespace Formz\Util;
 
-use Rucola\Field;
+use Formz\Field;
 
 /**
  * DataMapper.

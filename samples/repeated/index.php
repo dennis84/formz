@@ -46,7 +46,7 @@ class Attribute
     }
 }
 
-$builder = new \Rucola\Builder();
+$builder = new \Formz\Builder();
 
 $form = $builder->form([
     $builder->field('tags')->nonEmptyText()->multiple(),

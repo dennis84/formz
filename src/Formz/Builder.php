@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucola;
+namespace Formz;
 
-use Rucola\Util\DataMapper;
+use Formz\Util\DataMapper;
 
 /**
  * This is a helper to build field objects.

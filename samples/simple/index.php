@@ -24,7 +24,7 @@ class Contact
     }
 }
 
-$builder = new \Rucola\Builder();
+$builder = new \Formz\Builder();
 
 $form = $builder->form([
     $builder->field('subject')->nonEmptyText(),

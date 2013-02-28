@@ -1,7 +1,7 @@
 {
-    "name": "dennis84/rucola",
+    "name": "dennis84/formz",
     "autoload": {
-        "psr-0": { "Rucola": ["src/", "tests/"] }
+        "psr-0": { "Formz": ["src/", "tests/"] }
     },
     "require": {
         "php": ">=5.4.0"

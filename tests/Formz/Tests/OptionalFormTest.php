@@ -1,10 +1,10 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Builder;
-use Rucola\Tests\Model\Address;
-use Rucola\Tests\Model\User;
+use Formz\Builder;
+use Formz\Tests\Model\Address;
+use Formz\Tests\Model\User;
 
 class OptionalFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
 
         $form->fold(function ($formWithErrors) {
         }, function ($formData) {
-            $this->assertInstanceOf('Rucola\Tests\Model\User', $formData);
+            $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
             $this->assertEquals('dennis84', $formData->username);
             $this->assertEquals('demo123', $formData->password);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucola;
+namespace Formz;
 
 /**
  * Constraint.

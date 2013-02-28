@@ -1,13 +1,13 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Builder;
-use Rucola\Tests\Model\User;
-use Rucola\Tests\Model\Address;
-use Rucola\Tests\Model\Location;
+use Formz\Builder;
+use Formz\Tests\Model\User;
+use Formz\Tests\Model\Address;
+use Formz\Tests\Model\Location;
 
-class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
+class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_flat_form_applied_to_array()
     {
@@ -20,7 +20,6 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $data = [
             'username' => 'dennis84',
-            'password' => 'demo123'
         ];
 
         $form->bind($data);
@@ -28,7 +27,10 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) use ($data) {
-            $this->assertEquals($data, $formData);
+            $this->assertEquals([
+                'username' => 'dennis84',
+                'password' => '',
+            ], $formData);
         });
     }
 
@@ -45,7 +47,6 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $data = [
             'username' => 'dennis84',
-            'password' => 'demo123'
         ];
 
         $form->bind($data);
@@ -53,9 +54,9 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) {
-            $this->assertInstanceOf('Rucola\Tests\Model\User', $formData);
+            $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
             $this->assertEquals('dennis84', $formData->username);
-            $this->assertEquals('demo123', $formData->password);
+            $this->assertEquals('', $formData->password);
         });
     }
 
@@ -68,10 +69,10 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             $builder->field('password'),
             $builder->embed('address', [
                 $builder->field('city'),
-                $builder->field('street'),
+                $builder->field('street')
             ], function ($city, $street) {
                 return new Address($city, $street);
-            }),
+            })->required(),
         ], function ($username, $password, Address $address) {
             return new User($username, $password, $address);
         });
@@ -79,23 +80,14 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $data = [
             'username' => 'dennis84',
             'password' => 'demo123',
-            'address' => [
-                'city'   => 'Footown',
-                'street' => 'Foostreet 12',
-            ],
         ];
 
         $form->bind($data);
 
         $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
+            $this->assertSame(true, true);
         }, function ($formData) {
-            $this->assertInstanceOf('Rucola\Tests\Model\User', $formData);
-            $this->assertEquals('dennis84', $formData->username);
-            $this->assertEquals('demo123', $formData->password);
-            $this->assertInstanceOf('Rucola\Tests\Model\Address', $formData->address);
-            $this->assertEquals('Footown', $formData->address->city);
-            $this->assertEquals('Foostreet 12', $formData->address->street);
+            $this->fail('The form must be invalid here.');
         });
     }
 }

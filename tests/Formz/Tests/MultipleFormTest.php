@@ -1,10 +1,10 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Builder;
-use Rucola\Tests\Model\Post;
-use Rucola\Tests\Model\Attribute;
+use Formz\Builder;
+use Formz\Tests\Model\Post;
+use Formz\Tests\Model\Attribute;
 
 class MultipleFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -155,8 +155,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->fold(function ($formWithErrors) {
             $this->fail('The form must be valid here.');
         }, function ($formData) use ($data) {
-            $this->assertInstanceOf('Rucola\Tests\Model\Attribute', $formData['choices'][0]);
-            $this->assertInstanceOf('Rucola\Tests\Model\Attribute', $formData['choices'][1]);
+            $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][0]);
+            $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][1]);
         });
     }
 

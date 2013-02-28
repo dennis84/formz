@@ -1,9 +1,9 @@
 <?php
 
-namespace Rucola;
+namespace Formz;
 
-use Rucola\Util\DataMapper;
-use Rucola\Util\RecursiveFieldIterator;
+use Formz\Util\DataMapper;
+use Formz\Util\RecursiveFieldIterator;
 
 /**
  * Field.

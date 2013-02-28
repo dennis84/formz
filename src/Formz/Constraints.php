@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucola;
+namespace Formz;
 
 /**
  * Some default constaint extensions for the field object.

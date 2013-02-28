@@ -1,6 +1,6 @@
 <?php
 
-namespace Rucola\Tests\Model;
+namespace Formz\Tests\Model;
 
 class Post
 {

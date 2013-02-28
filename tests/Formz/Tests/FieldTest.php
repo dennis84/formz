@@ -1,8 +1,8 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Builder;
+use Formz\Builder;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {

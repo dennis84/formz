@@ -1,6 +1,6 @@
-# Rucola Forms
+# Formz
 
-Rucola is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.
+Formz is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.
 
 
 ## Simple Form
@@ -9,7 +9,7 @@ Rucola is a simple form mapper for PHP. This library is based on the ScalaForms 
 
 <?php
 
-$builder = new \Rucola\Builder();
+$builder = new \Formz\Builder();
 
 $form = $builder->form([
     $builder->field('subject')->nonEmptyText(),

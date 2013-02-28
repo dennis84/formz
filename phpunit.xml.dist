@@ -12,14 +12,14 @@
          bootstrap="tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Rucola Test Suite">
-            <directory>tests/Rucola/</directory>
+        <testsuite name="Formz Test Suite">
+            <directory>tests/Formz/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Rucola/</directory>
+            <directory suffix=".php">src/Formz/</directory>
         </whitelist>
     </filter>
 </phpunit>

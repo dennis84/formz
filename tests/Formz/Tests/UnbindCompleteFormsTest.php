@@ -1,11 +1,11 @@
 <?php
 
-namespace Rucola\Tests;
+namespace Formz\Tests;
 
-use Rucola\Builder;
-use Rucola\Tests\Model\User;
-use Rucola\Tests\Model\Address;
-use Rucola\Tests\Model\Location;
+use Formz\Builder;
+use Formz\Tests\Model\User;
+use Formz\Tests\Model\Address;
+use Formz\Tests\Model\Location;
 
 class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
