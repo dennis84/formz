@@ -1,14 +1,24 @@
 {
     "name": "dennis84/formz",
-    "autoload": {
-        "psr-0": { "Formz": ["src/", "tests/"] }
-    },
+    "description": "Formz is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.",
+    "keywords": ["form"],
+    "homepage": "http://github.com/dennis84/formz",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dennis Dietrich",
+            "email": "d.dietrich84@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=5.4.0"
     },
     "require-dev": {
         "symfony/validator": "2.2.*",
         "doctrine/common": "~2.2"
+    },
+    "autoload": {
+        "psr-0": { "Formz": "src/" }
     },
     "minimum-stability": "dev"
 }
