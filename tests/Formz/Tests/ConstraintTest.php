@@ -36,6 +36,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $form->bind([]);
 
         $form->fold(function ($formWithErrors) {
+            $this->assertSame(1, count($formWithErrors['username']->getErrors()));
             $this->assertEquals('This field must not be empty.', $formWithErrors->getErrorsFlat()[0]->getMessage());
         }, function ($formData) {
             $this->fail('The form must be invalid here.');

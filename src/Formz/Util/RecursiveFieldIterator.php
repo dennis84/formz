@@ -16,7 +16,7 @@ class RecursiveFieldIterator extends \ArrayIterator implements \RecursiveIterato
      *
      * @param Field $field The form field
      */
-    function __construct(Field $field)
+    public function __construct(Field $field)
     {
         parent::__construct($field->getChildren());
     }
@@ -24,7 +24,7 @@ class RecursiveFieldIterator extends \ArrayIterator implements \RecursiveIterato
     /**
      * {@inheritdoc}
      */
-    function hasChildren()
+    public function hasChildren()
     {
         return $this->current()->hasChildren();
     }
@@ -32,7 +32,7 @@ class RecursiveFieldIterator extends \ArrayIterator implements \RecursiveIterato
     /**
      * {@inheritdoc}
      */
-    function getChildren()
+    public function getChildren()
     {
         return new self($this->current());
     }

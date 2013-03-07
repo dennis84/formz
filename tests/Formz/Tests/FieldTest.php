@@ -3,6 +3,7 @@
 namespace Formz\Tests;
 
 use Formz\Builder;
+use Formz\Field;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +23,65 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             ])->multiple(),
         ]);
 
+        $this->assertEquals('', $form->getName());
         $this->assertEquals('username', $form['username']->getName());
         $this->assertEquals('address[street]', $form['address']['street']->getName());
+    }
+
+    public function test_getChild()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->embed('address', [
+                $builder->field('street'),
+            ]),
+        ]);
+
+        $this->assertInstanceOf('Formz\Field', $form->getChild('username'));
+        $this->assertEquals('username', $form->getChild('username')->getFieldName());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function test_getChild_fail()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('username'),
+        ]);
+
+        $form->getChild('password');
+    }
+
+    public function test_offsetExists()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('username'),
+        ]);
+
+        $this->assertTrue(isset($form['username']));
+        $this->assertFalse(isset($form['password']));
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_offsetSet()
+    {
+        $field = new Field('foo');
+        $field['foo'] = 'bar';
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function test_offsetUnset()
+    {
+        $field = new Field('foo');
+        unset($field['foo']);
     }
 }

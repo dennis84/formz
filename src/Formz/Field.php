@@ -423,37 +423,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function fill($data)
     {
-        $this->unapplyTree($data);
-    }
-
-    /**
-     * Gets the result by passing two functions. The first one has the current
-     * field with errors and the second has the mapped form data as argument.
-     *
-     * @param Closure $formWithErrors The current field with errors
-     * @param Closure $formData       The mapped and valid form data
-     *
-     * returns mixed The response of the functions
-     */
-    public function fold(\Closure $formWithErrors, \Closure $formData)
-    {
-        $data = $this->applyTree();
-        if ($this->hasErrors()) {
-            return $formWithErrors($this);
-        }
-
-        return $formData($data);
-    }
-
-    /**
-     * Unapply tree.
-     *
-     * @param mixed $data The data which passed though the unapply function.
-     *
-     * @return mixed
-     */
-    public function unapplyTree($data)
-    {
         $this->maybePrepareMultipleFields($data);
 
         if (!$this->hasChildren()) {
@@ -475,13 +444,33 @@ class Field implements \IteratorAggregate, \ArrayAccess
 
         foreach ($this->getChildren() as $child) {
             if (isset($appliedData[$child->getFieldName()])) {
-                $value[$child->getFieldName()] = $child->unapplyTree($appliedData[$child->getFieldName()]);
+                $value[$child->getFieldName()] = $child->fill($appliedData[$child->getFieldName()]);
             }
         }
 
         $this->setValue($value);
 
         return $value;
+
+    }
+
+    /**
+     * Gets the result by passing two functions. The first one has the current
+     * field with errors and the second has the mapped form data as argument.
+     *
+     * @param Closure $formWithErrors The current field with errors
+     * @param Closure $formData       The mapped and valid form data
+     *
+     * returns mixed The response of the functions
+     */
+    public function fold(\Closure $formWithErrors, \Closure $formData)
+    {
+        $data = $this->applyTree();
+        if ($this->hasErrors()) {
+            return $formWithErrors($this);
+        }
+
+        return $formData($data);
     }
 
     /**
@@ -584,6 +573,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
+        throw new \BadMethodCallException('Not implemented');
     }
 
     /**
@@ -591,6 +581,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      */
     public function offsetUnset($offset)
     {
+        throw new \BadMethodCallException('Not implemented');
     }
 
     /**
@@ -631,7 +622,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
 
             $apply = $field->getApply();
             $data = call_user_func_array($apply, $data);
- 
+
             $field->setData($data);
         }
 
