@@ -4,7 +4,7 @@ namespace Formz\Extensions;
 
 use Formz\Error;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Symfonify.
@@ -13,8 +13,6 @@ use Symfony\Component\Validator\Validation;
  */
 trait Symfonify
 {
-    private $symfonyValidator;
-
     /**
      * Allows to pass the symfony request object to the bind method.
      *
@@ -30,10 +28,10 @@ trait Symfonify
      *
      * @return Field
      */
-    public function withAnnotationAsserts()
+    public function withAnnotationAsserts(ValidatorInterface $vali)
     {
-        $this->on('change_data', function ($data) {
-            $violations = $this->getValidator()->validate($data);
+        $this->on('change_data', function ($data) use ($vali) {
+            $violations = $vali->validate($data);
             foreach ($violations as $violation) {
                 $this->addError(new Error(
                     $violation->getPropertyPath(),
@@ -45,24 +43,5 @@ trait Symfonify
         });
 
         return $this;
-    }
-
-    /**
-     * Gets the symfony validator.
-     *
-     * @return Validator
-     */
-    private function getValidator()
-    {
-        if (null !== $this->symfonyValidator) {
-            return $this->symfonyValidator;
-        }
-
-        $validator = Validation::createValidatorBuilder()
-            ->enableAnnotationMapping()
-            ->getValidator();
-
-        $this->symfonyValidator = $validator;
-        return $validator;
     }
 }
