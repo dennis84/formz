@@ -209,12 +209,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "d7987c96675e153638729383577090feed9854f1"
+                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/d7987c96675e153638729383577090feed9854f1",
-                "reference": "d7987c96675e153638729383577090feed9854f1",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/33f906e257510247d0bcd60b8b54f47cfb51e3ed",
+                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 },
@@ -275,7 +275,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-03-11 00:27:11"
+            "time": "2013-03-24 17:52:59"
         },
         {
             "name": "doctrine/inflector",
@@ -409,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "13e8107d6360467250d1f5ed5c831c53e44efcde"
+                "reference": "9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/13e8107d6360467250d1f5ed5c831c53e44efcde",
-                "reference": "13e8107d6360467250d1f5ed5c831c53e44efcde",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7",
+                "reference": "9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +450,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-19 20:41:20"
+            "time": "2013-04-01 08:05:23"
         },
         {
             "name": "symfony/translation",
@@ -459,12 +459,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "638804013a2d32f31e73eea03d8a5d0401040b9f"
+                "reference": "cb8553294d259431f11b19d731d81a483309320a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/638804013a2d32f31e73eea03d8a5d0401040b9f",
-                "reference": "638804013a2d32f31e73eea03d8a5d0401040b9f",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/cb8553294d259431f11b19d731d81a483309320a",
+                "reference": "cb8553294d259431f11b19d731d81a483309320a",
                 "shasum": ""
             },
             "require": {
@@ -505,7 +505,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-18 13:53:00"
+            "time": "2013-04-01 08:07:53"
         },
         {
             "name": "symfony/validator",
@@ -514,12 +514,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Validator.git",
-                "reference": "d1ed1c57b7e6473974637319fc42e47c7a013754"
+                "reference": "b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Validator/zipball/d1ed1c57b7e6473974637319fc42e47c7a013754",
-                "reference": "d1ed1c57b7e6473974637319fc42e47c7a013754",
+                "url": "https://api.github.com/repos/symfony/Validator/zipball/b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec",
+                "reference": "b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec",
                 "shasum": ""
             },
             "require": {
@@ -566,7 +566,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "http://symfony.com",
-            "time": "2013-03-15 10:14:31"
+            "time": "2013-04-01 08:06:05"
         }
     ],
     "aliases": [
