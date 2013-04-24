@@ -15,7 +15,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
     use Constraints;
 
     protected $name;
-    protected $root = false;
     protected $constraints = [];
     protected $children = [];
     protected $errors = [];
@@ -24,10 +23,9 @@ class Field implements \IteratorAggregate, \ArrayAccess
     protected $value;
     protected $data;
     protected $apply;
-    protected $unapply;
+    protected $unapply = null;
     protected $optional = false;
     protected $multiple = false;
-    protected $customUnapply = false;
 
     /**
      * Constructor.
@@ -69,7 +67,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
         $parent = $this->getParent();
 
         if (null !== $parent) {
-            if ($parent->isRoot()) {
+            if ('' === $parent->getName()) {
                 return $this->getFieldName();
             }
 
@@ -77,26 +75,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
         }
 
         return $this->getFieldName();
-    }
-
-    /**
-     * Sets the field to root.
-     *
-     * @param boolean $root The root value
-     */
-    public function setRoot($root)
-    {
-        $this->root = (boolean) $root;
-    }
-
-    /**
-     * Returns true or false if the field is a root one or not.
-     *
-     * @return boolean
-     */
-    public function isRoot()
-    {
-        return $this->root;
     }
 
     /**
@@ -241,7 +219,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
     /**
      * Adds a custom constraint to the field.
      *
-     * @param string  $message The error message if the contraint matches an error
+     * @param string  $message The error message
      * @param Closure $check   The check method
      *
      * @return Field
@@ -321,15 +299,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
     public function getApply()
     {
         return $this->apply;
-    }
-
-    /**
-     * Sets custom apply to true. This is impotrtant to unbind the value with a
-     * custom function correctly.
-     */
-    public function setCustomUnapply()
-    {
-        $this->customUnapply = true;
     }
 
     /**
@@ -434,24 +403,21 @@ class Field implements \IteratorAggregate, \ArrayAccess
             $data = [$data];
         }
 
-        if (false === $this->customUnapply) {
-            $data = ['data' => $data];
+        if (null !== $this->unapply) {
+            $data = call_user_func_array($this->unapply, $data);
         }
 
-        $unapply = $this->unapply;
-        $appliedData = call_user_func_array($unapply, $data);
         $value = [];
 
         foreach ($this->getChildren() as $child) {
-            if (isset($appliedData[$child->getFieldName()])) {
-                $value[$child->getFieldName()] = $child->fill($appliedData[$child->getFieldName()]);
+            if (isset($data[$child->getFieldName()])) {
+                $value[$child->getFieldName()] =
+                    $child->fill($data[$child->getFieldName()]);
             }
         }
 
         $this->setValue($value);
-
         return $value;
-
     }
 
     /**
@@ -537,19 +503,13 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Returns a clone of the field with cloned children.
-     *
-     * @return Field
+     * Also clone the childen.
      */
-    public function copy()
+    public function __clone()
     {
-        $copy = clone $this;
-
-        $copy->setChildren(array_map(function ($child) {
-            return $child->copy();
-        }, $copy->getChildren()));
-
-        return $copy;
+        $this->setChildren(array_map(function ($child) {
+            return clone $child;
+        }, $this->getChildren()));
     }
 
     /**
@@ -681,7 +641,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
      *
      * @param mixed $data The bind or fill data
      *
-     * @throws InvalidArgumentException If multiple is true and data in not an array
+     * @throws InvalidArgumentException If multiple is true and data is not an array
      */
     protected function maybePrepareMultipleFields($data)
     {
@@ -692,7 +652,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
 
             $choices = [];
             foreach ($data as $index => $value) {
-                $choice = $this->copy();
+                $choice = clone $this;
                 $choice->setFieldName((string) $index);
                 $choice->multiple(false);
                 $choice->setParent($this);
@@ -718,11 +678,7 @@ class Field implements \IteratorAggregate, \ArrayAccess
                 return DataMapper::fieldToArray($this);
             });
 
-            $this->setUnapply(function ($data) {
-                return $data;
-            });
-
-            $this->customUnapply = false;
+            $this->unapply = null;
         }
     }
 }

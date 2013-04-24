@@ -21,10 +21,7 @@ class Builder
      */
     public function form(array $fields, \Closure $apply = null, \Closure $unapply = null)
     {
-        $form = $this->embed('', $fields, $apply, $unapply);
-        $form->setRoot(true);
-
-        return $form;
+        return $this->embed('', $fields, $apply, $unapply);
     }
 
     /**
@@ -56,13 +53,8 @@ class Builder
             $form->setApply($apply);
         }
 
-        if (null === $unapply) {
-            $form->setUnapply(function ($data) {
-                return $data;
-            });
-        } else {
+        if (null !== $unapply) {
             $form->setUnapply($unapply);
-            $form->setCustomUnapply();
         }
 
         return $form;
