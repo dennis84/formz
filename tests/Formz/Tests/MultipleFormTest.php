@@ -18,14 +18,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind([
             'choices' => ['foo', 'bar', 'baz'],
         ]);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertEquals($formData, [
-                'choices' => ['foo', 'bar', 'baz'],
-            ]);
-        });
+        $this->assertEquals($formData, [
+            'choices' => ['foo', 'bar', 'baz'],
+        ]);
     }
 
     public function test_bind_and_pass_empty()
@@ -35,17 +32,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             $builder->field('choices')->multiple(),
         ]);
 
-        $form->bind([
-            'choices' => [],
-        ]);
+        $form->bind(['choices' => []]);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertEquals($formData, [
-                'choices' => [],
-            ]);
-        });
+        $this->assertEquals($formData, ['choices' => []]);
     }
 
     public function test_bind_and_pass_with_nothing()
@@ -56,14 +46,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $form->bind([]);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertEquals($formData, [
-                'choices' => [],
-            ]);
-        });
+        $this->assertEquals($formData, ['choices' => []]);
     }
 
     public function test_bind_and_pass_with_nothing_applied_to_object()
@@ -95,14 +80,11 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         });
 
         $form->bind([]);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertNull($formData->getTitle());
-            $this->assertSame([], $formData->getTags());
-            $this->assertSame([], $formData->getAttributes());
-        });
+        $this->assertNull($formData->getTitle());
+        $this->assertSame([], $formData->getTags());
+        $this->assertSame([], $formData->getAttributes());
     }
 
     public function test_bind_and_pass_nested_applied_to_array()
@@ -123,12 +105,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) use ($data) {
-            $this->assertEquals($formData, $data);
-        });
+        $this->assertEquals($formData, $data);
     }
 
     public function test_bind_and_pass_nested_applied_to_object()
@@ -151,13 +130,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) use ($data) {
-            $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][0]);
-            $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][1]);
-        });
+        $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][0]);
+        $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][1]);
     }
 
     /**
@@ -170,9 +146,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             $builder->field('choices')->multiple(),
         ]);
 
-        $form->bind([
-            'choices' => 'foo',
-        ]);
+        $form->bind(['choices' => 'foo']);
     }
 
     public function test_bind_and_getName()

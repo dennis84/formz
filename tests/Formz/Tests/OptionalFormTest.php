@@ -31,14 +31,12 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-        }, function ($formData) {
-            $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-            $this->assertEquals('dennis84', $formData->username);
-            $this->assertEquals('demo123', $formData->password);
+        $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
+        $this->assertEquals('dennis84', $formData->username);
+        $this->assertEquals('demo123', $formData->password);
 
-            $this->assertEquals(null, $formData->address);
-        });
+        $this->assertEquals(null, $formData->address);
     }
 }

@@ -24,12 +24,8 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
-
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) use ($data) {
-            $this->assertEquals($data, $formData);
-        });
+        $formData = $form->getData();
+        $this->assertEquals($data, $formData);
     }
 
     public function test_flat_form_applied_to_object()
@@ -49,14 +45,11 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-            $this->assertEquals('dennis84', $formData->username);
-            $this->assertEquals('demo123', $formData->password);
-        });
+        $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
+        $this->assertEquals('dennis84', $formData->username);
+        $this->assertEquals('demo123', $formData->password);
     }
 
     public function test_nested_form_applied_to_object()
@@ -86,16 +79,13 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) {
-            $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-            $this->assertEquals('dennis84', $formData->username);
-            $this->assertEquals('demo123', $formData->password);
-            $this->assertInstanceOf('Formz\Tests\Model\Address', $formData->address);
-            $this->assertEquals('Footown', $formData->address->city);
-            $this->assertEquals('Foostreet 12', $formData->address->street);
-        });
+        $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
+        $this->assertEquals('dennis84', $formData->username);
+        $this->assertEquals('demo123', $formData->password);
+        $this->assertInstanceOf('Formz\Tests\Model\Address', $formData->address);
+        $this->assertEquals('Footown', $formData->address->city);
+        $this->assertEquals('Foostreet 12', $formData->address->street);
     }
 }

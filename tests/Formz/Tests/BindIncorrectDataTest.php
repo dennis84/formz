@@ -26,13 +26,10 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) use ($data) {
-            $this->assertEquals('', $formData['username']);
-            $this->assertEquals('', $formData['password']);
-        });
+        $this->assertEquals('', $formData['username']);
+        $this->assertEquals('', $formData['password']);
     }
 
     public function test_flat_form_applied_to_object()
@@ -54,12 +51,9 @@ class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+        $formData = $form->getData();
 
-        $form->fold(function ($formWithErrors) {
-            $this->fail('The form must be valid here.');
-        }, function ($formData) use ($data) {
-            $this->assertSame(null, $formData->username);
-            $this->assertSame(null, $formData->password);
-        });
+        $this->assertSame(null, $formData->username);
+        $this->assertSame(null, $formData->password);
     }
 }

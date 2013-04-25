@@ -6,16 +6,16 @@
     "packages-dev": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.1",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "v1.1"
+                "reference": "v1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/v1.1",
-                "reference": "v1.1",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/v1.1.1",
+                "reference": "v1.1.1",
                 "shasum": ""
             },
             "require": {
@@ -26,6 +26,11 @@
                 "doctrine/cache": "1.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\Common\\Annotations\\": "lib/"
@@ -57,7 +62,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -68,7 +73,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-03-17 14:03:10"
+            "time": "2013-04-20 08:30:17"
         },
         {
             "name": "doctrine/cache",
@@ -209,12 +214,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed"
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/33f906e257510247d0bcd60b8b54f47cfb51e3ed",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/3506be7467dbd4f923691a00555cf80065d32e59",
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59",
                 "shasum": ""
             },
             "require": {
@@ -262,7 +267,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -275,7 +280,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-03-24 17:52:59"
+            "time": "2013-04-16 21:50:30"
         },
         {
             "name": "doctrine/inflector",
@@ -283,12 +288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "7314da6f9141705f0528c8b72546cb8aeea54ae8"
+                "reference": "8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/7314da6f9141705f0528c8b72546cb8aeea54ae8",
-                "reference": "7314da6f9141705f0528c8b72546cb8aeea54ae8",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c",
+                "reference": "8b4b3ccec7aafc596e2fc1e593c9f2e78f939c8c",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +336,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -343,7 +348,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2013-03-09 20:00:29"
+            "time": "2013-04-10 16:14:30"
         },
         {
             "name": "doctrine/lexer",
@@ -409,12 +414,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7"
+                "reference": "17ba72b450676370cfb406f7675da3f7bb742cfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7",
-                "reference": "9a87bc5856de55ebbc8b3e66c3c686e6aef35ba7",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/17ba72b450676370cfb406f7675da3f7bb742cfb",
+                "reference": "17ba72b450676370cfb406f7675da3f7bb742cfb",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +455,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-01 08:05:23"
+            "time": "2013-04-12 13:45:42"
         },
         {
             "name": "symfony/translation",
@@ -459,12 +464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "cb8553294d259431f11b19d731d81a483309320a"
+                "reference": "6bc4b753c1ae5640c0eacdbe27c04a69cde3d10d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/cb8553294d259431f11b19d731d81a483309320a",
-                "reference": "cb8553294d259431f11b19d731d81a483309320a",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/6bc4b753c1ae5640c0eacdbe27c04a69cde3d10d",
+                "reference": "6bc4b753c1ae5640c0eacdbe27c04a69cde3d10d",
                 "shasum": ""
             },
             "require": {
@@ -505,7 +510,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-01 08:07:53"
+            "time": "2013-04-21 13:23:54"
         },
         {
             "name": "symfony/validator",
@@ -514,12 +519,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Validator.git",
-                "reference": "b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec"
+                "reference": "4ad7cfdf6bd30372aeaae17126891ffa8b263dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Validator/zipball/b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec",
-                "reference": "b821ab5cbba9d25c5552cc6ec995f49c7e74f8ec",
+                "url": "https://api.github.com/repos/symfony/Validator/zipball/4ad7cfdf6bd30372aeaae17126891ffa8b263dd9",
+                "reference": "4ad7cfdf6bd30372aeaae17126891ffa8b263dd9",
                 "shasum": ""
             },
             "require": {
@@ -566,7 +571,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "http://symfony.com",
-            "time": "2013-04-01 08:06:05"
+            "time": "2013-04-21 17:18:20"
         }
     ],
     "aliases": [

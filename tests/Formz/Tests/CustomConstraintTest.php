@@ -20,11 +20,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
             'username' => 'dennis84',
         ]);
 
-        $form->fold(function ($formWithErrors) {
-            $this->assertEquals('Username taken.', $formWithErrors->getErrorsFlat()[0]->getMessage());
-        }, function ($formData) {
-            $this->fail('The form must be invalid here.');
-        });
+        $this->assertEquals('Username taken.', $form->getErrorsFlat()[0]->getMessage());
     }
 
     public function test_verify_simple_form()
@@ -47,11 +43,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
             'password2' => 'demo',
         ]);
 
-        $form->fold(function ($formWithErrors) {
-            $this->assertEquals('Invalid password or username.', $formWithErrors->getErrorsFlat()[0]->getMessage());
-            $this->assertEquals('Username taken.', $formWithErrors->getErrorsFlat()[1]->getMessage());
-        }, function ($formData) {
-            $this->fail('The form must be invalid here.');
-        });
+        $this->assertEquals('Invalid password or username.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertEquals('Username taken.', $form->getErrorsFlat()[1]->getMessage());
     }
 }

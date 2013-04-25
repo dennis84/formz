@@ -28,15 +28,11 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $form->fold(function ($formWithErrors) {
-            $errors = $formWithErrors->getErrorsFlat();
-            $this->assertEquals('username', $errors[0]->getField());
-            $this->assertEquals('password', $errors[1]->getField());
-            $this->assertEquals('city', $errors[2]->getField());
-            $this->assertEquals('street', $errors[3]->getField());
-        }, function ($formData) {
-            $this->fail('The form must be invalid here.');
-        });
+        $errors = $form->getErrorsFlat();
+        $this->assertEquals('username', $errors[0]->getField());
+        $this->assertEquals('password', $errors[1]->getField());
+        $this->assertEquals('city', $errors[2]->getField());
+        $this->assertEquals('street', $errors[3]->getField());
     }
 
     public function test_form_values()
@@ -61,13 +57,9 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $form->fold(function ($formWithErrors) {
-            $this->assertEquals('dennis84', $formWithErrors['username']->getValue());
-            $this->assertEquals('', $formWithErrors['password']->getValue());
-            $this->assertEquals('foo', $formWithErrors['address']['city']->getValue());
-            $this->assertEquals('', $formWithErrors['address']['street']->getValue());
-        }, function ($formData) {
-            $this->fail('The form must be invalid here.');
-        });
+        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertEquals('', $form['password']->getValue());
+        $this->assertEquals('foo', $form['address']['city']->getValue());
+        $this->assertEquals('', $form['address']['street']->getValue());
     }
 }

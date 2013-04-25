@@ -25,11 +25,12 @@ $form = $builder->form([
 
 $form->bind($_POST);
 
-$form->fold(function (Field $formWithErrors) {
-    // Render your template but now with the error form.
-}, function (Contact $formData) {
+if ($form->isValid()) {
     // Save the data or something else ...
-});
+    $data = $form->getData();
+}
+
+// Render your template with the form ...
 
 ```
 

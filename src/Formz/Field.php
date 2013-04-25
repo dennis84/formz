@@ -3,14 +3,13 @@
 namespace Formz;
 
 use Formz\Util\DataMapper;
-use Formz\Util\RecursiveFieldIterator;
 
 /**
  * Field.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Field implements \IteratorAggregate, \ArrayAccess
+class Field implements \ArrayAccess
 {
     use Constraints;
 
@@ -376,13 +375,33 @@ class Field implements \IteratorAggregate, \ArrayAccess
             $data += $this->getBlankData();
         }
 
-        foreach ($this->children as $child) {
-            if (is_array($data) && array_key_exists($child->getFieldName(), $data)) {
-                $child->bind($data[$child->getFieldName()]);
-            }
+        $this->setValue($data);
+        foreach ($this->constraints as $constraint) {
+            $constraint->check($this);
         }
 
-        $this->setValue($data);
+        if (empty($data) && $this->isOptional()) {
+            $this->setData(null);
+            return;
+        }
+
+        foreach ($this->children as $child) {
+            if (isset($data[$child->getFieldName()])) {
+                $child->bind($data[$child->getFieldName()]);
+            } else {
+                $child->bind(null);
+            }
+
+            $data[$child->getFieldName()] = $child->getData();
+        }
+
+        if (!$this->hasChildren()) {
+            $this->setData($data);
+            return;
+        }
+
+        $appliedData = call_user_func_array($this->getApply(), $data);
+        $this->setData($appliedData);
     }
 
     /**
@@ -421,32 +440,14 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Gets the result by passing two functions. The first one has the current
-     * field with errors and the second has the mapped form data as argument.
+     * Returns true if the field and all children have no errors, otherwise
+     * false.
      *
-     * @param Closure $formWithErrors The current field with errors
-     * @param Closure $formData       The mapped and valid form data
-     *
-     * returns mixed The response of the functions
+     * @return boolean
      */
-    public function fold(\Closure $formWithErrors, \Closure $formData)
+    public function isValid()
     {
-        $data = $this->applyTree();
-        if ($this->hasErrors()) {
-            return $formWithErrors($this);
-        }
-
-        return $formData($data);
-    }
-
-    /**
-     * Applies all constraints of current field.
-     */
-    public function validate()
-    {
-        foreach ($this->constraints as $constraint) {
-            $constraint->check($this);
-        }
+        return !$this->hasErrors();
     }
 
     /**
@@ -468,17 +469,6 @@ class Field implements \IteratorAggregate, \ArrayAccess
     public function isOptional()
     {
         return $this->optional;
-    }
-
-    /**
-     * Returns true if the field is optional and the value is empty, otherwise
-     * false.
-     *
-     * @return boolean
-     */
-    public function isOptionalAndEmpty()
-    {
-        return (empty($this->value) && true === $this->isOptional());
     }
 
     /**
@@ -545,56 +535,11 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
-    {
-        return new \RecursiveIteratorIterator(
-            new RecursiveFieldIterator($this),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-    }
-
-    /**
-     * Executes the apply function of all fields with their values.
-     *
-     * @return mixed
-     */
-    protected function applyTree()
-    {
-        foreach ($this->reverseFields() as $field) {
-            $field->validate();
-
-            if ($field->isOptionalAndEmpty()) {
-                $field->setData(null);
-                continue;
-            }
-
-            if (!$field->hasChildren()) {
-                $field->setData($field->getValue());
-                continue;
-            }
-
-            $data = [];
-            foreach ($field->getChildren() as $child) {
-                $data[$child->getFieldName()] = $child->getData();
-            }
-
-            $apply = $field->getApply();
-            $data = call_user_func_array($apply, $data);
-
-            $field->setData($data);
-        }
-
-        return $this->getData();
-    }
-
-    /**
      * Gets an blank array but with the children array keys.
      *
      * @return array
      */
-    public function getBlankData()
+    private function getBlankData()
     {
         $blank = [];
         foreach ($this->children as $name => $child) {
@@ -610,40 +555,13 @@ class Field implements \IteratorAggregate, \ArrayAccess
     }
 
     /**
-     * Generates a sorted array of field objects starting from the last with the
-     * highest depth.
-     *
-     * @Returns array
-     */
-    protected function reverseFields()
-    {
-        $flatFields = [];
-        $iterator = $this->getIterator();
-        foreach ($iterator as $field) {
-            $flatFields[$iterator->getDepth()][] = $field;
-        }
-
-        krsort($flatFields);
-        $reverse = [];
-
-        foreach ($flatFields as $children) {
-            foreach ($children as $field) {
-                $reverse[] = $field;
-            }
-        }
-
-        $reverse[] = $this;
-        return $reverse;
-    }
-
-    /**
      * Prepares the current field if multiple is true.
      *
      * @param mixed $data The bind or fill data
      *
      * @throws InvalidArgumentException If multiple is true and data is not an array
      */
-    protected function maybePrepareMultipleFields($data)
+    private function maybePrepareMultipleFields($data)
     {
         if ($this->isMultiple()) {
             if (!is_array($data)) {

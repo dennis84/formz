@@ -68,18 +68,12 @@ $form = $builder->form([
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $form->bind($_POST);
 
-    $form->fold(function ($formWithErrors) {
-        echo render('form.php.html', [
-            'form' => $formWithErrors,
-        ]);
-    }, function ($formData) {
-        print_r($formData);
-    });
-} else {
-    echo render('form.php.html', [
-        'form' => $form,
-    ]);
+    if ($form->isValid()) {
+        print_r($form->getData());
+    }
 }
+
+echo render('form.php.html', ['form' => $form]);
 
 function render($template, array $parameters = [])
 {
