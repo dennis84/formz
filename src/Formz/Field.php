@@ -2,8 +2,6 @@
 
 namespace Formz;
 
-use Formz\Util\DataMapper;
-
 /**
  * Field.
  *
@@ -216,7 +214,7 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Adds a custom constraint to the field.
+     * Adds a constraint to the field.
      *
      * @param string  $message The error message
      * @param Closure $check   The check method
@@ -395,13 +393,11 @@ class Field implements \ArrayAccess
             $data[$child->getFieldName()] = $child->getData();
         }
 
-        if (!$this->hasChildren()) {
-            $this->setData($data);
-            return;
+        if ($apply = $this->getApply()) {
+            $data = call_user_func_array($this->getApply(), $data);
         }
 
-        $appliedData = call_user_func_array($this->getApply(), $data);
-        $this->setData($appliedData);
+        $this->setData($data);
     }
 
     /**
@@ -592,10 +588,8 @@ class Field implements \ArrayAccess
             }
 
             $this->setChildren($choices);
-            $this->setApply(function () {
-                return DataMapper::fieldToArray($this);
-            });
 
+            $this->apply = null;
             $this->unapply = null;
         }
     }

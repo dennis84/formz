@@ -60,13 +60,13 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             $builder->field('tags')->multiple(),
             $builder->embed('attributes', [
                 $builder->field('name'),
-                $builder->field('name'),
+                $builder->field('value'),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             }, function (Attribute $attr) {
                 return [
                     'name' => $attr->getName(),
-                    'value' => $attr->getName(),
+                    'value' => $attr->getValue(),
                 ];
             })->multiple(),
         ], function ($title, array $tags, array $attrs) {
@@ -214,5 +214,44 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $form['choices']['0']['value']->getValue());
         $this->assertEquals('bla', $form['choices']['1']['key']->getValue());
         $this->assertEquals('blubb', $form['choices']['1']['value']->getValue());
+    }
+
+    public function test_fill_unapplied_from_object()
+    {
+        $builder = new Builder();
+
+        $form = $builder->form([
+            $builder->field('title'),
+            $builder->field('tags')->multiple(),
+            $builder->embed('attributes', [
+                $builder->field('name'),
+                $builder->field('value'),
+            ], null, function (Attribute $attr) {
+                return [
+                    'name' => $attr->getName(),
+                    'value' => $attr->getValue(),
+                ];
+            })->multiple(),
+        ], null, function (Post $post) {
+            return [
+                'title' => $post->getTitle(),
+                'tags' => $post->getTags(),
+                'attributes' => $post->getAttributes(),
+            ];
+        });
+
+        $post = new Post('Foo', ['foo', 'bar', 'baz'], [
+            new Attribute('bla', 'blubb'),
+            new Attribute('hello', 'world'),
+        ]);
+
+        $form->fill($post);
+
+        $this->assertEquals('foo', $form['tags']['0']->getValue());
+        $this->assertEquals('bar', $form['tags']['1']->getValue());
+        $this->assertEquals('bla', $form['attributes']['0']['name']->getValue());
+        $this->assertEquals('blubb', $form['attributes']['0']['value']->getValue());
+        $this->assertEquals('hello', $form['attributes']['1']['name']->getValue());
+        $this->assertEquals('world', $form['attributes']['1']['value']->getValue());
     }
 }

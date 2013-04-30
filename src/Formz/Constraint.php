@@ -9,6 +9,9 @@ namespace Formz;
  */
 class Constraint
 {
+    protected $message;
+    protected $check;
+
     /**
      * Constructor.
      *

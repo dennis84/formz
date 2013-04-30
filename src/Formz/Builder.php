@@ -2,8 +2,6 @@
 
 namespace Formz;
 
-use Formz\Util\DataMapper;
-
 /**
  * This is a helper to build field objects.
  *
@@ -14,7 +12,7 @@ class Builder
     /**
      * Use this function to build the root form.
      *
-     * @param Closure $apply   This apply function
+     * @param Closure $apply   The apply function
      * @param Closure $unapply The unapply function
      *
      * @return Field
@@ -42,18 +40,13 @@ class Builder
             $form->addChild($field);
         }
 
-        if (null === $apply) {
-            $apply = function () {
-                return DataMapper::fieldToArray($this);
-            };
-
+        if (null !== $apply) {
             $apply = \Closure::bind($apply, $form);
-            $form->setApply($apply);
-        } else {
             $form->setApply($apply);
         }
 
         if (null !== $unapply) {
+            $unapply = \Closure::bind($unapply, $form);
             $form->setUnapply($unapply);
         }
 
