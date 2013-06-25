@@ -27,7 +27,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             'username' => 'dennis84',
-            'password' => '',
+            'password' => null,
         ], $formData);
     }
 
@@ -50,8 +50,8 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         $formData = $form->getData();
 
         $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-        $this->assertEquals('dennis84', $formData->username);
-        $this->assertEquals('', $formData->password);
+        $this->assertSame('dennis84', $formData->username);
+        $this->assertSame(null, $formData->password);
     }
 
     public function test_nested_form_applied_to_object()

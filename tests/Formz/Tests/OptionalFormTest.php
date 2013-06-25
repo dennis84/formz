@@ -37,6 +37,7 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('dennis84', $formData->username);
         $this->assertEquals('demo123', $formData->password);
 
-        $this->assertEquals(null, $formData->address);
+        $this->assertSame(null, $formData->address);
+        $this->assertTrue($form->isValid());
     }
 }

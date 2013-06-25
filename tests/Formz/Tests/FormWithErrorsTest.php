@@ -53,13 +53,12 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
             'password' => '',
             'address' => [
                 'city' => 'foo',
-                'street' => '',
             ],
         ]);
 
         $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('', $form['password']->getValue());
+        $this->assertSame('', $form['password']->getValue());
         $this->assertEquals('foo', $form['address']['city']->getValue());
-        $this->assertEquals('', $form['address']['street']->getValue());
+        $this->assertSame(null, $form['address']['street']->getValue());
     }
 }

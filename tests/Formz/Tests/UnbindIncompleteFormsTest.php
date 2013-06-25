@@ -21,7 +21,7 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form->fill(['username' => 'dennis84']);
 
         $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('', $form['password']->getValue());
+        $this->assertSame(null, $form['password']->getValue());
     }
 
     public function test_nested_form_unapplied_from_array()
@@ -45,9 +45,9 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('', $form['password']->getValue());
+        $this->assertSame(null, $form['password']->getValue());
         
-        $this->assertEquals('', $form['address']['city']->getValue());
+        $this->assertSame(null, $form['address']['city']->getValue());
         $this->assertEquals('Foostreet', $form['address']['street']->getValue());
     }
 }
