@@ -393,7 +393,7 @@ class Field implements \ArrayAccess
             $data[$child->getFieldName()] = $child->getData();
         }
 
-        if ($apply = $this->getApply()) {
+        if ($this->getApply()) {
             $data = call_user_func_array($this->getApply(), $data);
         }
 
