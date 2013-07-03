@@ -9,9 +9,8 @@ namespace Formz;
  */
 class Field implements \ArrayAccess
 {
-    use Constraints;
-
     protected $name;
+    protected $extensions = [];
     protected $constraints = [];
     protected $children = [];
     protected $errors = [];
@@ -27,11 +26,49 @@ class Field implements \ArrayAccess
     /**
      * Constructor.
      *
-     * @param string $name The field name
+     * @param string $name       The field name
+     * @param array  $extensions The field extensions
      */
-    public function __construct($name)
+    public function __construct($name, array $extensions = [])
     {
         $this->name = $name;
+        foreach ($extensions as $extension) {
+            $this->addExtension($extension);
+        }
+    }
+
+    /**
+     * Adds an extension.
+     *
+     * @param ExtensionInterface $extension The form extension
+     */
+    public function addExtension(ExtensionInterface $extension)
+    {
+        $this->extensions[] = $extension;
+    }
+
+    /**
+     * Invokes an extension method if is not defined in field class or throws
+     * an exception.
+     *
+     * @param string $method    The called method name
+     * @param array  $arguments The method arguments
+     *
+     * @return Field
+     *
+     * @throws BadMethodCallException If method is not callable
+     */
+    public function __call($method, $arguments)
+    {
+        foreach ($this->extensions as $extension) {
+            if (true === method_exists($extension, $method)) {
+                array_unshift($arguments, $this);
+                call_user_func_array(array($extension, $method), $arguments);
+                return $this;
+            }
+        }
+
+        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method)); 
     }
 
     /**
