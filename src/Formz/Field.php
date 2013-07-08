@@ -2,6 +2,8 @@
 
 namespace Formz;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 /**
  * Field.
  *
@@ -10,12 +12,12 @@ namespace Formz;
 class Field implements \ArrayAccess
 {
     protected $name;
+    protected $dispatcher;
     protected $extensions = [];
     protected $transformers = [];
     protected $constraints = [];
     protected $children = [];
     protected $errors = [];
-    protected $events = [];
     protected $parent;
     protected $value;
     protected $data;
@@ -27,12 +29,14 @@ class Field implements \ArrayAccess
     /**
      * Constructor.
      *
-     * @param string $name       The field name
-     * @param array  $extensions The field extensions
+     * @param string                   $name       The field name
+     * @param EventDispatcherInterface $dispatcher The event dispatcher
+     * @param array                    $extensions The field extensions
      */
-    public function __construct($name, array $extensions = [])
+    public function __construct($name, EventDispatcherInterface $dispatcher, array $extensions = [])
     {
         $this->name = $name;
+        $this->dispatcher = $dispatcher;
         foreach ($extensions as $extension) {
             $this->addExtension($extension);
         }
@@ -48,7 +52,12 @@ class Field implements \ArrayAccess
         $this->extensions[] = $extension;
     }
 
-    public function addTransformer($transformer)
+    /**
+     * Adds a value to data transformer.
+     *
+     * @param TransformerInterface The value to data transformer
+     */
+    public function addTransformer(TransformerInterface $transformer)
     {
         $this->transformers[] = $transformer;
     }
@@ -307,7 +316,6 @@ class Field implements \ArrayAccess
      */
     public function setData($data)
     {
-        $data = $this->trigger('change_data', $data);
         $this->data = $data;
     }
 
@@ -362,39 +370,27 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Adds a event.
+     * Adds an event.
      *
      * @param string  $name     The event name.
      * @param Closure $function The event handler
      */
     public function on($name, \Closure $function)
     {
-        $this->events[$name][] = $function;
+        $this->dispatcher->addListener($name, $function);
     }
 
     /**
-     * Triggers all events by name and returns filtered data.
+     * Triggers all events by name.
      *
      * @param string $name The event name
-     * @param mixed  $data The data that is passed into the event function
-     *
-     * @return mixed The filtered data
+     * @param mixed  $data The event data
      */
     public function trigger($name, $data)
     {
-        if (!array_key_exists($name, $this->events)) {
-            return $data;
-        }
-
-        foreach ($this->events[$name] as $event) {
-            if (!is_array($data)) {
-                $data = [$data];
-            }
-
-            $data = call_user_func_array($event, $data);
-        }
-
-        return $data;
+        if ($this->dispatcher->hasListeners($name)) {
+            $this->dispatcher->dispatch($name, new Event($this, $data));
+        };
     }
 
     /**
@@ -444,6 +440,7 @@ class Field implements \ArrayAccess
             $data = $transformer->transform($data);
         }
 
+        $this->trigger(Events::BIND, $data);
         $this->setData($data);
     }
 

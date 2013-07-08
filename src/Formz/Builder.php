@@ -2,6 +2,8 @@
 
 namespace Formz;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 /**
  * This is a helper to build field objects.
  *
@@ -130,6 +132,6 @@ class Builder
      */
     protected function createField($name)
     {
-        return new Field($name, $this->extensions);
+        return new Field($name, new EventDispatcher(), $this->extensions);
     }
 }

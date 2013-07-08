@@ -2,11 +2,13 @@
 
 namespace Formz\Extensions;
 
-use Formz\ExtensionInterface;
-use Formz\Error;
-use Formz\Field;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ValidatorInterface;
+use Formz\ExtensionInterface;
+use Formz\Error;
+use Formz\Event;
+use Formz\Events;
+use Formz\Field;
 
 /**
  * Symfonify.
@@ -45,16 +47,14 @@ class Symfonify implements ExtensionInterface
      */
     public function withAnnotationAsserts(Field $field)
     {
-        $field->on('change_data', function ($data) use ($field) {
-            $violations = $this->validator->validate($data);
+        $field->on(Events::BIND, function (Event $event) {
+            $violations = $this->validator->validate($event->getData());
             foreach ($violations as $violation) {
-                $field->addError(new Error(
+                $event->getField()->addError(new Error(
                     $violation->getPropertyPath(),
                     $violation->getMessage()
                 ));
             }
-
-            return $data;
         });
     }
 }

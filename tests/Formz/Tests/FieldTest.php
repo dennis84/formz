@@ -5,7 +5,7 @@ namespace Formz\Tests;
 use Formz\Builder;
 use Formz\Field;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+class FieldTest extends FormzTestCase
 {
     public function test_getName()
     {
@@ -72,7 +72,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function test_offsetSet()
     {
-        $field = new Field('foo');
+        $field = $this->createField('foo');
         $field['foo'] = 'bar';
     }
 
@@ -81,7 +81,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function test_offsetUnset()
     {
-        $field = new Field('foo');
+        $field = $this->createField('foo');
         unset($field['foo']);
     }
 }
