@@ -275,7 +275,7 @@ class Field implements \ArrayAccess
      */
     public function verifying($message, $check)
     {
-        $this->addConstraint(new Constraint($message, $check));
+        $this->addConstraint(new Constraint\Callback($message, $check));
         return $this;
     }
 
@@ -413,8 +413,14 @@ class Field implements \ArrayAccess
         }
 
         $this->setValue($data);
+
         foreach ($this->constraints as $constraint) {
-            $constraint->check($this);
+            if (false === $constraint->check($this->getValue())) {
+                $this->addError(new Error(
+                    $this->getFieldName(),
+                    $constraint->getMessage()
+                ));
+            }
         }
 
         if (empty($data) && $this->isOptional()) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Formz\Extensions;
+namespace Formz\Extension;
 
 use Formz\ExtensionInterface;
 use Formz\Constraint;
@@ -21,9 +21,7 @@ class Constraints implements ExtensionInterface
      */
     public function required(Field $field, $message = 'This field is required.')
     {
-        $field->addConstraint(new Constraint($message, function ($value) {
-            return null !== $value || !empty($value);
-        }));
+        $field->addConstraint(new \Formz\Constraint\Required($message));
     }
 
     /**
@@ -34,9 +32,7 @@ class Constraints implements ExtensionInterface
      */
     public function nonEmptyText(Field $field, $message = 'This field must not be empty.')
     {
-        $field->addConstraint(new Constraint($message, function ($value) {
-            return null !== $value && '' !== $value;
-        }));
+        $field->addConstraint(new \Formz\Constraint\NonEmptyText($message));
     }
 
     /**
@@ -47,10 +43,7 @@ class Constraints implements ExtensionInterface
      */
     public function integer(Field $field, $message = 'This field must contain numeric values.')
     {
-        $field->addConstraint(new Constraint($message, function ($value) {
-            return is_numeric($value);
-        }));
-
+        $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->addTransformer(new \Formz\Transformer\IntegerTransformer());
     }
 
@@ -62,10 +55,7 @@ class Constraints implements ExtensionInterface
      */
     public function float(Field $field, $message = 'This field must contain numeric values.')
     {
-        $field->addConstraint(new Constraint($message, function ($value) {
-            return is_numeric($value);
-        }));
-
+        $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->addTransformer(new \Formz\Transformer\FloatTransformer());
     }
 
@@ -77,10 +67,7 @@ class Constraints implements ExtensionInterface
      */
     public function boolean(Field $field, $message = 'This field must contain a boolean value')
     {
-        $field->addConstraint(new Constraint($message, function ($value) {
-            return 'true' === $value || 'false' === $value || true === $value || false === $value;
-        }));
-
+        $field->addConstraint(new \Formz\Constraint\Boolean($message));
         $field->addTransformer(new \Formz\Transformer\BooleanTransformer());
     }
 }

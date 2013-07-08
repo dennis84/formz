@@ -1,6 +1,6 @@
 <?php
 
-namespace Formz\Extensions;
+namespace Formz\Extension;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ValidatorInterface;

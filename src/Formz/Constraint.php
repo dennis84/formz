@@ -7,45 +7,36 @@ namespace Formz;
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Constraint
+abstract class Constraint
 {
     protected $message;
-    protected $check;
 
     /**
      * Constructor.
      *
-     * @param string  $message The error message
-     * @param Closure $check   The check function
+     * @param string $message The error message
      */
-    public function __construct($message, \Closure $check)
+    public function __construct($message)
     {
         $this->message = $message;
-        $this->check = $check;
     }
 
     /**
-     * Applies the check function with passed field.
+     * Checks is the field is valid.
      *
-     * @param Field $field The field object
+     * @param mixed $value The field value
      *
      * @return boolean
      */
-    public function check(Field $field)
+    abstract public function check($value);
+
+    /**
+     * Gets the message.
+     *
+     * @return string
+     */
+    public function getMessage()
     {
-        $check = $this->check;
-        $data  = $field->getValue();
-
-        if (!is_array($data)) {
-            $data = [$data];
-        }
-
-        $result = call_user_func_array($check, $data);
-
-        if (false === $result) {
-            $field->addError(new Error($field->getFieldName(), $this->message));
-        }
-
-        return $result;
+        return $this->message;
     }
 }

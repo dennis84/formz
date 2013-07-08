@@ -23,7 +23,7 @@ class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
     public function test_with_annotation_asserts()
     {
         $builder = new SfBuilder([
-            new \Formz\Extensions\Symfonify($this->createValidator()),
+            new \Formz\Extension\Symfonify($this->createValidator()),
         ]);
 
         $form = $builder->form([
