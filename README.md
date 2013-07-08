@@ -2,6 +2,7 @@
 
 Formz is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.
 
+[![Build Status](https://travis-ci.org/dennis84/formz.png?branch=master)](https://travis-ci.org/dennis84/formz)
 
 ## Simple Form
 
