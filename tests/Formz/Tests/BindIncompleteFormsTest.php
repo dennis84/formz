@@ -25,7 +25,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form->bind($data);
         $formData = $form->getData();
 
-        $this->assertEquals([
+        $this->assertSame([
             'username' => 'dennis84',
             'password' => null,
         ], $formData);

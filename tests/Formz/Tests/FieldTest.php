@@ -23,9 +23,9 @@ class FieldTest extends FormzTestCase
             ])->multiple(),
         ]);
 
-        $this->assertEquals('', $form->getName());
-        $this->assertEquals('username', $form['username']->getName());
-        $this->assertEquals('address[street]', $form['address']['street']->getName());
+        $this->assertSame('', $form->getName());
+        $this->assertSame('username', $form['username']->getName());
+        $this->assertSame('address[street]', $form['address']['street']->getName());
     }
 
     public function test_getChild()
@@ -40,7 +40,7 @@ class FieldTest extends FormzTestCase
         ]);
 
         $this->assertInstanceOf('Formz\Field', $form->getChild('username'));
-        $this->assertEquals('username', $form->getChild('username')->getFieldName());
+        $this->assertSame('username', $form->getChild('username')->getFieldName());
     }
 
     /**

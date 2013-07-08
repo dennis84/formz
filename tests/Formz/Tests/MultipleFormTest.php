@@ -20,7 +20,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ]);
         $formData = $form->getData();
 
-        $this->assertEquals($formData, [
+        $this->assertSame($formData, [
             'choices' => ['foo', 'bar', 'baz'],
         ]);
     }
@@ -35,7 +35,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind(['choices' => []]);
         $formData = $form->getData();
 
-        $this->assertEquals($formData, ['choices' => []]);
+        $this->assertSame($formData, ['choices' => []]);
     }
 
     public function test_bind_and_pass_with_nothing()
@@ -48,7 +48,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind([]);
         $formData = $form->getData();
 
-        $this->assertEquals($formData, ['choices' => []]);
+        $this->assertSame($formData, ['choices' => []]);
     }
 
     public function test_bind_and_pass_with_nothing_applied_to_object()
@@ -107,7 +107,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind($data);
         $formData = $form->getData();
 
-        $this->assertEquals($formData, $data);
+        $this->assertSame($formData, $data);
     }
 
     public function test_bind_and_pass_nested_applied_to_object()
@@ -159,8 +159,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             ])->multiple(),
         ]);
 
-        $this->assertEquals('choices[key]', $form['choices']['key']->getName());
-        $this->assertEquals('choices[value]', $form['choices']['value']->getName());
+        $this->assertSame('choices[key]', $form['choices']['key']->getName());
+        $this->assertSame('choices[value]', $form['choices']['value']->getName());
 
         $data = [
             'choices' => [
@@ -171,10 +171,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $form->bind($data);
 
-        $this->assertEquals('choices[0][key]', $form['choices']['0']['key']->getName());
-        $this->assertEquals('choices[0][value]', $form['choices']['0']['value']->getName());
-        $this->assertEquals('choices[1][key]', $form['choices']['1']['key']->getName());
-        $this->assertEquals('choices[1][value]', $form['choices']['1']['value']->getName());
+        $this->assertSame('choices[0][key]', $form['choices']['0']['key']->getName());
+        $this->assertSame('choices[0][value]', $form['choices']['0']['value']->getName());
+        $this->assertSame('choices[1][key]', $form['choices']['1']['key']->getName());
+        $this->assertSame('choices[1][value]', $form['choices']['1']['value']->getName());
     }
 
     public function test_fill_flat_form_unapplied_from_array()
@@ -188,9 +188,9 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             'choices' => ['foo', 'bar', 'baz'],
         ]);
 
-        $this->assertEquals('foo', $form['choices']['0']->getValue());
-        $this->assertEquals('bar', $form['choices']['1']->getValue());
-        $this->assertEquals('baz', $form['choices']['2']->getValue());
+        $this->assertSame('foo', $form['choices']['0']->getValue());
+        $this->assertSame('bar', $form['choices']['1']->getValue());
+        $this->assertSame('baz', $form['choices']['2']->getValue());
     }
 
     public function test_fill_nested_form_unapplied_from_array()
@@ -210,10 +210,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertEquals('foo', $form['choices']['0']['key']->getValue());
-        $this->assertEquals('bar', $form['choices']['0']['value']->getValue());
-        $this->assertEquals('bla', $form['choices']['1']['key']->getValue());
-        $this->assertEquals('blubb', $form['choices']['1']['value']->getValue());
+        $this->assertSame('foo', $form['choices']['0']['key']->getValue());
+        $this->assertSame('bar', $form['choices']['0']['value']->getValue());
+        $this->assertSame('bla', $form['choices']['1']['key']->getValue());
+        $this->assertSame('blubb', $form['choices']['1']['value']->getValue());
     }
 
     public function test_fill_unapplied_from_object()
@@ -247,12 +247,12 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $form->fill($post);
 
-        $this->assertEquals('foo', $form['tags']['0']->getValue());
-        $this->assertEquals('bar', $form['tags']['1']->getValue());
-        $this->assertEquals('bla', $form['attributes']['0']['name']->getValue());
-        $this->assertEquals('blubb', $form['attributes']['0']['value']->getValue());
-        $this->assertEquals('hello', $form['attributes']['1']['name']->getValue());
-        $this->assertEquals('world', $form['attributes']['1']['value']->getValue());
+        $this->assertSame('foo', $form['tags']['0']->getValue());
+        $this->assertSame('bar', $form['tags']['1']->getValue());
+        $this->assertSame('bla', $form['attributes']['0']['name']->getValue());
+        $this->assertSame('blubb', $form['attributes']['0']['value']->getValue());
+        $this->assertSame('hello', $form['attributes']['1']['name']->getValue());
+        $this->assertSame('world', $form['attributes']['1']['value']->getValue());
     }
 
     public function test_verify_multiple_value()

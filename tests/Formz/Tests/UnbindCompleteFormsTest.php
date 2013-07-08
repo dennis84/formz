@@ -23,8 +23,8 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             'password' => 'demo123',
         ]);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('demo123', $form['password']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
+        $this->assertSame('demo123', $form['password']->getValue());
     }
 
     public function test_nested_form_unapplied_from_array()
@@ -49,16 +49,16 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('demo123', $form['password']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
+        $this->assertSame('demo123', $form['password']->getValue());
         
-        $this->assertEquals([
+        $this->assertSame([
             'city'   => 'Footown',
             'street' => 'Foostreet',
         ], $form['address']->getValue());
 
-        $this->assertEquals('Footown', $form['address']['city']->getValue());
-        $this->assertEquals('Foostreet', $form['address']['street']->getValue());
+        $this->assertSame('Footown', $form['address']['city']->getValue());
+        $this->assertSame('Foostreet', $form['address']['street']->getValue());
     }
 
     public function test_flat_form_unapplied_from_object()
@@ -75,8 +75,8 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $form->fill($user);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('demo123', $form['password']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
+        $this->assertSame('demo123', $form['password']->getValue());
     }
 
     public function test_nested_form_unapplied_from_object()
@@ -119,10 +119,10 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $form->fill($user);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
-        $this->assertEquals('demo123', $form['password']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
+        $this->assertSame('demo123', $form['password']->getValue());
 
-        $this->assertEquals([
+        $this->assertSame([
             'city'   => 'Footown',
             'street' => 'Foostreet',
             'location' => [
@@ -131,10 +131,10 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
             ],
         ], $form['address']->getValue());
 
-        $this->assertEquals('Footown', $form['address']['city']->getValue());
-        $this->assertEquals('Foostreet', $form['address']['street']->getValue());
+        $this->assertSame('Footown', $form['address']['city']->getValue());
+        $this->assertSame('Foostreet', $form['address']['street']->getValue());
        
-        $this->assertEquals('50', $form['address']['location']['lat']->getValue());
-        $this->assertEquals('8', $form['address']['location']['lng']->getValue());
+        $this->assertSame('50', $form['address']['location']['lat']->getValue());
+        $this->assertSame('8', $form['address']['location']['lng']->getValue());
     }
 }

@@ -34,8 +34,8 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         $formData = $form->getData();
 
         $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-        $this->assertEquals('dennis84', $formData->username);
-        $this->assertEquals('demo123', $formData->password);
+        $this->assertSame('dennis84', $formData->username);
+        $this->assertSame('demo123', $formData->password);
 
         $this->assertSame(null, $formData->address);
         $this->assertTrue($form->isValid());

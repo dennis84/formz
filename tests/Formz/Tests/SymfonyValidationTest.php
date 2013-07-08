@@ -51,8 +51,8 @@ class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
         $form->bindFromRequest($request);
         $formData = $form->getData();
 
-        $this->assertEquals('password', $form->getErrorsFlat()[0]->getField());
-        $this->assertEquals('city', $form->getErrorsFlat()[1]->getField());
+        $this->assertSame('password', $form->getErrorsFlat()[0]->getField());
+        $this->assertSame('city', $form->getErrorsFlat()[1]->getField());
     }
 
     private function createValidator()

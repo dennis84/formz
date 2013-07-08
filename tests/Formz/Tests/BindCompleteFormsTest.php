@@ -25,7 +25,7 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $form->bind($data);
         $formData = $form->getData();
-        $this->assertEquals($data, $formData);
+        $this->assertSame($data, $formData);
     }
 
     public function test_flat_form_applied_to_object()
@@ -48,8 +48,8 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $formData = $form->getData();
 
         $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-        $this->assertEquals('dennis84', $formData->username);
-        $this->assertEquals('demo123', $formData->password);
+        $this->assertSame('dennis84', $formData->username);
+        $this->assertSame('demo123', $formData->password);
     }
 
     public function test_nested_form_applied_to_object()
@@ -82,10 +82,10 @@ class BindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $formData = $form->getData();
 
         $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
-        $this->assertEquals('dennis84', $formData->username);
-        $this->assertEquals('demo123', $formData->password);
+        $this->assertSame('dennis84', $formData->username);
+        $this->assertSame('demo123', $formData->password);
         $this->assertInstanceOf('Formz\Tests\Model\Address', $formData->address);
-        $this->assertEquals('Footown', $formData->address->city);
-        $this->assertEquals('Foostreet 12', $formData->address->street);
+        $this->assertSame('Footown', $formData->address->city);
+        $this->assertSame('Foostreet 12', $formData->address->street);
     }
 }

@@ -18,7 +18,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
             'username' => '',
         ]);
 
-        $this->assertEquals('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
     }
 
     public function test_nonEmptyText_with_nothing()
@@ -32,7 +32,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $form->bind([]);
 
         $this->assertSame(1, count($form['username']->getErrors()));
-        $this->assertEquals('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
     }
 
     public function test_number_fail()
@@ -47,7 +47,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
             'number' => '12a',
         ]);
 
-        $this->assertEquals('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
     }
 
     public function test_number_pass()

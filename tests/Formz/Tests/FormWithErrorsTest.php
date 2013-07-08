@@ -29,10 +29,10 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $errors = $form->getErrorsFlat();
-        $this->assertEquals('username', $errors[0]->getField());
-        $this->assertEquals('password', $errors[1]->getField());
-        $this->assertEquals('city', $errors[2]->getField());
-        $this->assertEquals('street', $errors[3]->getField());
+        $this->assertSame('username', $errors[0]->getField());
+        $this->assertSame('password', $errors[1]->getField());
+        $this->assertSame('city', $errors[2]->getField());
+        $this->assertSame('street', $errors[3]->getField());
     }
 
     public function test_form_values()
@@ -56,9 +56,9 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
         $this->assertSame('', $form['password']->getValue());
-        $this->assertEquals('foo', $form['address']['city']->getValue());
+        $this->assertSame('foo', $form['address']['city']->getValue());
         $this->assertSame(null, $form['address']['street']->getValue());
     }
 }
