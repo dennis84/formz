@@ -5,17 +5,17 @@ namespace Formz\Transformer;
 use Formz\TransformerInterface;
 
 /**
- * NumberTransformer.
+ * IntegerTransformer.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class NumberTransformer implements TransformerInterface
+class IntegerTransformer implements TransformerInterface
 {
     /**
      * {@inheritDoc}
      */
     public function transform($data)
     {
-        return floatval($data);
+        return intval($data);
     }
 }

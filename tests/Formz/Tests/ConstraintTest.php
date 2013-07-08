@@ -11,7 +11,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
 
         $form = $builder->form([
-            $builder->field('username')->nonEmptyText()
+            $builder->field('username')->nonEmptyText(),
         ]);
 
         $form->bind([
@@ -19,6 +19,40 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertSame('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
+    }
+
+    public function test_integer_fail()
+    {
+        $builder = new Builder();
+
+        $form = $builder->form([
+            $builder->field('integer')->integer()
+        ]);
+
+        $form->bind([
+            'float' => '12a',
+        ]);
+
+        $this->assertSame('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
+    }
+
+    public function test_integer_pass()
+    {
+        $builder = new Builder();
+
+        $form = $builder->form([
+            $builder->field('integer')->integer(),
+            $builder->field('float')->integer(),
+        ]);
+
+        $form->bind([
+            'integer' => '12',
+            'float' => '42.23',
+        ]);
+        $formData = $form->getData();
+
+        $this->assertSame(12, $formData['integer']);
+        $this->assertSame(42, $formData['float']);
     }
 
     public function test_nonEmptyText_with_nothing()
@@ -40,11 +74,11 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
 
         $form = $builder->form([
-            $builder->field('number')->number()
+            $builder->field('float')->float()
         ]);
 
         $form->bind([
-            'number' => '12a',
+            'float' => '12a',
         ]);
 
         $this->assertSame('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
@@ -55,8 +89,8 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
 
         $form = $builder->form([
-            $builder->field('integer')->number(),
-            $builder->field('float')->number(),
+            $builder->field('integer')->float(),
+            $builder->field('float')->float(),
         ]);
 
         $form->bind([

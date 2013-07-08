@@ -43,15 +43,30 @@ class Constraints implements ExtensionInterface
      * Checks if the field value is numeric.
      *
      * @param Field  $field   The form field
-     * @param string message The error message
+     * @param string $message The error message
      */
-    public function number(Field $field, $message = 'This field must contain numeric values.')
+    public function integer(Field $field, $message = 'This field must contain numeric values.')
     {
         $field->addConstraint(new Constraint($message, function ($value) {
             return is_numeric($value);
         }));
 
-        $field->addTransformer(new \Formz\Transformer\NumberTransformer());
+        $field->addTransformer(new \Formz\Transformer\IntegerTransformer());
+    }
+
+    /**
+     * Checks if the field value is numeric.
+     *
+     * @param Field  $field   The form field
+     * @param string $message The error message
+     */
+    public function float(Field $field, $message = 'This field must contain numeric values.')
+    {
+        $field->addConstraint(new Constraint($message, function ($value) {
+            return is_numeric($value);
+        }));
+
+        $field->addTransformer(new \Formz\Transformer\FloatTransformer());
     }
 
     /**
