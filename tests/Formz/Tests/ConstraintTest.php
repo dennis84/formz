@@ -65,8 +65,8 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         ]);
         $formData = $form->getData();
 
-        $this->assertEquals(12, $formData['integer']);
-        $this->assertEquals(12.23, $formData['float']);
+        $this->assertSame(12.0, $formData['integer']);
+        $this->assertSame(12.23, $formData['float']);
     }
 
     public function test_boolean()

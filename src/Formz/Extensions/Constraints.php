@@ -51,9 +51,7 @@ class Constraints implements ExtensionInterface
             return is_numeric($value);
         }));
 
-        $field->on('change_data', function ($value) {
-            return (float) $value;
-        });
+        $field->addTransformer(new \Formz\Transformer\NumberTransformer());
     }
 
     /**
@@ -68,12 +66,6 @@ class Constraints implements ExtensionInterface
             return 'true' === $value || 'false' === $value || true === $value || false === $value;
         }));
 
-        $field->on('change_data', function ($value) {
-            if ('false' === $value) {
-                $value = false;
-            }
-
-            return (boolean) $value;
-        });
+        $field->addTransformer(new \Formz\Transformer\BooleanTransformer());
     }
 }

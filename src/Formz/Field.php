@@ -11,6 +11,7 @@ class Field implements \ArrayAccess
 {
     protected $name;
     protected $extensions = [];
+    protected $transformers = [];
     protected $constraints = [];
     protected $children = [];
     protected $errors = [];
@@ -45,6 +46,11 @@ class Field implements \ArrayAccess
     public function addExtension(ExtensionInterface $extension)
     {
         $this->extensions[] = $extension;
+    }
+
+    public function addTransformer($transformer)
+    {
+        $this->transformers[] = $transformer;
     }
 
     /**
@@ -432,6 +438,10 @@ class Field implements \ArrayAccess
 
         if ($apply = $this->getApply()) {
             $data = call_user_func_array($this->getApply(), $data);
+        }
+
+        foreach ($this->transformers as $transformer) {
+            $data = $transformer->transform($data);
         }
 
         $this->setData($data);
