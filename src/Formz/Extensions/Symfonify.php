@@ -2,46 +2,59 @@
 
 namespace Formz\Extensions;
 
-use Formz\Error;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ValidatorInterface;
+use Formz\ExtensionInterface;
+use Formz\Error;
+use Formz\Event;
+use Formz\Events;
+use Formz\Field;
 
 /**
  * Symfonify.
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-trait Symfonify
+class Symfonify implements ExtensionInterface
 {
+    protected $validator;
+
+    /**
+     * Constructor.
+     *
+     * @param ValidatorInterface $validator The symfony validator
+     */
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
+
     /**
      * Allows to pass the symfony request object to the bind method.
      *
+     * @param Field   $field   The form field
      * @param Request $request The symfony request object
      */
-    public function bindFromRequest(Request $request)
+    public function bindFromRequest(Field $field, Request $request)
     {
-        $this->bind($request->request->all());
+        $field->bind($request->request->all());
     }
 
     /**
      * Enables symfony's annotation asserts.
      *
-     * @return Field
+     * @param Field $field The form field
      */
-    public function withAnnotationAsserts(ValidatorInterface $vali)
+    public function withAnnotationAsserts(Field $field)
     {
-        $this->on('change_data', function ($data) use ($vali) {
-            $violations = $vali->validate($data);
+        $field->on(Events::BIND, function (Event $event) {
+            $violations = $this->validator->validate($event->getData());
             foreach ($violations as $violation) {
-                $this->addError(new Error(
+                $event->getField()->addError(new Error(
                     $violation->getPropertyPath(),
                     $violation->getMessage()
                 ));
             }
-
-            return $data;
         });
-
-        return $this;
     }
 }

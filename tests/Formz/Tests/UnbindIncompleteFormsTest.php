@@ -20,7 +20,7 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $form->fill(['username' => 'dennis84']);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
         $this->assertSame(null, $form['password']->getValue());
     }
 
@@ -44,10 +44,10 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertEquals('dennis84', $form['username']->getValue());
+        $this->assertSame('dennis84', $form['username']->getValue());
         $this->assertSame(null, $form['password']->getValue());
         
         $this->assertSame(null, $form['address']['city']->getValue());
-        $this->assertEquals('Foostreet', $form['address']['street']->getValue());
+        $this->assertSame('Foostreet', $form['address']['street']->getValue());
     }
 }

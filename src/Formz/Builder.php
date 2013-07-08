@@ -2,6 +2,8 @@
 
 namespace Formz;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 /**
  * This is a helper to build field objects.
  *
@@ -9,6 +11,44 @@ namespace Formz;
  */
 class Builder
 {
+    protected $extensions = [];
+
+    /**
+     * Constructor.
+     *
+     * @param array $extension The form extensions
+     */
+    public function __construct(array $extensions = [])
+    {
+        $this->registerExtensions([
+            new \Formz\Extensions\Constraints(),
+        ]);
+
+        $this->registerExtensions($extensions);
+    }
+
+    /**
+     * Registers a set of extensions.
+     *
+     * @param array $extensions The form extensions
+     */
+    public function registerExtensions(array $extensions)
+    {
+        foreach ($extensions as $extension) {
+            $this->addExtension($extension);
+        }
+    }
+
+    /**
+     * Adds an extension.
+     *
+     * @param ExtensionInterface $extension The extension object
+     */
+    public function addExtension(ExtensionInterface $extension)
+    {
+        $this->extensions[] = $extension;
+    }
+
     /**
      * Use this function to build the root form.
      *
@@ -92,6 +132,6 @@ class Builder
      */
     protected function createField($name)
     {
-        return new Field($name);
+        return new Field($name, new EventDispatcher(), $this->extensions);
     }
 }

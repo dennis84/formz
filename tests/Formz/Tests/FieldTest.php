@@ -5,7 +5,7 @@ namespace Formz\Tests;
 use Formz\Builder;
 use Formz\Field;
 
-class FieldTest extends \PHPUnit_Framework_TestCase
+class FieldTest extends FormzTestCase
 {
     public function test_getName()
     {
@@ -23,9 +23,9 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             ])->multiple(),
         ]);
 
-        $this->assertEquals('', $form->getName());
-        $this->assertEquals('username', $form['username']->getName());
-        $this->assertEquals('address[street]', $form['address']['street']->getName());
+        $this->assertSame('', $form->getName());
+        $this->assertSame('username', $form['username']->getName());
+        $this->assertSame('address[street]', $form['address']['street']->getName());
     }
 
     public function test_getChild()
@@ -40,7 +40,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertInstanceOf('Formz\Field', $form->getChild('username'));
-        $this->assertEquals('username', $form->getChild('username')->getFieldName());
+        $this->assertSame('username', $form->getChild('username')->getFieldName());
     }
 
     /**
@@ -72,7 +72,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function test_offsetSet()
     {
-        $field = new Field('foo');
+        $field = $this->createField('foo');
         $field['foo'] = 'bar';
     }
 
@@ -81,7 +81,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function test_offsetUnset()
     {
-        $field = new Field('foo');
+        $field = $this->createField('foo');
         unset($field['foo']);
     }
 }
