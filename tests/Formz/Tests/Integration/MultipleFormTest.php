@@ -1,10 +1,10 @@
 <?php
 
-namespace Formz\Tests;
+namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Model\Post;
-use Formz\Tests\Model\Attribute;
+use Formz\Tests\Fixtures\Post;
+use Formz\Tests\Fixtures\Attribute;
 
 class MultipleFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -132,8 +132,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind($data);
         $formData = $form->getData();
 
-        $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][0]);
-        $this->assertInstanceOf('Formz\Tests\Model\Attribute', $formData['choices'][1]);
+        $this->assertInstanceOf('Formz\Tests\Fixtures\Attribute', $formData['choices'][0]);
+        $this->assertInstanceOf('Formz\Tests\Fixtures\Attribute', $formData['choices'][1]);
     }
 
     /**

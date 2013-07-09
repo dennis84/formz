@@ -17,6 +17,6 @@ class NonEmptyText extends Constraint
      */
     public function check($value)
     {
-        return null !== $value && '' !== $value;
+        return is_string($value) && null !== $value && '' !== $value;
     }
 }

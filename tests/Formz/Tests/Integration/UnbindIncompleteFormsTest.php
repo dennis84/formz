@@ -1,11 +1,11 @@
 <?php
 
-namespace Formz\Tests;
+namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Model\User;
-use Formz\Tests\Model\Address;
-use Formz\Tests\Model\Location;
+use Formz\Tests\Fixtures\User;
+use Formz\Tests\Fixtures\Address;
+use Formz\Tests\Fixtures\Location;
 
 class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {

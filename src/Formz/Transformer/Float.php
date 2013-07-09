@@ -5,11 +5,11 @@ namespace Formz\Transformer;
 use Formz\TransformerInterface;
 
 /**
- * FloatTransformer.
+ * Float.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class FloatTransformer implements TransformerInterface
+class Float implements TransformerInterface
 {
     /**
      * {@inheritDoc}

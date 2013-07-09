@@ -1,10 +1,10 @@
 <?php
 
-namespace Formz\Tests;
+namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Model\Address;
-use Formz\Tests\Model\User;
+use Formz\Tests\Fixtures\Address;
+use Formz\Tests\Fixtures\User;
 
 class OptionalFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         $form->bind($data);
         $formData = $form->getData();
 
-        $this->assertInstanceOf('Formz\Tests\Model\User', $formData);
+        $this->assertInstanceOf('Formz\Tests\Fixtures\User', $formData);
         $this->assertSame('dennis84', $formData->username);
         $this->assertSame('demo123', $formData->password);
 

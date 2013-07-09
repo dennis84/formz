@@ -1,6 +1,6 @@
 <?php
 
-namespace Formz\Tests;
+namespace Formz\Tests\Integration;
 
 use Formz\Builder;
 use Formz\Field;

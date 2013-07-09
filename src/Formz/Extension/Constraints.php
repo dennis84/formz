@@ -44,7 +44,7 @@ class Constraints implements ExtensionInterface
     public function integer(Field $field, $message = 'This field must contain numeric values.')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
-        $field->addTransformer(new \Formz\Transformer\IntegerTransformer());
+        $field->addTransformer(new \Formz\Transformer\Integer());
     }
 
     /**
@@ -56,7 +56,7 @@ class Constraints implements ExtensionInterface
     public function float(Field $field, $message = 'This field must contain numeric values.')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
-        $field->addTransformer(new \Formz\Transformer\FloatTransformer());
+        $field->addTransformer(new \Formz\Transformer\Float());
     }
 
     /**
@@ -68,6 +68,6 @@ class Constraints implements ExtensionInterface
     public function boolean(Field $field, $message = 'This field must contain a boolean value')
     {
         $field->addConstraint(new \Formz\Constraint\Boolean($message));
-        $field->addTransformer(new \Formz\Transformer\BooleanTransformer());
+        $field->addTransformer(new \Formz\Transformer\Boolean());
     }
 }

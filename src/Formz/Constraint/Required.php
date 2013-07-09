@@ -17,6 +17,6 @@ class Required extends Constraint
      */
     public function check($value)
     {
-        return null !== $value || !empty($value);
+        return null !== $value && '' !== $value;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Formz\Tests;
+namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Model\User;
-use Formz\Tests\Model\Address;
+use Formz\Tests\Fixtures\User;
+use Formz\Tests\Fixtures\Address;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 

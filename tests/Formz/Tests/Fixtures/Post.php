@@ -1,6 +1,6 @@
 <?php
 
-namespace Formz\Tests\Model;
+namespace Formz\Tests\Fixtures;
 
 class Post
 {

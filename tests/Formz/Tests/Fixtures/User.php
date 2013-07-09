@@ -1,6 +1,6 @@
 <?php
 
-namespace Formz\Tests\Model;
+namespace Formz\Tests\Fixtures;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

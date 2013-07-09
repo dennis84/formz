@@ -609,38 +609,40 @@ class Field implements \ArrayAccess
      */
     private function maybePrepareMultipleFields($data)
     {
-        if ($this->isMultiple()) {
-            if (!is_array($data)) {
-                throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
-            }
-
-            $choices = [];
-            foreach ($data as $index => $value) {
-                $choice = clone $this;
-                $choice->setFieldName((string) $index);
-                $choice->multiple(false);
-                $choice->setParent($this);
-                foreach ($choice->getChildren() as $child) {
-                    $child->setParent($choice);
-                }
-
-                if ($apply = $choice->getApply()) {
-                    $apply = \Closure::bind($apply, $choice);
-                    $choice->setApply($apply);
-                }
-
-                if ($unapply = $choice->getUnapply()) {
-                    $unapply = \Closure::bind($unapply, $choice);
-                    $choice->setUnapply($unapply);
-                }
-
-                $choices[] = $choice;
-            }
-
-            $this->setChildren($choices);
-
-            $this->apply = null;
-            $this->unapply = null;
+        if (!$this->isMultiple()) {
+            return;
         }
+
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
+        }
+
+        $choices = [];
+        foreach ($data as $index => $value) {
+            $choice = clone $this;
+            $choice->setFieldName((string) $index);
+            $choice->multiple(false);
+            $choice->setParent($this);
+            foreach ($choice->getChildren() as $child) {
+                $child->setParent($choice);
+            }
+
+            if ($apply = $choice->getApply()) {
+                $apply = \Closure::bind($apply, $choice);
+                $choice->setApply($apply);
+            }
+
+            if ($unapply = $choice->getUnapply()) {
+                $unapply = \Closure::bind($unapply, $choice);
+                $choice->setUnapply($unapply);
+            }
+
+            $choices[] = $choice;
+        }
+
+        $this->setChildren($choices);
+
+        $this->apply = null;
+        $this->unapply = null;
     }
 }

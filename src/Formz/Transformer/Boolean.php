@@ -5,17 +5,21 @@ namespace Formz\Transformer;
 use Formz\TransformerInterface;
 
 /**
- * IntegerTransformer.
+ * Boolean.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class IntegerTransformer implements TransformerInterface
+class Boolean implements TransformerInterface
 {
     /**
      * {@inheritDoc}
      */
     public function transform($data)
     {
-        return intval($data);
+        if ('false' === $data) {
+            $data = false;
+        }
+
+        return (boolean) $data;
     }
 }
