@@ -12,6 +12,7 @@ use Symfony\Component\EventDispatcher\Event as BaseEvent;
 class Event extends BaseEvent
 {
     protected $field;
+    protected $data;
 
     /**
      * Constructor.
