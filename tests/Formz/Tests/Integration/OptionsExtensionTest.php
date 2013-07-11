@@ -81,4 +81,21 @@ class OptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($form->isValid());
     }
+    
+    public function test_options_with_other_extensions()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('integer')->options([ 1, 2, 3 ])->integer(),
+            $builder->field('float')->options([ 1.1, 2.2, 3.3 ])->float(),
+        ]);
+
+        $form->bind([
+            'integer' => '1',
+            'float' => '1.1',
+        ]);
+
+        $this->assertSame(1, $form->getData()['integer']);
+        $this->assertSame(1.1, $form->getData()['float']);
+    }
 }
