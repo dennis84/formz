@@ -18,7 +18,7 @@ class SfBuilder extends Builder
     }
 }
 
-class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
+class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function test_with_annotation_asserts()
     {

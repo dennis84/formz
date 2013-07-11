@@ -4,7 +4,7 @@ namespace Formz\Tests\Integration;
 
 use Formz\Builder;
 
-class ConstraintTest extends \PHPUnit_Framework_TestCase
+class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function test_nonEmptyText_with_empty_string()
     {
