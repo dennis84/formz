@@ -16,7 +16,7 @@ class Builder
     /**
      * Constructor.
      *
-     * @param array $extension The form extensions
+     * @param ExtensionInterface[] $extension The form extensions
      */
     public function __construct(array $extensions = [])
     {
@@ -31,7 +31,7 @@ class Builder
     /**
      * Registers a set of extensions.
      *
-     * @param array $extensions The form extensions
+     * @param ExtensionInterface[] $extensions The form extensions
      */
     public function registerExtensions(array $extensions)
     {

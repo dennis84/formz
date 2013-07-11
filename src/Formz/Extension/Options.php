@@ -20,9 +20,9 @@ class Options implements ExtensionInterface
      *
      * $builder->field('tag')->options([ 'a', 'b', 'c' ]);
      *
-     * @param Field  $field   The field object
-     * @param array  $options The array of options
-     * @param string $message The error message
+     * @param Field   $field   The field object
+     * @param mixed[] $options The array of options
+     * @param string  $message The error message
      */
     public function options(Field $field, array $options = [], $message = '')
     {
@@ -38,9 +38,9 @@ class Options implements ExtensionInterface
     /**
      * Checks if the data of a single field matches to the given options.
      *
-     * @param Event  $event   The event object
-     * @param array  $options The array of options
-     * @param string $message The error message
+     * @param Event   $event   The event object
+     * @param mixed[] $options The array of options
+     * @param string  $message The error message
      */
     private function checkSingleField(Event $event, array $options, $message)
     {
@@ -55,9 +55,9 @@ class Options implements ExtensionInterface
     /**
      * Checks if the data of a multiple field matches to the given options.
      *
-     * @param Event  $event   The event object
-     * @param array  $options The array of options
-     * @param string $message The error message
+     * @param Event   $event   The event object
+     * @param mixed[] $options The array of options
+     * @param string  $message The error message
      */
     private function checkMultipleField(Event $event, array $options, $message)
     {

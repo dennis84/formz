@@ -31,7 +31,7 @@ class Field implements \ArrayAccess
      *
      * @param string                   $name       The field name
      * @param EventDispatcherInterface $dispatcher The event dispatcher
-     * @param array                    $extensions The field extensions
+     * @param ExtensionInterface[]     $extensions The field extensions
      */
     public function __construct($name, EventDispatcherInterface $dispatcher, array $extensions = [])
     {
@@ -66,8 +66,8 @@ class Field implements \ArrayAccess
      * Invokes an extension method if is not defined in field class or throws
      * an exception.
      *
-     * @param string $method    The called method name
-     * @param array  $arguments The method arguments
+     * @param string  $method    The called method name
+     * @param mixed[] $arguments The method arguments
      *
      * @return Field
      *
@@ -129,7 +129,7 @@ class Field implements \ArrayAccess
     /**
      * Resets the existing field children and sets the new ones.
      *
-     * @param array $children An array of field obejcts
+     * @param Field[] $children An array of field obejcts
      */
     public function setChildren(array $children)
     {
@@ -152,7 +152,7 @@ class Field implements \ArrayAccess
     /**
      * Gets the field children.
      *
-     * @return array
+     * @return Field[]
      */
     public function getChildren()
     {
@@ -232,7 +232,7 @@ class Field implements \ArrayAccess
     /**
      * Gets all errors from field and children as an flat array.
      *
-     * @return array
+     * @return Error[]
      */
     public function getErrorsFlat()
     {
@@ -248,7 +248,7 @@ class Field implements \ArrayAccess
     /**
      * Gets the field errors.
      *
-     * @return array
+     * @return Error[]
      */
     public function getErrors()
     {
@@ -273,7 +273,7 @@ class Field implements \ArrayAccess
      *
      * @return Field
      */
-    public function verifying($message, $check)
+    public function verifying($message, \Closure $check)
     {
         $this->addConstraint(new Constraint\Callback($message, $check));
         return $this;
@@ -583,7 +583,7 @@ class Field implements \ArrayAccess
     /**
      * Gets an blank array but with the children array keys.
      *
-     * @return array
+     * @return mixed[]
      */
     private function getBlankData()
     {
@@ -605,7 +605,8 @@ class Field implements \ArrayAccess
      *
      * @param mixed $data The bind or fill data
      *
-     * @throws InvalidArgumentException If multiple is true and data is not an array
+     * @throws InvalidArgumentException If multiple is true and data is not an
+     *                                  array
      */
     private function maybePrepareMultipleFields($data)
     {
