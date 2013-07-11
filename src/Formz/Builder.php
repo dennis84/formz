@@ -22,6 +22,7 @@ class Builder
     {
         $this->registerExtensions([
             new \Formz\Extension\Constraints(),
+            new \Formz\Extension\Options(),
         ]);
 
         $this->registerExtensions($extensions);
