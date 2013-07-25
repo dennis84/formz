@@ -310,16 +310,6 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Sets the applied data.
-     *
-     * @param mixed $data The data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * Gets the applied data.
      *
      * @return mixed
@@ -424,7 +414,7 @@ class Field implements \ArrayAccess
         }
 
         if (empty($data) && $this->isOptional()) {
-            $this->setData(null);
+            $this->data = null;
             return;
         }
 
@@ -447,7 +437,7 @@ class Field implements \ArrayAccess
         }
 
         $this->trigger(Events::BIND, $data);
-        $this->setData($data);
+        $this->data = $data;
     }
 
     /**
