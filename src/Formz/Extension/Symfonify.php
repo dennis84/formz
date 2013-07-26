@@ -47,7 +47,7 @@ class Symfonify implements ExtensionInterface
      */
     public function withAnnotationAsserts(Field $field)
     {
-        $field->on(Events::BIND, function (Event $event) {
+        $field->getDispatcher()->addListener(Events::BIND, function (Event $event) {
             $violations = $this->validator->validate($event->getData());
             foreach ($violations as $violation) {
                 $event->getField()->addError(new Error(

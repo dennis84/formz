@@ -360,27 +360,13 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Adds an event.
+     * Gets the event dispatcher.
      *
-     * @param string  $name     The event name.
-     * @param Closure $function The event handler
+     * @return EventDispatcherInterface
      */
-    public function on($name, \Closure $function)
+    public function getDispatcher()
     {
-        $this->dispatcher->addListener($name, $function);
-    }
-
-    /**
-     * Triggers all events by name.
-     *
-     * @param string $name The event name
-     * @param mixed  $data The event data
-     */
-    public function trigger($name, $data)
-    {
-        if ($this->dispatcher->hasListeners($name)) {
-            $this->dispatcher->dispatch($name, new Event($this, $data));
-        };
+        return $this->dispatcher;
     }
 
     /**
@@ -436,7 +422,11 @@ class Field implements \ArrayAccess
             $data = $transformer->transform($data);
         }
 
-        $this->trigger(Events::BIND, $data);
+        if ($this->dispatcher->hasListeners(Events::BIND)) {
+            $event = new Event($this, $data);
+            $this->dispatcher->dispatch(Events::BIND, $event);
+        }
+
         $this->data = $data;
     }
 
