@@ -268,20 +268,6 @@ class Field implements \ArrayAccess
     /**
      * Adds a constraint to the field.
      *
-     * @param string  $message The error message
-     * @param Closure $check   The check method
-     *
-     * @return Field
-     */
-    public function verifying($message, \Closure $check)
-    {
-        $this->addConstraint(new Constraint\Callback($message, $check));
-        return $this;
-    }
-
-    /**
-     * Adds a constraint to the field.
-     *
      * @param Constraint $constraint The constaint object
      */
     public function addConstraint(Constraint $constraint)
