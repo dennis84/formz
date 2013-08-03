@@ -26,7 +26,7 @@ class Options implements ExtensionInterface
      */
     public function options(Field $field, array $options = [], $message = '')
     {
-        $field->getDispatcher()->addListener(Events::BIND, function (Event $event) use ($options, $message) {
+        $field->getDispatcher()->addListener(Events::APPLIED, function (Event $event) use ($options, $message) {
             if ($event->getField()->isMultiple()) {
                 $this->checkMultipleField($event, $options, $message);
             } else {

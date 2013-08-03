@@ -9,5 +9,5 @@ namespace Formz;
  */
 class Events
 {
-    const BIND = 'formz.bind';
+    const APPLIED = 'formz.applied';
 }

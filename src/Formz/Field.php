@@ -400,17 +400,18 @@ class Field implements \ArrayAccess
             $data[$child->getFieldName()] = $child->getData();
         }
 
-        if ($this->getApply()) {
-            $data = call_user_func_array($this->getApply(), $data);
-        }
 
         foreach ($this->transformers as $transformer) {
             $data = $transformer->transform($data);
         }
 
-        if ($this->dispatcher->hasListeners(Events::BIND)) {
+        if ($this->getApply()) {
+            $data = call_user_func_array($this->getApply(), $data);
+        }
+
+        if ($this->dispatcher->hasListeners(Events::APPLIED)) {
             $event = new Event($this, $data);
-            $this->dispatcher->dispatch(Events::BIND, $event);
+            $this->dispatcher->dispatch(Events::APPLIED, $event);
         }
 
         $this->data = $data;
