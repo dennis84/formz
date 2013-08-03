@@ -3,6 +3,7 @@
 namespace Formz\Tests\Integration;
 
 use Formz\Builder;
+use Formz\TransformerInterface;
 use Formz\Tests\Fixtures\Address;
 use Formz\Tests\Fixtures\User;
 
@@ -41,13 +42,27 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->isValid());
     }
 
-/*     public function test_apply_optional_data() */
-/*     { */
-/*         $builder = new Builder(); */
-/*         $form = $builder->form([ */
-/*             $builder->field('foo')->optional()->transform, */
-/*         ]); */
+    public function test_apply_optional_data()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('foo')->optional()
+                ->transform(new NullToBlahTransformer()),
+            $builder->field('bar'),
+        ]);
 
-/*         $form->bind(null); */
-/*     } */
+        $form->bind([ 'foo' => null, 'bar' => 'blub' ]);
+        $this->assertSame([
+            'foo' => 'blah',
+            'bar' => 'blub',
+        ], $form->getData());
+    }
+}
+
+class NullToBlahTransformer implements TransformerInterface
+{
+    public function transform($data)
+    {
+        return null === $data ? 'blah' : $data;
+    }
 }

@@ -385,28 +385,26 @@ class Field implements \ArrayAccess
             }
         }
 
-        if (empty($data) && $this->isOptional()) {
-            $this->data = null;
-            return;
-        }
+        if (!$this->isOptional()) {
+            foreach ($this->children as $child) {
+                if (isset($data[$child->getFieldName()])) {
+                    $child->bind($data[$child->getFieldName()]);
+                } else {
+                    $child->bind(null);
+                }
 
-        foreach ($this->children as $child) {
-            if (isset($data[$child->getFieldName()])) {
-                $child->bind($data[$child->getFieldName()]);
-            } else {
-                $child->bind(null);
+                $data[$child->getFieldName()] = $child->getData();
             }
-
-            $data[$child->getFieldName()] = $child->getData();
         }
-
 
         foreach ($this->transformers as $transformer) {
             $data = $transformer->transform($data);
         }
 
-        if ($this->getApply()) {
-            $data = call_user_func_array($this->getApply(), $data);
+        if (!$this->isOptional()) {
+            if ($this->getApply()) {
+                $data = call_user_func_array($this->getApply(), $data);
+            }
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
