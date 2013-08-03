@@ -40,4 +40,14 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $formData->address);
         $this->assertTrue($form->isValid());
     }
+
+/*     public function test_apply_optional_data() */
+/*     { */
+/*         $builder = new Builder(); */
+/*         $form = $builder->form([ */
+/*             $builder->field('foo')->optional()->transform, */
+/*         ]); */
+
+/*         $form->bind(null); */
+/*     } */
 }
