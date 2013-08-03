@@ -19,7 +19,7 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
             $test->assertSame(420, $foo);
         });
 
-        $form->addTransformer(new NonsenseTransformer());
+        $form->transform(new NonsenseTransformer());
         $form->bind([ 'foo' => '42.2' ]);
     }
 }

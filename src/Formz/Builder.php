@@ -23,7 +23,6 @@ class Builder
         $this->registerExtensions([
             new \Formz\Extension\Constraints(),
             new \Formz\Extension\Verifying(),
-            new \Formz\Extension\Transform(),
             new \Formz\Extension\Options(),
         ]);
 
@@ -38,7 +37,7 @@ class Builder
     public function registerExtensions(array $extensions)
     {
         foreach ($extensions as $extension) {
-            $this->addExtension($extension);
+            $this->extend($extension);
         }
     }
 
@@ -47,7 +46,7 @@ class Builder
      *
      * @param ExtensionInterface $extension The extension object
      */
-    public function addExtension(ExtensionInterface $extension)
+    public function extend(ExtensionInterface $extension)
     {
         $this->extensions[] = $extension;
     }

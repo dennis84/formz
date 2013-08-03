@@ -38,7 +38,7 @@ class Field implements \ArrayAccess
         $this->name = $name;
         $this->dispatcher = $dispatcher;
         foreach ($extensions as $extension) {
-            $this->addExtension($extension);
+            $this->extend($extension);
         }
     }
 
@@ -47,19 +47,21 @@ class Field implements \ArrayAccess
      *
      * @param ExtensionInterface $extension The form extension
      */
-    public function addExtension(ExtensionInterface $extension)
+    public function extend(ExtensionInterface $extension)
     {
         $this->extensions[] = $extension;
+        return $this;
     }
 
     /**
-     * Adds a value to data transformer.
+     * Adds a transformer.
      *
-     * @param TransformerInterface The value to data transformer
+     * @param TransformerInterface The transformer
      */
-    public function addTransformer(TransformerInterface $transformer)
+    public function transform(TransformerInterface $transformer)
     {
         $this->transformers[] = $transformer;
+        return $this;
     }
 
     /**
