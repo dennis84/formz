@@ -22,7 +22,7 @@ class Field implements \ArrayAccess
     protected $value;
     protected $data;
     protected $apply;
-    protected $unapply = null;
+    protected $unapply;
     protected $optional = false;
     protected $multiple = false;
 
@@ -387,7 +387,9 @@ class Field implements \ArrayAccess
             }
         }
 
-        if (!$this->isOptional()) {
+        $optionalAndEmpty = $this->isOptional() && empty($data);
+
+        if (!$optionalAndEmpty) {
             foreach ($this->children as $child) {
                 if (isset($data[$child->getFieldName()])) {
                     $child->bind($data[$child->getFieldName()]);
@@ -403,10 +405,8 @@ class Field implements \ArrayAccess
             $data = $transformer->transform($data);
         }
 
-        if (!$this->isOptional()) {
-            if ($this->getApply()) {
-                $data = call_user_func_array($this->getApply(), $data);
-            }
+        if ($this->getApply() && !$optionalAndEmpty) {
+            $data = call_user_func_array($this->getApply(), $data);
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {

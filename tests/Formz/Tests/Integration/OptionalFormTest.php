@@ -9,23 +9,36 @@ use Formz\Tests\Fixtures\User;
 
 class OptionalFormTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_bind_nested_form_applied_to_object()
+    public function test_bind_complete_nested_form_applied_to_object()
     {
         $builder = new Builder();
+        $form = $this->createNestedForm();
+        $data = [
+            'username' => 'dennis84',
+            'password' => 'demo123',
+            'address' => [
+                'city' => 'foo',
+                'street' => 'bar',
+            ],
+        ];
 
-        $form = $builder->form([
-            $builder->field('username'),
-            $builder->field('password'),
-            $builder->optionalEmbed('address', [
-                $builder->field('city'),
-                $builder->field('street')
-            ], function ($city, $street) {
-                return new Address($city, $street);
-            }),
-        ], function ($username, $password, Address $address = null) {
-            return new User($username, $password, $address);
-        });
+        $form->bind($data);
+        $formData = $form->getData();
 
+        $this->assertInstanceOf('Formz\Tests\Fixtures\User', $formData);
+        $this->assertSame('dennis84', $formData->username);
+        $this->assertSame('demo123', $formData->password);
+
+        $this->assertInstanceOf('Formz\Tests\Fixtures\Address', $formData->address);
+        $this->assertSame('foo', $formData->address->city);
+        $this->assertSame('bar', $formData->address->street);
+        $this->assertTrue($form->isValid());
+    }
+
+    public function test_bind_uncomplete_nested_form_applied_to_object()
+    {
+        $builder = new Builder();
+        $form = $this->createNestedForm();
         $data = [
             'username' => 'dennis84',
             'password' => 'demo123',
@@ -56,6 +69,24 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
             'foo' => 'blah',
             'bar' => 'blub',
         ], $form->getData());
+    }
+
+    private function createNestedForm()
+    {
+        $builder = new Builder();
+
+        return $builder->form([
+            $builder->field('username'),
+            $builder->field('password'),
+            $builder->optionalEmbed('address', [
+                $builder->field('city'),
+                $builder->field('street')
+            ], function ($city, $street) {
+                return new Address($city, $street);
+            }),
+        ], function ($username, $password, Address $address = null) {
+            return new User($username, $password, $address);
+        });
     }
 }
 
