@@ -5,6 +5,8 @@ namespace Formz\Extension;
 use Formz\ExtensionInterface;
 use Formz\Constraint;
 use Formz\Field;
+use Formz\Events;
+use Formz\Event;
 
 /**
  * The default constraints extension.
@@ -22,6 +24,11 @@ class Constraints implements ExtensionInterface
     public function required(Field $field, $message = 'This field is required.')
     {
         $field->addConstraint(new \Formz\Constraint\Required($message));
+        $disp = $field->getDispatcher();
+
+        $disp->addListener(Events::BEFORE_TRANSFORM, function(Event $event) {
+            $event->getField()->validate($event->getInput());
+        });
     }
 
     /**

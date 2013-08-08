@@ -10,6 +10,8 @@ namespace Formz;
 abstract class Constraint
 {
     protected $message;
+    protected $checked = false;
+    protected $result = false;
 
     /**
      * Constructor.
@@ -28,7 +30,26 @@ abstract class Constraint
      *
      * @return boolean
      */
-    abstract public function check($value);
+    abstract protected function check($value);
+
+    /**
+     * Validates the data against this constraint. If the constraint was already
+     * triggered before, then it will return the last result.
+     *
+     * @param mixed $data The data
+     *
+     * @return boolean
+     */
+    public function validate($data)
+    {
+        if (true === $this->checked) {
+            return $this->result;
+        }
+
+        $this->checked = true;
+        $this->result = $this->check($data);
+        return $this->result;
+    }
 
     /**
      * Gets the message.

@@ -11,6 +11,10 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
             array(42, 42),
             array(42, '42.2'),
             array(42, '42'),
+
+            // do not transform invalid values
+            // @todo or throw an exception here?
+            array('42a', '42a'),
         );
     }
     

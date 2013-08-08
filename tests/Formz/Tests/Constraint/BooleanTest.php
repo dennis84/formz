@@ -24,6 +24,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     public function testCheck($expected, $value)
     {
         $constraint = new \Formz\Constraint\Boolean('');
-        $this->assertSame($expected, $constraint->check($value));
+        $this->assertSame($expected, $constraint->validate($value));
     }
 }

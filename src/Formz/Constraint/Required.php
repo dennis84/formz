@@ -15,7 +15,7 @@ class Required extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function check($value)
+    protected function check($value)
     {
         return null !== $value && '' !== $value;
     }

@@ -11,9 +11,10 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
 
         $form = $builder->form([
-            $builder->field('username')->verifying('Username taken.', function ($username) {
-                return 'dennis84' !== $username;
-            })
+            $builder->field('username')
+                ->verifying('Username taken.', function ($username) {
+                    return 'dennis84' !== $username;
+                })
         ]);
 
         $form->bind([

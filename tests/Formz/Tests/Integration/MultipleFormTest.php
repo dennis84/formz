@@ -269,7 +269,17 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertTrue($form->isValid());
-   
+    }
+
+    public function test_verify_multiple_value_fail()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('emails')->verifying('email', function ($value) {
+                return filter_var($value, FILTER_VALIDATE_EMAIL);
+            })->multiple(),
+        ]);
+
         $form->bind(array(
             'emails' => array('foo@bar.de', 'blah'),
         ));

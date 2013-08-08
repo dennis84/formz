@@ -23,7 +23,6 @@ class Field implements \ArrayAccess
     protected $data;
     protected $apply;
     protected $unapply;
-    protected $optional = false;
     protected $multiple = false;
 
     /**
@@ -278,6 +277,19 @@ class Field implements \ArrayAccess
     }
 
     /**
+     * Replaces all constraints with an new array of constaints.
+     *
+     * @param Constraint[]
+     */
+    public function setConstraints(array $constraints)
+    {
+        $this->constraints = [];
+        foreach ($constraints as $constraint) {
+            $this->addConstraint($constraint);
+        }
+    }
+
+    /**
      * Sets the value.
      *
      * @param mixed $value The value
@@ -360,60 +372,52 @@ class Field implements \ArrayAccess
     /**
      * Binds the client data to the field and all children.
      *
-     * @param mixed $data The data to bind to the field
+     * @param mixed $input The client data
      */
-    public function bind($data)
+    public function bind($input)
     {
-        $this->maybePrepareMultipleFields($data);
+        $this->maybePrepareMultipleFields($input);
 
-        if (is_array($data)) {
-            foreach ($data as $name => $value) {
-                if (!$this->hasChild($name)) {
-                    unset($data[$name]);
-                }
-            }
-
-            $data += $this->getBlankData();
+        if ($this->hasChildren()) {
+            $value = $data = [];
+        } else {
+            $value = $data = $input;
         }
 
-        $this->setValue($data);
-
-        foreach ($this->constraints as $constraint) {
-            if (false === $constraint->check($this->getValue())) {
-                $this->addError(new Error(
-                    $this->getFieldName(),
-                    $constraint->getMessage()
-                ));
+        foreach ($this->children as $child) {
+            if (isset($input[$child->getFieldName()])) {
+                $child->bind($input[$child->getFieldName()]);
+            } else {
+                $child->bind($child->isMultiple() ? [] : null);
             }
+
+            $value[$child->getFieldName()] = $child->getValue();
+            $data[$child->getFieldName()] = $child->getData();
         }
 
-        $optionalAndEmpty = $this->isOptional() && empty($data);
-
-        if (!$optionalAndEmpty) {
-            foreach ($this->children as $child) {
-                if (isset($data[$child->getFieldName()])) {
-                    $child->bind($data[$child->getFieldName()]);
-                } else {
-                    $child->bind(null);
-                }
-
-                $data[$child->getFieldName()] = $child->getData();
-            }
+        $this->setValue($value);
+        
+        if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
+            $event = new Event($this, $data, $value, $input);
+            $this->dispatcher->dispatch(Events::BEFORE_TRANSFORM, $event);
+            $data = $event->getData();
         }
 
         foreach ($this->transformers as $transformer) {
             $data = $transformer->transform($data);
         }
 
-        if ($this->getApply() && !$optionalAndEmpty) {
+        if ($this->getApply() && $data) {
             $data = call_user_func_array($this->getApply(), $data);
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $data);
+            $event = new Event($this, $data, $value, $input);
             $this->dispatcher->dispatch(Events::APPLIED, $event);
+            $data = $event->getData();
         }
 
+        $this->validate($data);
         $this->data = $data;
     }
 
@@ -453,6 +457,25 @@ class Field implements \ArrayAccess
     }
 
     /**
+     * Triggers the validation. Normally the validation will be triggered
+     * against the final bound data, but some constrains must be checked against
+     * the input or value.
+     *
+     * @param mixed $data The data to validate
+     */
+    public function validate($data)
+    {
+        foreach ($this->constraints as $constraint) {
+            if (false === $constraint->validate($data)) {
+                $this->addError(new Error(
+                    $this->getFieldName(),
+                    $constraint->getMessage()
+                ));
+            }
+        }
+    }
+
+    /**
      * Returns true if the field and all children have no errors, otherwise
      * false.
      *
@@ -461,27 +484,6 @@ class Field implements \ArrayAccess
     public function isValid()
     {
         return !$this->hasErrors();
-    }
-
-    /**
-     * Sets the form as optional.
-     *
-     * @return Field
-     */
-    public function optional()
-    {
-        $this->optional = true;
-        return $this;
-    }
-
-    /**
-     * Returns true if the field is optional, otherwise false.
-     *
-     * @return boolean
-     */
-    public function isOptional()
-    {
-        return $this->optional;
     }
 
     /**
@@ -513,6 +515,10 @@ class Field implements \ArrayAccess
         $this->setChildren(array_map(function ($child) {
             return clone $child;
         }, $this->getChildren()));
+
+        $this->setConstraints(array_map(function ($constraint) {
+            return clone $constraint;
+        }, $this->constraints));
     }
 
     /**
@@ -548,26 +554,6 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Gets an blank array but with the children array keys.
-     *
-     * @return mixed[]
-     */
-    private function getBlankData()
-    {
-        $blank = [];
-        foreach ($this->children as $name => $child) {
-            $value = null;
-            if ($child->isMultiple()) {
-                $value = [];
-            }
-
-            $blank[$name] = $value;
-        }
-
-        return $blank;
-    }
-
-    /**
      * Prepares the current field if multiple is true.
      *
      * @param mixed $data The bind or fill data
@@ -582,7 +568,10 @@ class Field implements \ArrayAccess
         }
 
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('The bound data on an multiple field must be an array');
+            throw new \InvalidArgumentException(sprintf(
+                'The bound data on multiple field "%s" must be an array',
+                $this->getName()
+            ));
         }
 
         $choices = [];

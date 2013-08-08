@@ -63,7 +63,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
             $builder->field('password'),
             $builder->embed('address', [
                 $builder->field('city'),
-                $builder->field('street')
+                $builder->field('street'),
             ], function ($city, $street) {
                 return new Address($city, $street);
             })->required(),
@@ -77,6 +77,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         ];
 
         $form->bind($data);
+
         $this->assertFalse($form->isValid());
     }
 }

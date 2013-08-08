@@ -9,5 +9,6 @@ namespace Formz;
  */
 class Events
 {
-    const APPLIED = 'formz.applied';
+    const BEFORE_TRANSFORM = 'formz.before_transform';
+    const APPLIED          = 'formz.applied';
 }
