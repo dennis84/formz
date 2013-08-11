@@ -7,7 +7,7 @@ use Formz\Field;
 
 class FieldTest extends FormzTestCase
 {
-    public function test_getName()
+    public function testGetName()
     {
         $builder = new Builder();
 
@@ -28,7 +28,7 @@ class FieldTest extends FormzTestCase
         $this->assertSame('address[street]', $form['address']['street']->getName());
     }
 
-    public function test_getChild()
+    public function testGetChild()
     {
         $builder = new Builder();
         $form = $builder->form([
@@ -46,7 +46,7 @@ class FieldTest extends FormzTestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function test_getChild_fail()
+    public function testGetChildFail()
     {
         $builder = new Builder();
         $form = $builder->form([
@@ -56,7 +56,7 @@ class FieldTest extends FormzTestCase
         $form->getChild('password');
     }
 
-    public function test_offsetExists()
+    public function testOffsetExists()
     {
         $builder = new Builder();
         $form = $builder->form([
@@ -70,18 +70,34 @@ class FieldTest extends FormzTestCase
     /**
      * @expectedException BadMethodCallException
      */
-    public function test_offsetSet()
+    public function testOffsetSet()
     {
         $field = $this->createField('foo');
         $field['foo'] = 'bar';
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function test_offsetUnset()
+    public function testRemoveChild()
     {
-        $field = $this->createField('foo');
-        unset($field['foo']);
+        $form = $this->createField('form');
+        $form->addChild($this->createField('foo'));
+        $form->addChild($this->createField('bar'));
+        $this->assertCount(2, $form->getChildren());
+
+        $form->removeChild('foo');
+        $this->assertFalse($form->hasChild('foo'));
+        $this->assertCount(1, $form->getChildren());
+
+        unset($form['bar']);
+        $this->assertFalse($form->hasChild('bar'));
+        $this->assertCount(0, $form->getChildren());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testRemoveChildFail()
+    {
+        $form = $this->createField('form');
+        $form->removeChild('foo');
     }
 }

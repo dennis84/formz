@@ -23,8 +23,8 @@ class Builder
         $this->registerExtensions([
             new \Formz\Extension\Constraints(),
             new \Formz\Extension\Optional(),
+            new \Formz\Extension\Multiple(),
             new \Formz\Extension\Verifying(),
-            new \Formz\Extension\Options(),
         ]);
 
         $this->registerExtensions($extensions);

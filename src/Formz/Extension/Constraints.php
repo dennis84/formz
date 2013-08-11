@@ -26,7 +26,7 @@ class Constraints implements ExtensionInterface
         $field->addConstraint(new \Formz\Constraint\Required($message));
         $disp = $field->getDispatcher();
 
-        $disp->addListener(Events::BEFORE_TRANSFORM, function(Event $event) {
+        $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) {
             $event->getField()->validate($event->getInput());
         });
     }

@@ -23,7 +23,6 @@ class Field implements \ArrayAccess
     protected $data;
     protected $apply;
     protected $unapply;
-    protected $multiple = false;
 
     /**
      * Constructor.
@@ -171,6 +170,19 @@ class Field implements \ArrayAccess
     }
 
     /**
+     * Removes a child by name.
+     *
+     * @param string $name The field name.
+     *
+     * @throws InvalidArgumentException If the child does not exists
+     */
+    public function removeChild($name)
+    {
+        $child = $this->getChild($name);
+        unset($this->children[$name]);
+    }
+
+    /**
      * Returns true if a child by name exists, otherwise false.
      *
      * @param boolean $name The field name
@@ -194,7 +206,7 @@ class Field implements \ArrayAccess
     public function getChild($name)
     {
         if (!$this->hasChild($name)) {
-            throw new \InvalidArgumentException(sprintf('There was no child with name "%s" registered.', $name));
+            throw new \InvalidArgumentException(sprintf('There is no child with name "%s" registered.', $name));
         }
 
         return $this->children[$name];
@@ -290,6 +302,16 @@ class Field implements \ArrayAccess
     }
 
     /**
+     * Gets the constraints.
+     *
+     * @return Constraint[]
+     */
+    public function getConstraints()
+    {
+        return $this->constraints;
+    }
+
+    /**
      * Sets the value.
      *
      * @param mixed $value The value
@@ -322,9 +344,9 @@ class Field implements \ArrayAccess
     /**
      * Sets the apply function.
      *
-     * @param Closure $apply The closure object
+     * @param Closure|null $apply The closure object
      */
-    public function setApply(\Closure $apply)
+    public function setApply(\Closure $apply = null)
     {
         $this->apply = $apply;
     }
@@ -332,7 +354,7 @@ class Field implements \ArrayAccess
     /**
      * Gets the apply function.
      *
-     * @return Closure
+     * @return Closure|null
      */
     public function getApply()
     {
@@ -342,9 +364,9 @@ class Field implements \ArrayAccess
     /**
      * Sets the unapply function.
      *
-     * @param Closure $unapply The closure object
+     * @param Closure|null $unapply The closure object
      */
-    public function setUnapply(\Closure $unapply)
+    public function setUnapply(\Closure $unapply = null)
     {
         $this->unapply = $unapply;
     }
@@ -352,7 +374,7 @@ class Field implements \ArrayAccess
     /**
      * Gets the unapply function.
      *
-     * @return Closure
+     * @return Closure|null
      */
     public function getUnapply()
     {
@@ -376,7 +398,11 @@ class Field implements \ArrayAccess
      */
     public function bind($input)
     {
-        $this->maybePrepareMultipleFields($input);
+        if ($this->dispatcher->hasListeners(Events::BIND)) {
+            $event = new Event($this, $this->data, $this->value, $input);
+            $this->dispatcher->dispatch(Events::BIND, $event);
+            $input = $event->getInput();
+        }
 
         if ($this->hasChildren()) {
             $value = $data = [];
@@ -388,7 +414,7 @@ class Field implements \ArrayAccess
             if (isset($input[$child->getFieldName()])) {
                 $child->bind($input[$child->getFieldName()]);
             } else {
-                $child->bind($child->isMultiple() ? [] : null);
+                $child->bind(null);
             }
 
             $value[$child->getFieldName()] = $child->getValue();
@@ -428,7 +454,11 @@ class Field implements \ArrayAccess
      */
     public function fill($data)
     {
-        $this->maybePrepareMultipleFields($data);
+        if ($this->dispatcher->hasListeners(Events::FILL)) {
+            $event = new Event($this, $data);
+            $this->dispatcher->dispatch(Events::FILL, $event);
+            $data = $event->getData();
+        }
 
         if (!$this->hasChildren()) {
             $this->setValue($data);
@@ -447,8 +477,7 @@ class Field implements \ArrayAccess
 
         foreach ($this->getChildren() as $child) {
             if (isset($data[$child->getFieldName()])) {
-                $value[$child->getFieldName()] =
-                    $child->fill($data[$child->getFieldName()]);
+                $value[$child->getFieldName()] = $child->fill($data[$child->getFieldName()]);
             }
         }
 
@@ -487,41 +516,6 @@ class Field implements \ArrayAccess
     }
 
     /**
-     * Sets the field as multiple.
-     *
-     * @return Field
-     */
-    public function multiple($multiple = true)
-    {
-        $this->multiple = $multiple;
-        return $this;
-    }
-
-    /**
-     * Returns true if the field is multiple, otherwise false.
-     *
-     * @return boolean
-     */
-    public function isMultiple()
-    {
-        return $this->multiple;
-    }
-
-    /**
-     * Also clone the childen.
-     */
-    public function __clone()
-    {
-        $this->setChildren(array_map(function ($child) {
-            return clone $child;
-        }, $this->getChildren()));
-
-        $this->setConstraints(array_map(function ($constraint) {
-            return clone $constraint;
-        }, $this->constraints));
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function offsetGet($offset)
@@ -550,56 +544,6 @@ class Field implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        throw new \BadMethodCallException('Not implemented');
-    }
-
-    /**
-     * Prepares the current field if multiple is true.
-     *
-     * @param mixed $data The bind or fill data
-     *
-     * @throws InvalidArgumentException If multiple is true and data is not an
-     *                                  array
-     */
-    private function maybePrepareMultipleFields($data)
-    {
-        if (!$this->isMultiple()) {
-            return;
-        }
-
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The bound data on multiple field "%s" must be an array',
-                $this->getName()
-            ));
-        }
-
-        $choices = [];
-        foreach ($data as $index => $value) {
-            $choice = clone $this;
-            $choice->setFieldName((string) $index);
-            $choice->multiple(false);
-            $choice->setParent($this);
-            foreach ($choice->getChildren() as $child) {
-                $child->setParent($choice);
-            }
-
-            if ($apply = $choice->getApply()) {
-                $apply = \Closure::bind($apply, $choice);
-                $choice->setApply($apply);
-            }
-
-            if ($unapply = $choice->getUnapply()) {
-                $unapply = \Closure::bind($unapply, $choice);
-                $choice->setUnapply($unapply);
-            }
-
-            $choices[] = $choice;
-        }
-
-        $this->setChildren($choices);
-
-        $this->apply = null;
-        $this->unapply = null;
+        return $this->removeChild($offset);
     }
 }

@@ -24,7 +24,7 @@ class Event extends BaseEvent
      * @param mixed $value The field value
      * @param mixed $input The field input
      */
-    public function __construct(Field $field, $data, $value, $input)
+    public function __construct(Field $field, $data = null, $value = null, $input = null)
     {
         $this->field = $field;
         $this->data = $data;
@@ -70,6 +70,16 @@ class Event extends BaseEvent
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Sets the input data.
+     *
+     * @param mixed $input The input data
+     */
+    public function setInput($input)
+    {
+        $this->input = $input;
     }
 
     /**
