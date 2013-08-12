@@ -58,10 +58,10 @@ class MultipleEventSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::BIND => [['bind'], ['resize']],
             Events::FILL => 'fill',
-        );
+        ];
     }
 
     /**

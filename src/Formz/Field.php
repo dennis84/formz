@@ -78,7 +78,7 @@ class Field implements \ArrayAccess
         foreach ($this->extensions as $extension) {
             if (true === method_exists($extension, $method)) {
                 array_unshift($arguments, $this);
-                call_user_func_array(array($extension, $method), $arguments);
+                call_user_func_array([ $extension, $method ], $arguments);
                 return $this;
             }
         }
