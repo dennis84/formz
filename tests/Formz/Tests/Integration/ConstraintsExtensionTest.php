@@ -14,11 +14,12 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
             $builder->field('username')->nonEmptyText(),
         ]);
 
-        $form->bind([
-            'username' => '',
-        ]);
+        $form->bind([ 'username' => '' ]);
 
-        $this->assertSame('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame(
+            'formz.error.non_empty_text',
+            $form->getErrorsFlat()[0]->getMessage()
+        );
     }
 
     public function test_integer_fail()
@@ -29,11 +30,12 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
             $builder->field('integer')->integer()
         ]);
 
-        $form->bind([
-            'float' => '12a',
-        ]);
+        $form->bind([ 'float' => '12a' ]);
 
-        $this->assertSame('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame(
+            'formz.error.integer',
+            $form->getErrorsFlat()[0]->getMessage()
+        );
     }
 
     public function test_integer_pass()
@@ -66,7 +68,10 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
         $form->bind([]);
 
         $this->assertSame(1, count($form['username']->getErrors()));
-        $this->assertSame('This field must not be empty.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame(
+            'formz.error.non_empty_text',
+            $form->getErrorsFlat()[0]->getMessage()
+        );
     }
 
     public function test_number_fail()
@@ -77,11 +82,12 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
             $builder->field('float')->float()
         ]);
 
-        $form->bind([
-            'float' => '12a',
-        ]);
+        $form->bind([ 'float' => '12a' ]);
 
-        $this->assertSame('This field must contain numeric values.', $form->getErrorsFlat()[0]->getMessage());
+        $this->assertSame(
+            'formz.error.float',
+            $form->getErrorsFlat()[0]->getMessage()
+        );
     }
 
     public function test_number_pass()

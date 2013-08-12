@@ -21,7 +21,7 @@ class Constraints implements ExtensionInterface
      * @param Field  $field   The form field
      * @param string $message The error message
      */
-    public function required(Field $field, $message = 'This field is required.')
+    public function required(Field $field, $message = 'formz.error.required')
     {
         $field->addConstraint(new \Formz\Constraint\Required($message));
         $disp = $field->getDispatcher();
@@ -37,7 +37,7 @@ class Constraints implements ExtensionInterface
      * @param Field  $field   The form field
      * @param string $message The error message
      */
-    public function nonEmptyText(Field $field, $message = 'This field must not be empty.')
+    public function nonEmptyText(Field $field, $message = 'formz.error.non_empty_text')
     {
         $field->addConstraint(new \Formz\Constraint\NonEmptyText($message));
     }
@@ -48,7 +48,7 @@ class Constraints implements ExtensionInterface
      * @param Field  $field   The form field
      * @param string $message The error message
      */
-    public function integer(Field $field, $message = 'This field must contain numeric values.')
+    public function integer(Field $field, $message = 'formz.error.integer')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->transform(new \Formz\Transformer\Integer());
@@ -60,7 +60,7 @@ class Constraints implements ExtensionInterface
      * @param Field  $field   The form field
      * @param string $message The error message
      */
-    public function float(Field $field, $message = 'This field must contain numeric values.')
+    public function float(Field $field, $message = 'formz.error.float')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->transform(new \Formz\Transformer\Float());
@@ -72,7 +72,7 @@ class Constraints implements ExtensionInterface
      * @param Field  $field   The form field
      * @param string message The error message
      */
-    public function boolean(Field $field, $message = 'This field must contain a boolean value')
+    public function boolean(Field $field, $message = 'formz.error.boolean')
     {
         $field->addConstraint(new \Formz\Constraint\Boolean($message));
         $field->transform(new \Formz\Transformer\Boolean());
