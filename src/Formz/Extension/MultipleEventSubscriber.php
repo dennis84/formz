@@ -82,10 +82,6 @@ class MultipleEventSubscriber implements EventSubscriberInterface
             $choice->setFieldName((string) $index);
             $choice->setParent($field);
 
-            $dispatcher = $choice->getDispatcher();
-            $dispatcher->removeListener(Events::BIND, [$this, 'bind']);
-            $dispatcher->removeListener(Events::FILL, [$this, 'fill']);
-
             foreach ($choice->getChildren() as $child) {
                 $child->setParent($choice);
             }
@@ -119,6 +115,10 @@ class MultipleEventSubscriber implements EventSubscriberInterface
     protected function cloneField(Field $field)
     {
         $clone = clone $field;
+
+        $dispatcher = $clone->getDispatcher();
+        $dispatcher->removeListener(Events::BIND, [$this, 'bind']);
+        $dispatcher->removeListener(Events::FILL, [$this, 'fill']);
 
         $clone->setChildren(array_map(function ($child) {
             return $this->cloneField($child);
