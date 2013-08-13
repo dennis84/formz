@@ -97,24 +97,6 @@ class Builder
     }
 
     /**
-     * Use this function to define a optional form. This form must not get any
-     * data from the client.
-     *
-     * @param string  $name    The field name
-     * @param Closure $apply   This apply function
-     * @param Closure $unapply The unapply function
-     *
-     * return field
-     */
-    public function optionalEmbed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
-    {
-        $form = $this->embed($name, $fields, $apply, $unapply);
-        $form->optional();
-
-        return $form;
-    }
-
-    /**
      * Use this method to create a single form field.
      *
      * @param string $name The field name

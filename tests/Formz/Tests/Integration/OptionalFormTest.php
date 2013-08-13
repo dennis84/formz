@@ -78,12 +78,12 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         return $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->optionalEmbed('address', [
+            $builder->embed('address', [
                 $builder->field('city'),
                 $builder->field('street')
             ], function ($city, $street) {
                 return new Address($city, $street);
-            }),
+            })->optional(),
         ], function ($username, $password, Address $address = null) {
             return new User($username, $password, $address);
         });
