@@ -291,7 +291,7 @@ class Field implements \ArrayAccess
     /**
      * Replaces all constraints with an new array of constaints.
      *
-     * @param Constraint[]
+     * @param Constraint[] $constraints An array of constraints
      */
     public function setConstraints(array $constraints)
     {
@@ -309,16 +309,6 @@ class Field implements \ArrayAccess
     public function getConstraints()
     {
         return $this->constraints;
-    }
-
-    /**
-     * Sets the value.
-     *
-     * @param mixed $value The value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
     }
 
     /**
@@ -421,7 +411,7 @@ class Field implements \ArrayAccess
             $data[$child->getFieldName()] = $child->getData();
         }
 
-        $this->setValue($value);
+        $this->value = $value;
         
         if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
             $event = new Event($this, $data, $value, $input);
@@ -461,7 +451,7 @@ class Field implements \ArrayAccess
         }
 
         if (!$this->hasChildren()) {
-            $this->setValue($data);
+            $this->value = $data;
             return $data;
         }
 
@@ -481,7 +471,7 @@ class Field implements \ArrayAccess
             }
         }
 
-        $this->setValue($value);
+        $this->value = $value;
         return $value;
     }
 
