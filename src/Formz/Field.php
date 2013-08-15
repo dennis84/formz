@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Field implements \ArrayAccess
+class Field implements \ArrayAccess, \IteratorAggregate
 {
     protected $name;
     protected $dispatcher;
@@ -535,5 +535,15 @@ class Field implements \ArrayAccess
     public function offsetUnset($offset)
     {
         return $this->removeChild($offset);
+    }
+
+    /**
+     * Gets an iterator of field chilren.
+     *
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->children);
     }
 }

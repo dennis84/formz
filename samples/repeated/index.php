@@ -1,77 +1,51 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+$loader = require __DIR__.'/../../vendor/autoload.php';
+$loader->add('Formz\Tests', __DIR__ . '/../../tests');
 
-class Post
-{
-    protected $tags = [];
-    protected $attributes = [];
-
-    public function __construct(array $tags, array $attributes)
-    {
-        $this->tags = $tags;
-        $this->attributes = $attributes;
-    }
-
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-}
-
-class Attribute
-{
-    protected $name;
-    protected $value;
-
-    public function __construct($name, $value)
-    {
-        $this->name = $name;
-        $this->value = $value;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
-}
+use Formz\Tests\Fixtures\Post;
+use Formz\Tests\Fixtures\Attribute;
 
 $builder = new \Formz\Builder();
 
 $form = $builder->form([
+    $builder->field('title')->nonEmptyText(),
     $builder->field('tags')->nonEmptyText()->multiple(),
     $builder->embed('attributes', [
         $builder->field('name')->nonEmptyText(),
         $builder->field('value')->nonEmptyText(),
     ], function ($name, $value) {
         return new Attribute($name, $value);
+    }, function (Attribute $attribute) {
+        return [
+            'name' => $attribute->getName(),
+            'value' => $attribute->getValue(),
+        ];
     })->multiple(),
-], function (array $tags, array $attributes) {
-    return new Post($tags, $attributes);
+], function ($title, array $tags, array $attributes) {
+    return new Post($title, $tags, $attributes);
 }, function (Post $post) {
     return [
+        'title' => $post->getTitle(),
         'tags' => $post->getTags(),
         'attributes' => $post->getAttributes(),
     ];
 });
 
+$post = new Post('Hello World', [ 'foo', 'bar' ], [
+    new Attribute('foo', 'bar'),
+    new Attribute('baz', 'biz'),
+]);
+
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $form->bind($_POST);
 
     if ($form->isValid()) {
-        print_r($form->getData());
+        echo '<pre>' . print_r($form->getData(), true) . '</pre>';
     }
 }
+
+$form->fill($post);
 
 echo render('form.php.html', ['form' => $form]);
 

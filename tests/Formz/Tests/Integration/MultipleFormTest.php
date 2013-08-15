@@ -51,6 +51,35 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($formData, ['choices' => []]);
     }
 
+    public function test_bind_with_constraints()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->nonEmptyText()->multiple(),
+        ]);
+
+        $form->bind([
+            'choices' => ['foo', 'bar', 'baz'],
+        ]);
+
+        $formData = $form->getData();
+        $this->assertTrue($form->isValid());
+    }
+
+    public function test_bind_with_failing_constraints()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->nonEmptyText()->multiple(),
+        ]);
+
+        $form->bind([
+            'choices' => [''],
+        ]);
+
+        $this->assertFalse($form->isValid());
+    }
+
     public function test_bind_and_pass_with_nothing_applied_to_object()
     {
         $builder = new Builder();

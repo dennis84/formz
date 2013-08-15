@@ -16,6 +16,12 @@
       <?php endif ?>
 
       <label for="tags">Tags</label>
+      <input type="text"
+        name="<?php echo $form['title']->getName() ?>"
+        value="<?php echo $form['title']->getValue() ?>">
+      <br>
+
+      <label for="tags">Tags</label>
       <select name="tags[]" multiple>
         <option value="foo">Foo</option>
         <option value="bar">Bar</option>
@@ -24,7 +30,7 @@
       <br>
 
       <script>
-        function addAttribute(e) {
+        function addAttr(e) {
           e.preventDefault()
           var createNode = function (i) {
             var node = document.createElement("div")
@@ -38,9 +44,30 @@
           var container = document.getElementById("attributes")
           container.appendChild(createNode(container.childNodes.length))
         }
+
+        function removeAttr(e) {
+          e.parentNode.parentNode.removeChild(e.parentNode)
+        }
       </script>
-      <div id="attributes"></div>
-      <button onclick="addAttribute(event);">Add Attribute</button>
+      <div id="attributes">
+        <?php foreach ($form['attributes'] as $attr): ?>
+        <div>
+          <input
+            type="text"
+            name="<?php echo $attr['name']->getName() ?>"
+            value="<?php echo $attr['name']->getValue() ?>"
+            placeholder="Name">
+          <input
+            type="text"
+            name="<?php echo $attr['value']->getName() ?>"
+            value="<?php echo $attr['value']->getValue() ?>"
+            placeholder="Value">
+          <span onclick="removeAttr(this);">x</span>
+        </div>
+        <?php endforeach ?>
+      </div>
+
+      <button onclick="addAttr(event);">Add Attribute</button>
       <br>
 
       <input type="submit">

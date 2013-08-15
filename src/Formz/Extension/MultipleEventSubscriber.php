@@ -101,6 +101,7 @@ class MultipleEventSubscriber implements EventSubscriberInterface
 
         $field->setChildren($choices);
 
+        $field->setConstraints([]);
         $field->setApply(null);
         $field->setUnapply(null);
     }
