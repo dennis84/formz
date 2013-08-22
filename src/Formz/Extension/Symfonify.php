@@ -34,16 +34,21 @@ class Symfonify implements ExtensionInterface
      *
      * @param Field   $field   The form field
      * @param Request $request The symfony request object
+     *
+     * @return Field
      */
     public function bindFromRequest(Field $field, Request $request)
     {
         $field->bind($request->request->all());
+        return $field;
     }
 
     /**
      * Enables symfony's annotation asserts.
      *
      * @param Field $field The form field
+     *
+     * @return Field
      */
     public function withAnnotationAsserts(Field $field)
     {
@@ -56,5 +61,7 @@ class Symfonify implements ExtensionInterface
                 ));
             }
         });
+
+        return $field;
     }
 }

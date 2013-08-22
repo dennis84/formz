@@ -177,9 +177,6 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
             ])->multiple(),
         ]);
 
-        $this->assertSame('choices[key]', $form['choices']['key']->getName());
-        $this->assertSame('choices[value]', $form['choices']['value']->getName());
-
         $data = [
             'choices' => [
                 ['key' => 'foo', 'value' => 'bar'],
@@ -306,7 +303,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @group dev */
-    public function test_fill_and_bind_multiple_field()
+    public function test_fill_and_bind_and_decrease_field()
     {
         $builder = new Builder();
         $form = $builder->form([
@@ -321,10 +318,31 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('bar', $form['choices']['1']->getValue());
         $this->assertSame('baz', $form['choices']['2']->getValue());
 
-        $form->bind([ 'choices' => [ 'foo', 'bar' ] ]);
+        $form->bind([ 'choices' => ['foo', 'bar'] ]);
 
         $this->assertSame($form->getData(), [
             'choices' => ['foo', 'bar'],
+        ]);
+    }
+
+    public function test_fill_and_bind_and_increase_field()
+    {
+        $builder = new Builder();
+        $form = $builder->form([
+            $builder->field('choices')->multiple(),
+        ]);
+
+        $form->fill([
+            'choices' => ['foo', 'bar'],
+        ]);
+
+        $this->assertSame('foo', $form['choices']['0']->getValue());
+        $this->assertSame('bar', $form['choices']['1']->getValue());
+
+        $form->bind([ 'choices' => ['foo', 'bar', 'baz'] ]);
+
+        $this->assertSame($form->getData(), [
+            'choices' => ['foo', 'bar', 'baz'],
         ]);
     }
 }

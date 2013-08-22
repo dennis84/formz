@@ -18,9 +18,12 @@ class Verifying implements ExtensionInterface
      * @param Field   $field   The field object
      * @param string  $message The error message
      * @param Closure $check   The check method
+     *
+     * @return Field
      */
     public function verifying(Field $field, $message, \Closure $func)
     {
         $field->addConstraint(new \Formz\Constraint\Callback($message, $func));
+        return $field;
     }
 }

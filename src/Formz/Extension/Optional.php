@@ -18,6 +18,8 @@ class Optional implements ExtensionInterface
      * Makes this field to an optional.
      *
      * @param Field $field The field object
+     *
+     * @return Field
      */
     public function optional(Field $field)
     {
@@ -27,5 +29,7 @@ class Optional implements ExtensionInterface
                 $event->setData(null);
             }
         });
+
+        return $field;
     }
 }

@@ -20,6 +20,8 @@ class Constraints implements ExtensionInterface
      *
      * @param Field  $field   The form field
      * @param string $message The error message
+     *
+     * @return Field
      */
     public function required(Field $field, $message = 'formz.error.required')
     {
@@ -29,6 +31,8 @@ class Constraints implements ExtensionInterface
         $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) {
             $event->getField()->validate($event->getInput());
         });
+
+        return $field;
     }
 
     /**
@@ -36,10 +40,13 @@ class Constraints implements ExtensionInterface
      *
      * @param Field  $field   The form field
      * @param string $message The error message
+     *
+     * @return Field
      */
     public function nonEmptyText(Field $field, $message = 'formz.error.non_empty_text')
     {
         $field->addConstraint(new \Formz\Constraint\NonEmptyText($message));
+        return $field;
     }
 
     /**
@@ -47,11 +54,14 @@ class Constraints implements ExtensionInterface
      *
      * @param Field  $field   The form field
      * @param string $message The error message
+     *
+     * @return Field
      */
     public function integer(Field $field, $message = 'formz.error.integer')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->transform(new \Formz\Transformer\Integer());
+        return $field;
     }
 
     /**
@@ -59,11 +69,14 @@ class Constraints implements ExtensionInterface
      *
      * @param Field  $field   The form field
      * @param string $message The error message
+     *
+     * @return Field
      */
     public function float(Field $field, $message = 'formz.error.float')
     {
         $field->addConstraint(new \Formz\Constraint\Number($message));
         $field->transform(new \Formz\Transformer\Float());
+        return $field;
     }
 
     /**
@@ -71,10 +84,13 @@ class Constraints implements ExtensionInterface
      *
      * @param Field  $field   The form field
      * @param string message The error message
+     *
+     * @return Field
      */
     public function boolean(Field $field, $message = 'formz.error.boolean')
     {
         $field->addConstraint(new \Formz\Constraint\Boolean($message));
         $field->transform(new \Formz\Transformer\Boolean());
+        return $field;
     }
 }

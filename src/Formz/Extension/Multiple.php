@@ -6,6 +6,7 @@ use Formz\Field;
 use Formz\Event;
 use Formz\Events;
 use Formz\ExtensionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Multiple extension.
@@ -18,11 +19,21 @@ class Multiple implements ExtensionInterface
      * Makes this field to a multiple.
      *
      * @param Field $field The field object
+     *
+     * @return Field
      */
-    public function multiple(Field $field)
+    public function multiple(Field $proto)
     {
-        $subscriber = new MultipleEventSubscriber();
-        $disp = $field->getDispatcher();
-        $disp->addSubscriber($subscriber);
+        $resizer = new MultipleResizeListener();
+
+        $name  = $proto->getFieldName();
+        $disp  = new EventDispatcher();
+        $field = new MultipleField($name, $disp, $proto->getExtensions());
+        $field->setPrototype($proto);
+
+        $disp->addListener(Events::BIND, [ $resizer, 'bind' ]);
+        $disp->addListener(Events::FILL, [ $resizer, 'fill' ]);
+
+        return $field;
     }
 }

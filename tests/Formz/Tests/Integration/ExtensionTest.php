@@ -31,15 +31,35 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
             $builder->field('username')->foo(),
         ]);
     }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function test_call_a_method_which_returns_null()
+    {
+        $builder = new Builder([
+            new FooExtension(),
+        ]);
+
+        $form = $builder->form([
+            $builder->field('username')->baz(),
+        ]);
+    }
 }
 
 class FooExtension implements ExtensionInterface
 {
-    public function foo()
+    public function foo(Field $field)
     {
+        return $field;
     }
 
     public function bar(Field $field, array $arr)
+    {
+        return $field;
+    }
+
+    public function baz()
     {
     }
 }

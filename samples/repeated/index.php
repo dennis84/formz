@@ -37,6 +37,8 @@ $post = new Post('Hello World', [ 'foo', 'bar' ], [
     new Attribute('baz', 'biz'),
 ]);
 
+$form->fill($post);
+
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $form->bind($_POST);
 
@@ -44,8 +46,6 @@ if ('POST' == $_SERVER['REQUEST_METHOD']) {
         echo '<pre>' . print_r($form->getData(), true) . '</pre>';
     }
 }
-
-$form->fill($post);
 
 echo render('form.php.html', ['form' => $form]);
 

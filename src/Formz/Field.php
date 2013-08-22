@@ -52,6 +52,16 @@ class Field implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * Returns all registered extensions.
+     *
+     * @return ExtensionInterface[]
+     */
+    public function getExtensions()
+    {
+        return $this->extensions;
+    }
+
+    /**
      * Adds a transformer.
      *
      * @param TransformerInterface The transformer
@@ -71,19 +81,30 @@ class Field implements \ArrayAccess, \IteratorAggregate
      *
      * @return Field
      *
+     * @throws RuntimeException       If method returns not an instance of Field
      * @throws BadMethodCallException If method is not callable
      */
     public function __call($method, $arguments)
     {
         foreach ($this->extensions as $extension) {
-            if (true === method_exists($extension, $method)) {
-                array_unshift($arguments, $this);
-                call_user_func_array([ $extension, $method ], $arguments);
-                return $this;
+            if (false === method_exists($extension, $method)) {
+                continue;
             }
+
+            array_unshift($arguments, $this);
+            $field = call_user_func_array([ $extension, $method ], $arguments);
+
+            if (!$field instanceof Field) {
+                throw new \RuntimeException(sprintf(
+                    'The extension and "%s::%s" must return an instance of ' .
+                    'Field.', get_class($extension), $method));
+            }
+
+            return $field;
         }
 
-        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method)); 
+        throw new \BadMethodCallException(
+            sprintf('Method "%s" does not exists.', $method)); 
     }
 
     /**
@@ -170,19 +191,6 @@ class Field implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * Removes a child by name.
-     *
-     * @param string $name The field name.
-     *
-     * @throws InvalidArgumentException If the child does not exists
-     */
-    public function removeChild($name)
-    {
-        $child = $this->getChild($name);
-        unset($this->children[$name]);
-    }
-
-    /**
      * Returns true if a child by name exists, otherwise false.
      *
      * @param boolean $name The field name
@@ -206,7 +214,8 @@ class Field implements \ArrayAccess, \IteratorAggregate
     public function getChild($name)
     {
         if (!$this->hasChild($name)) {
-            throw new \InvalidArgumentException(sprintf('There is no child with name "%s" registered.', $name));
+            throw new \InvalidArgumentException(sprintf(
+                'There is no child with name "%s" registered.', $name));
         }
 
         return $this->children[$name];
@@ -467,7 +476,8 @@ class Field implements \ArrayAccess, \IteratorAggregate
 
         foreach ($this->getChildren() as $child) {
             if (isset($data[$child->getFieldName()])) {
-                $value[$child->getFieldName()] = $child->fill($data[$child->getFieldName()]);
+                $value[$child->getFieldName()] =
+                    $child->fill($data[$child->getFieldName()]);
             }
         }
 
@@ -534,7 +544,7 @@ class Field implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetUnset($offset)
     {
-        return $this->removeChild($offset);
+        throw new \BadMethodCallException('Not implemented');
     }
 
     /**

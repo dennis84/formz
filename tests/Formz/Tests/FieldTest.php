@@ -76,28 +76,12 @@ class FieldTest extends FormzTestCase
         $field['foo'] = 'bar';
     }
 
-    public function testRemoveChild()
-    {
-        $form = $this->createField('form');
-        $form->addChild($this->createField('foo'));
-        $form->addChild($this->createField('bar'));
-        $this->assertCount(2, $form->getChildren());
-
-        $form->removeChild('foo');
-        $this->assertFalse($form->hasChild('foo'));
-        $this->assertCount(1, $form->getChildren());
-
-        unset($form['bar']);
-        $this->assertFalse($form->hasChild('bar'));
-        $this->assertCount(0, $form->getChildren());
-    }
-
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException BadMethodCallException
      */
-    public function testRemoveChildFail()
+    public function testOffsetUnset()
     {
-        $form = $this->createField('form');
-        $form->removeChild('foo');
+        $field = $this->createField('foo');
+        unset($field['foo']);
     }
 }
