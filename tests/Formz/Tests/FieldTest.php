@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace Formz\Tests;
 
 use Formz\Builder;
@@ -112,5 +111,18 @@ class FieldTest extends FormzTestCase
             new \Formz\Tests\Fixtures\FooExtension() ]);
 
         $field->baz();
+    }
+
+    public function testIteratorAggregate()
+    {
+        $foo = $this->createField('foo');
+        $bar = $this->createField('bar');
+        $baz = $this->createField('baz');
+
+        $foo->setChildren([ $bar, $baz ]);
+
+        foreach ($foo as $child) {
+            $this->assertInstanceOf('Formz\Field', $child);
+        }
     }
 }
