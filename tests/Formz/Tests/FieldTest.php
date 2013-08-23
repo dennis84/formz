@@ -125,4 +125,14 @@ class FieldTest extends FormzTestCase
             $this->assertInstanceOf('Formz\Field', $child);
         }
     }
+
+    public function testCount()
+    {
+        $foo = $this->createField('foo');
+        $bar = $this->createField('bar');
+        $baz = $this->createField('baz');
+
+        $foo->setChildren([ $bar, $baz ]);
+        $this->assertCount(2, $foo);
+    }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Field implements \ArrayAccess, \IteratorAggregate
+class Field implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     protected $name;
     protected $dispatcher;
@@ -555,5 +555,15 @@ class Field implements \ArrayAccess, \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->children);
+    }
+
+    /**
+     * Returns the count of children.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->children);
     }
 }
