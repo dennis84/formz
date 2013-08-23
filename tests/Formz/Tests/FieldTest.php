@@ -84,4 +84,33 @@ class FieldTest extends FormzTestCase
         $field = $this->createField('foo');
         unset($field['foo']);
     }
+    
+    public function testValidExtensionMethod()
+    {
+        $field = $this->createField('foo', [
+            new \Formz\Tests\Fixtures\FooExtension() ]);
+
+        $return = $field->foo();
+        $this->assertEquals($return, $field);
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function testUndefinedExtensionMethod()
+    {
+        $field = $this->createField('foo');
+        $field->foo();
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testInvalidExtensionMethod()
+    {
+        $field = $this->createField('foo', [
+            new \Formz\Tests\Fixtures\FooExtension() ]);
+
+        $field->baz();
+    }
 }
