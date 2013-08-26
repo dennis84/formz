@@ -152,6 +152,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Formz\Tests\Fixtures\Attribute', $formData['choices'][0]);
         $this->assertInstanceOf('Formz\Tests\Fixtures\Attribute', $formData['choices'][1]);
+        $this->assertSame('foo', $formData['choices'][0]->getName());
+        $this->assertSame('bla', $formData['choices'][1]->getName());
     }
 
     /**
