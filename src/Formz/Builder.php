@@ -85,13 +85,13 @@ class Builder
 
         if (null !== $apply) {
             $apply = \Closure::bind($apply, $form);
-            $form->setApply($apply);
         }
 
         if (null !== $unapply) {
             $unapply = \Closure::bind($unapply, $form);
-            $form->setUnapply($unapply);
         }
+
+        $form->transform(new \Formz\Transformer\Callback($apply, $unapply), -1);
 
         return $form;
     }

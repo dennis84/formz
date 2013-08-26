@@ -3,7 +3,7 @@
 namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\TransformerInterface;
+use Formz\Transformer;
 use Formz\Tests\Fixtures\Address;
 use Formz\Tests\Fixtures\User;
 
@@ -90,7 +90,7 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NullToBlahTransformer implements TransformerInterface
+class NullToBlahTransformer extends Transformer
 {
     public function transform($data)
     {

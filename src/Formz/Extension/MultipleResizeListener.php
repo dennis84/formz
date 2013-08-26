@@ -66,10 +66,6 @@ class MultipleResizeListener
         }
 
         $field->setChildren($choices);
-
-        $field->setConstraints([]);
-        $field->setApply(null);
-        $field->setUnapply(null);
     }
 
     /**
@@ -82,16 +78,6 @@ class MultipleResizeListener
     protected function cloneField(Field $field)
     {
         $clone = clone $field;
-
-        if ($apply = $field->getApply()) {
-            $apply = \Closure::bind($apply, $clone);
-            $clone->setApply($apply);
-        }
-
-        if ($unapply = $clone->getUnapply()) {
-            $unapply = \Closure::bind($unapply, $clone);
-            $clone->setUnapply($unapply);
-        }
 
         $clone->setChildren(array_map(function ($child) {
             return $this->cloneField($child);

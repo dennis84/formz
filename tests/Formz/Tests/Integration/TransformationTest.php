@@ -3,7 +3,7 @@
 namespace Formz\Tests;
 
 use Formz\Builder;
-use Formz\TransformerInterface;
+use Formz\Transformer;
 
 class TransformationTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NonsenseTransformer implements TransformerInterface
+class NonsenseTransformer extends Transformer
 {
     public function transform($data)
     {

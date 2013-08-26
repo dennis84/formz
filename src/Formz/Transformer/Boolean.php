@@ -2,14 +2,14 @@
 
 namespace Formz\Transformer;
 
-use Formz\TransformerInterface;
+use Formz\Transformer;
 
 /**
  * Boolean.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Boolean implements TransformerInterface
+class Boolean extends Transformer
 {
     /**
      * {@inheritDoc}

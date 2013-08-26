@@ -2,14 +2,14 @@
 
 namespace Formz\Transformer;
 
-use Formz\TransformerInterface;
+use Formz\Transformer;
 
 /**
  * Float.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Float implements TransformerInterface
+class Float extends Transformer
 {
     /**
      * {@inheritDoc}

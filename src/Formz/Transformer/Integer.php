@@ -2,14 +2,14 @@
 
 namespace Formz\Transformer;
 
-use Formz\TransformerInterface;
+use Formz\Transformer;
 
 /**
  * Integer.
  *
  * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
-class Integer implements TransformerInterface
+class Integer extends Transformer
 {
     /**
      * {@inheritDoc}

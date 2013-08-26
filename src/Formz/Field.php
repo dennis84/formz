@@ -21,8 +21,6 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     protected $parent;
     protected $value;
     protected $data;
-    protected $apply;
-    protected $unapply;
 
     /**
      * Constructor.
@@ -64,12 +62,32 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Adds a transformer.
      *
-     * @param TransformerInterface The transformer
+     * @param Transformer $transformer The transformer
+     * @param int         $prio        The transformation priority
      */
-    public function transform(TransformerInterface $transformer)
+    public function transform(Transformer $transformer, $prio = 0)
     {
-        $this->transformers[] = $transformer;
+        $this->transformers[$prio][] = $transformer;
         return $this;
+    }
+
+    /**
+     * Returns the transformers sorted by priority.
+     *
+     * @return Transformer[]
+     */
+    public function getTransformers()
+    {
+        $transformers = $this->transformers;
+        krsort($transformers);
+        $sorted = [];
+        foreach ($transformers as $list) {
+            foreach ($list as $transformer) {
+                $sorted[] = $transformer;
+            }
+        }
+
+        return $sorted;
     }
 
     /**
@@ -341,46 +359,6 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Sets the apply function.
-     *
-     * @param Closure|null $apply The closure object
-     */
-    public function setApply(\Closure $apply = null)
-    {
-        $this->apply = $apply;
-    }
-
-    /**
-     * Gets the apply function.
-     *
-     * @return Closure|null
-     */
-    public function getApply()
-    {
-        return $this->apply;
-    }
-
-    /**
-     * Sets the unapply function.
-     *
-     * @param Closure|null $unapply The closure object
-     */
-    public function setUnapply(\Closure $unapply = null)
-    {
-        $this->unapply = $unapply;
-    }
-
-    /**
-     * Gets the unapply function.
-     *
-     * @return Closure|null
-     */
-    public function getUnapply()
-    {
-        return $this->unapply;
-    }
-
-    /**
      * Gets the event dispatcher.
      *
      * @return EventDispatcherInterface
@@ -428,12 +406,8 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
             $data = $event->getData();
         }
 
-        foreach ($this->transformers as $transformer) {
+        foreach ($this->getTransformers() as $transformer) {
             $data = $transformer->transform($data);
-        }
-
-        if ($this->getApply() && $data) {
-            $data = call_user_func_array($this->getApply(), $data);
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
@@ -468,8 +442,8 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
             $data = [$data];
         }
 
-        if (null !== $this->unapply) {
-            $data = call_user_func_array($this->unapply, $data);
+        foreach ($this->getTransformers() as $transformer) {
+            $data = $transformer->reverseTransform($data);
         }
 
         $value = [];

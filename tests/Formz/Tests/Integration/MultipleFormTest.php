@@ -302,7 +302,6 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($form->isValid());
     }
 
-    /** @group dev */
     public function test_fill_and_bind_and_decrease_field()
     {
         $builder = new Builder();
