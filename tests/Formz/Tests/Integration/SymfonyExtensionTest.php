@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Validation;
 
 class SfBuilder extends Builder
 {
-    public function embed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
+    public function embed($name, array $fields, callable $apply = null, callable $unapply = null)
     {
         $form = parent::embed($name, $fields, $apply, $unapply);
         $form->withAnnotationAsserts();

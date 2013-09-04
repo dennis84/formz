@@ -55,12 +55,12 @@ class Builder
     /**
      * Use this function to build the root form.
      *
-     * @param Closure $apply   The apply function
-     * @param Closure $unapply The unapply function
+     * @param callable $apply   The apply function
+     * @param callable $unapply The unapply function
      *
      * @return Field
      */
-    public function form(array $fields, \Closure $apply = null, \Closure $unapply = null)
+    public function form(array $fields, callable $apply = null, callable $unapply = null)
     {
         return $this->embed('', $fields, $apply, $unapply);
     }
@@ -68,13 +68,13 @@ class Builder
     /**
      * Use this function to build embedded forms.
      *
-     * @param string  $name    The field name
-     * @param Closure $apply   This apply function
-     * @param Closure $unapply The unapply function
+     * @param string   $name    The field name
+     * @param callable $apply   This apply function
+     * @param callable $unapply The unapply function
      *
      * @return Field
      */
-    public function embed($name, array $fields, \Closure $apply = null, \Closure $unapply = null)
+    public function embed($name, array $fields, callable $apply = null, callable $unapply = null)
     {
         $form = $this->createField($name);
 
@@ -83,16 +83,7 @@ class Builder
             $form->addChild($field);
         }
 
-        if (null !== $apply) {
-            $apply = \Closure::bind($apply, $form);
-        }
-
-        if (null !== $unapply) {
-            $unapply = \Closure::bind($unapply, $form);
-        }
-
         $form->transform(new \Formz\Transformer\Callback($apply, $unapply), -1);
-
         return $form;
     }
 

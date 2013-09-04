@@ -19,10 +19,10 @@ class Callback extends Constraint
     /**
      * Constructor.
      *
-     * @param string  $message  The error message
-     * @param Closure $callback The callback function
+     * @param string   $message  The error message
+     * @param callable $callback The callback function
      */
-    public function __construct($message, \Closure $callback)
+    public function __construct($message, callable $callback)
     {
         $this->message = $message;
         $this->callback = $callback;

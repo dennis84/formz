@@ -17,10 +17,10 @@ class Callback extends Transformer
     /**
      * Constructor.
      *
-     * @param Closure $transform        The tranform callback
-     * @param Closure $reverseTransform The reverse tranform callback
+     * @param callable $transform        The tranform callback
+     * @param callable $reverseTransform The reverse tranform callback
      */
-    public function __construct(\Closure $transform = null, \Closure $reverseTransform = null)
+    public function __construct(callable $transform = null, callable $reverseTransform = null)
     {
         $this->transform = $transform;
         $this->reverseTransform = $reverseTransform;
@@ -45,12 +45,12 @@ class Callback extends Transformer
     /**
      * Maybe executes the given transform function.
      *
-     * @param mixed   $data The data to tranform
-     * @param Closure $func The callback function
+     * @param mixed    $data The data to tranform
+     * @param callable $func The callback function
      *
      * @return mixed
      */
-    private function doTransform($data, \Closure $func = null)
+    private function doTransform($data, callable $func = null)
     {
         if (null === $func || null === $data) {
             return $data;
