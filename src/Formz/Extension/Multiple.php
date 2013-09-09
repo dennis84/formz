@@ -28,8 +28,8 @@ class Multiple implements ExtensionInterface
 
         $name  = $proto->getFieldName();
         $disp  = new EventDispatcher();
-        $field = new MultipleField($name, $disp, $proto->getExtensions());
-        $field->setPrototype($proto);
+        $field = new Field($name, $disp, $proto->getExtensions());
+        $field->setOption('prototype', $proto);
 
         $disp->addListener(Events::BIND, [ $resizer, 'bind' ]);
         $disp->addListener(Events::FILL, [ $resizer, 'fill' ]);

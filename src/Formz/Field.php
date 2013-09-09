@@ -18,6 +18,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     protected $constraints = [];
     protected $children = [];
     protected $errors = [];
+    protected $options = [];
     protected $parent;
     protected $value;
     protected $data;
@@ -366,6 +367,36 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     public function getDispatcher()
     {
         return $this->dispatcher;
+    }
+
+    /**
+     * Sets an option.
+     *
+     * @param string $name  The option name
+     * @param mixed  $value The option value
+     */
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+    }
+
+    /**
+     * Gets an option.
+     *
+     * @param string $name The option name
+     *
+     * @return mixed
+     *
+     * @throws InvalidArgumentException If option does not exists
+     */
+    public function getOption($name)
+    {
+        if (!array_key_exists($name, $this->options)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Option with name "%s" does not exists.', $name));
+        }
+
+        return $this->options[$name];
     }
 
     /**

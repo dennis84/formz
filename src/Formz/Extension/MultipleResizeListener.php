@@ -41,10 +41,10 @@ class MultipleResizeListener
     /**
      * Prepares the multiple field.
      *
-     * @param MultipleField $field The field object
-     * @param mixed         $data  The data
+     * @param Field $field The field object
+     * @param mixed $data  The data
      */
-    public function prepare(MultipleField $field, $data)
+    public function prepare(Field $field, $data)
     {
         if (!is_array($data)) {
             throw new \InvalidArgumentException('');
@@ -52,7 +52,7 @@ class MultipleResizeListener
 
         $choices = [];
         foreach ($data as $index => $value) {
-            $proto  = $field->getPrototype();
+            $proto  = $field->getOption('prototype');
             $choice = $this->cloneField($proto);
 
             $choice->setFieldName((string) $index);
