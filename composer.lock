@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "v2.3.1"
+                "reference": "41c9826457c65fa3cf746f214985b7ca9cba42f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/v2.3.1",
-                "reference": "v2.3.1",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/41c9826457c65fa3cf746f214985b7ca9cba42f8",
+                "reference": "41c9826457c65fa3cf746f214985b7ca9cba42f8",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-13 14:36:40"
+            "time": "2013-07-21 12:12:18"
         }
     ],
     "packages-dev": [
@@ -137,12 +137,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "2ee5c0da197451c0b297908d1337c944166bcd72"
+                "reference": "329b059893fdcc9399962ca5881d988264123d23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/2ee5c0da197451c0b297908d1337c944166bcd72",
-                "reference": "2ee5c0da197451c0b297908d1337c944166bcd72",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/329b059893fdcc9399962ca5881d988264123d23",
+                "reference": "329b059893fdcc9399962ca5881d988264123d23",
                 "shasum": ""
             },
             "require": {
@@ -178,7 +178,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-01 12:24:43"
+            "time": "2013-09-13 12:20:37"
         },
         {
             "name": "symfony/translation",
@@ -187,20 +187,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Translation.git",
-                "reference": "ed0c7257bfc533205dff78f9d247c2544c830ddc"
+                "reference": "d204e9c4836c7ed910438c407c75f7f86157d53d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Translation/zipball/ed0c7257bfc533205dff78f9d247c2544c830ddc",
-                "reference": "ed0c7257bfc533205dff78f9d247c2544c830ddc",
+                "url": "https://api.github.com/repos/symfony/Translation/zipball/d204e9c4836c7ed910438c407c75f7f86157d53d",
+                "reference": "d204e9c4836c7ed910438c407c75f7f86157d53d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/config": ">=2.0,<3.0",
-                "symfony/yaml": ">=2.2,<3.0"
+                "symfony/config": "~2.0",
+                "symfony/yaml": "~2.2"
             },
             "suggest": {
                 "symfony/config": "",
@@ -233,7 +233,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-16 07:54:39"
+            "time": "2013-08-29 06:54:01"
         },
         {
             "name": "symfony/validator",
@@ -242,12 +242,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Validator.git",
-                "reference": "7363c345e34f72031f42eb3e69c57f7c941468f3"
+                "reference": "f67ba504a147d3e0e48f96e4609175966ce8b150"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Validator/zipball/7363c345e34f72031f42eb3e69c57f7c941468f3",
-                "reference": "7363c345e34f72031f42eb3e69c57f7c941468f3",
+                "url": "https://api.github.com/repos/symfony/Validator/zipball/f67ba504a147d3e0e48f96e4609175966ce8b150",
+                "reference": "f67ba504a147d3e0e48f96e4609175966ce8b150",
                 "shasum": ""
             },
             "require": {
@@ -294,7 +294,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-03 10:44:49"
+            "time": "2013-09-11 06:28:08"
         }
     ],
     "aliases": [
