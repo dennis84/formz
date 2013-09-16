@@ -55,7 +55,13 @@ class Symfonify implements ExtensionInterface
         $field->getDispatcher()->addListener(Events::APPLIED, function (Event $event) {
             $violations = $this->validator->validate($event->getData());
             foreach ($violations as $violation) {
-                $event->getField()->addError(new Error(
+                $field = $event->getField();
+                if (!$field->hasChild($violation->getPropertyPath())) {
+                    continue;
+                }
+
+                $child = $field->getChild($violation->getPropertyPath());
+                $child->addError(new Error(
                     $violation->getPropertyPath(),
                     $violation->getMessage()
                 ));

@@ -15,10 +15,10 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $form->bind([ 'username' => '' ]);
-
+        
         $this->assertSame(
             'formz.error.non_empty_text',
-            $form->getErrorsFlat()[0]->getMessage()
+            $form['username']->getErrors()[0]->getMessage()
         );
     }
 
@@ -30,11 +30,11 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
             $builder->field('integer')->integer()
         ]);
 
-        $form->bind([ 'float' => '12a' ]);
+        $form->bind([ 'integer' => '12a' ]);
 
         $this->assertSame(
             'formz.error.integer',
-            $form->getErrorsFlat()[0]->getMessage()
+            $form['integer']->getErrors()[0]->getMessage()
         );
     }
 
