@@ -29,6 +29,8 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
+            $builder->field('firstName'),
+            $builder->field('last_name'),
             $builder->embed('address', [
                 $builder->field('city'),
                 $builder->field('street')
@@ -42,6 +44,8 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
         $request = Request::create('/', 'POST', [
             'username' => 'dennis',
             'password' => 'demo',
+            'firstName' => '',
+            'last_name' => '',
             'address' => [
                 'city'   => 'Foo',
                 'street' => 'Foostreet 12',
@@ -51,8 +55,10 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
         $form->bindFromRequest($request);
         $formData = $form->getData();
 
-        $this->assertSame('password', $form->getErrorsFlat()[0]->getField());
-        $this->assertSame('city', $form->getErrorsFlat()[1]->getField());
+        $this->assertCount(1, $form['password']->getErrors());
+        $this->assertCount(1, $form['address']['city']->getErrors());
+        $this->assertCount(1, $form['firstName']->getErrors());
+        $this->assertCount(1, $form['last_name']->getErrors());
     }
 
     private function createValidator()

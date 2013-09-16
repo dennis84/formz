@@ -18,6 +18,16 @@ class User
      */
     public $password;
 
+    /**
+     * @Assert\NotBlank
+     */
+    public $firstName;
+
+    /**
+     * @Assert\NotBlank
+     */
+    public $last_name;
+
     public $address;
 
     public function __construct($username, $password, $address  = null)
