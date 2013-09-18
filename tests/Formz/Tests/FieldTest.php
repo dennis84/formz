@@ -13,10 +13,10 @@ class FieldTest extends FormzTestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('street'),
             ]),
-            $builder->embed('choices', [
+            $builder->field('choices', [
                 $builder->field('key'),
                 $builder->field('value'),
             ])->multiple(),
@@ -33,7 +33,7 @@ class FieldTest extends FormzTestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('street'),
             ]),
         ]);

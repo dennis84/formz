@@ -13,7 +13,7 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username')->nonEmptyText(),
             $builder->field('password')->nonEmptyText(),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('city')->nonEmptyText(),
                 $builder->field('street')->nonEmptyText(),
             ]),
@@ -42,7 +42,7 @@ class FormWithErrorsTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username')->nonEmptyText(),
             $builder->field('password')->nonEmptyText(),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('city')->nonEmptyText(),
                 $builder->field('street')->nonEmptyText(),
             ]),

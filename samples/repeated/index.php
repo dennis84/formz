@@ -11,7 +11,7 @@ $builder = new \Formz\Builder();
 $form = $builder->form([
     $builder->field('title')->nonEmptyText(),
     $builder->field('tags')->nonEmptyText()->multiple(),
-    $builder->embed('attributes', [
+    $builder->field('attributes', [
         $builder->field('name')->nonEmptyText(),
         $builder->field('value')->nonEmptyText(),
     ], function ($name, $value) {

@@ -87,7 +87,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('title'),
             $builder->field('tags')->multiple(),
-            $builder->embed('attributes', [
+            $builder->field('attributes', [
                 $builder->field('name'),
                 $builder->field('value'),
             ], function ($name, $value) {
@@ -109,7 +109,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new Builder();
         $form = $builder->form([
-            $builder->embed('choices', [
+            $builder->field('choices', [
                 $builder->field('key'),
                 $builder->field('value'),
             ])->multiple(),
@@ -132,7 +132,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new Builder();
         $form = $builder->form([
-            $builder->embed('choices', [
+            $builder->field('choices', [
                 $builder->field('name'),
                 $builder->field('value'),
             ], function ($name, $value) {
@@ -173,7 +173,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new Builder();
         $form = $builder->form([
-            $builder->embed('choices', [
+            $builder->field('choices', [
                 $builder->field('key'),
                 $builder->field('value'),
             ])->multiple(),
@@ -214,7 +214,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
     {
         $builder = new Builder();
         $form = $builder->form([
-            $builder->embed('choices', [
+            $builder->field('choices', [
                 $builder->field('key'),
                 $builder->field('value'),
             ])->multiple(),
@@ -240,7 +240,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('title'),
             $builder->field('tags')->multiple(),
-            $builder->embed('attributes', [
+            $builder->field('attributes', [
                 $builder->field('name'),
                 $builder->field('value'),
             ], null, function (Attribute $attr) {

@@ -34,7 +34,7 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('city'),
                 $builder->field('street'),
             ]),
@@ -90,10 +90,10 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('city'),
                 $builder->field('street'),
-                $builder->embed('location', [
+                $builder->field('location', [
                     $builder->field('lat'),
                     $builder->field('lng'),
                 ], null, function (Location $location) {

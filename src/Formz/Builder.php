@@ -62,41 +62,30 @@ class Builder
      */
     public function form(array $fields, callable $apply = null, callable $unapply = null)
     {
-        return $this->embed('', $fields, $apply, $unapply);
+        return $this->field('', $fields, $apply, $unapply);
     }
 
     /**
-     * Use this function to build embedded forms.
+     * Creates a field object.
      *
-     * @param string   $name    The field name
-     * @param callable $apply   This apply function
-     * @param callable $unapply The unapply function
+     * @param string   $name     The field name
+     * @param Field[]  $children The field children
+     * @param callable $apply    This apply function
+     * @param callable $unapply  The unapply function
      *
      * @return Field
      */
-    public function embed($name, array $fields, callable $apply = null, callable $unapply = null)
+    public function field($name, array $children = [], callable $apply = null, callable $unapply = null)
     {
-        $form = $this->createField($name);
+        $field = $this->createField($name);
 
-        foreach ($fields as $field) {
-            $field->setParent($form);
-            $form->addChild($field);
+        foreach ($children as $child) {
+            $child->setParent($field);
+            $field->addChild($child);
         }
 
-        $form->transform(new \Formz\Transformer\Callback($apply, $unapply), -1);
-        return $form;
-    }
-
-    /**
-     * Use this method to create a single form field.
-     *
-     * @param string $name The field name
-     *
-     * @return Field
-     */
-    public function field($name)
-    {
-        return $this->createField($name);
+        $field->transform(new \Formz\Transformer\Callback($apply, $unapply), -1);
+        return $field;
     }
 
     /**

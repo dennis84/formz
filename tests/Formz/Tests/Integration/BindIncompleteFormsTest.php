@@ -61,7 +61,7 @@ class BindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
         $form = $builder->form([
             $builder->field('username'),
             $builder->field('password'),
-            $builder->embed('address', [
+            $builder->field('address', [
                 $builder->field('city'),
                 $builder->field('street'),
             ], function ($city, $street) {
