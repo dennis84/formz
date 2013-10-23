@@ -42,11 +42,10 @@ class FieldTest extends FormzTestCase
         $this->assertSame('username', $form->getChild('username')->getFieldName());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetChildFail()
     {
+        $this->setExpectedException('InvalidArgumentException');
+
         $builder = new Builder();
         $form = $builder->form([
             $builder->field('username'),
@@ -66,20 +65,18 @@ class FieldTest extends FormzTestCase
         $this->assertFalse(isset($form['password']));
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testOffsetSet()
     {
+        $this->setExpectedException('BadMethodCallException');
+
         $field = $this->createField('foo');
         $field['foo'] = 'bar';
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testOffsetUnset()
     {
+        $this->setExpectedException('BadMethodCallException');
+
         $field = $this->createField('foo');
         unset($field['foo']);
     }
@@ -93,20 +90,18 @@ class FieldTest extends FormzTestCase
         $this->assertEquals($return, $field);
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testUndefinedExtensionMethod()
     {
+        $this->setExpectedException('BadMethodCallException');
+
         $field = $this->createField('foo');
         $field->foo();
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testInvalidExtensionMethod()
     {
+        $this->setExpectedException('RuntimeException');
+
         $field = $this->createField('foo', [
             new \Formz\Tests\Fixtures\FooExtension() ]);
 
