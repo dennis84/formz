@@ -4,6 +4,7 @@ namespace Formz\Tests;
 
 use Formz\Builder;
 use Formz\Transformer;
+use Formz\Tests\Fixtures\NonsenseTransformer;
 
 class TransformationTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,13 +22,5 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
 
         $form->transform(new NonsenseTransformer());
         $form->bind([ 'foo' => '42.2' ]);
-    }
-}
-
-class NonsenseTransformer extends Transformer
-{
-    public function transform($data)
-    {
-        return [ 'foo' => $data['foo'] * 10 ];
     }
 }

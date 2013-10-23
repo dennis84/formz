@@ -6,6 +6,7 @@ use Formz\Builder;
 use Formz\Transformer;
 use Formz\Tests\Fixtures\Address;
 use Formz\Tests\Fixtures\User;
+use Formz\Tests\Fixtures\NullToBlahTransformer;
 
 class OptionalFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -87,13 +88,5 @@ class OptionalFormTest extends \PHPUnit_Framework_TestCase
         ], function ($username, $password, Address $address = null) {
             return new User($username, $password, $address);
         });
-    }
-}
-
-class NullToBlahTransformer extends Transformer
-{
-    public function transform($data)
-    {
-        return null === $data ? 'blah' : $data;
     }
 }

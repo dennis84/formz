@@ -2,7 +2,7 @@
 
 namespace Formz;
 
-use Formz\Transformer;
+use Formz\Tests\Fixtures\NullTransformer;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +17,4 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
         $transformer = new NullTransformer();
         $this->assertSame('foo', $transformer->reverseTransform('foo'));
     }
-}
-
-class NullTransformer extends Transformer
-{
 }
