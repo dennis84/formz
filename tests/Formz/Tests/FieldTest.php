@@ -135,4 +135,31 @@ class FieldTest extends FormzTestCase
         $foo->setChildren([ $bar, $baz ]);
         $this->assertCount(2, $foo);
     }
+
+    public function testGetTransformers()
+    {
+        $a = new \Formz\Transformer\Integer;
+        $b = new \Formz\Transformer\Float;
+        $c = new \Formz\Transformer\Boolean;
+
+        $foo = $this->createField('foo');
+        $foo->transform($a);
+        $foo->transform($b);
+        $foo->transform($c);
+
+        $transformers = $foo->getTransformers();
+        $this->assertEquals($a, $transformers[0]);
+        $this->assertEquals($b, $transformers[1]);
+        $this->assertEquals($c, $transformers[2]);
+
+        $foo = $this->createField('foo');
+        $foo->transform($a, 0);
+        $foo->transform($b, 2);
+        $foo->transform($c, 1);
+
+        $transformers = $foo->getTransformers();
+        $this->assertEquals($b, $transformers[0]);
+        $this->assertEquals($c, $transformers[1]);
+        $this->assertEquals($a, $transformers[2]);
+    }
 }
