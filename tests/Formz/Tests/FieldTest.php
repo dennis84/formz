@@ -6,27 +6,6 @@ use Formz\Field;
 
 class FieldTest extends FormzTestCase
 {
-    public function testGetName()
-    {
-        $builder = new Builder();
-
-        $form = $builder->form([
-            $builder->field('username'),
-            $builder->field('password'),
-            $builder->field('address', [
-                $builder->field('street'),
-            ]),
-            $builder->field('choices', [
-                $builder->field('key'),
-                $builder->field('value'),
-            ])->multiple(),
-        ]);
-
-        $this->assertSame('', $form->getName());
-        $this->assertSame('username', $form['username']->getName());
-        $this->assertSame('address[street]', $form['address']['street']->getName());
-    }
-
     public function testGetChild()
     {
         $builder = new Builder();
@@ -96,16 +75,6 @@ class FieldTest extends FormzTestCase
 
         $field = $this->createField('foo');
         $field->foo();
-    }
-
-    public function testInvalidExtensionMethod()
-    {
-        $this->setExpectedException('RuntimeException');
-
-        $field = $this->createField('foo', [
-            new \Formz\Tests\Fixtures\FooExtension() ]);
-
-        $field->baz();
     }
 
     public function testIteratorAggregate()

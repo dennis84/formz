@@ -21,6 +21,7 @@ class Builder
     public function __construct(array $extensions = [])
     {
         $this->registerExtensions([
+            new \Formz\Extension\Rendering(),
             new \Formz\Extension\Constraints(),
             new \Formz\Extension\Optional(),
             new \Formz\Extension\Multiple(),

@@ -100,7 +100,6 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return Field
      *
-     * @throws RuntimeException       If method returns not an instance of Field
      * @throws BadMethodCallException If method is not callable
      */
     public function __call($method, $arguments)
@@ -111,15 +110,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
             }
 
             array_unshift($arguments, $this);
-            $field = call_user_func_array([ $extension, $method ], $arguments);
-
-            if (!$field instanceof Field) {
-                throw new \RuntimeException(sprintf(
-                    'The extension and "%s::%s" must return an instance of ' .
-                    'Field.', get_class($extension), $method));
-            }
-
-            return $field;
+            return call_user_func_array([ $extension, $method ], $arguments);
         }
 
         throw new \BadMethodCallException(
@@ -144,26 +135,6 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     public function getFieldName()
     {
         return $this->name;
-    }
-
-    /**
-     * Gets the name for form view.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        $parent = $this->getParent();
-
-        if (null !== $parent) {
-            if ('' === $parent->getName()) {
-                return $this->getFieldName();
-            }
-
-            return $parent->getName() . '[' . $this->getFieldName() . ']';
-        }
-
-        return $this->getFieldName();
     }
 
     /**
