@@ -2,7 +2,6 @@
 
 namespace Formz\Constraint;
 
-use Formz\Field;
 use Formz\Constraint;
 
 /**

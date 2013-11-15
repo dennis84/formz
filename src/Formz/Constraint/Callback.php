@@ -3,8 +3,6 @@
 namespace Formz\Constraint;
 
 use Formz\Constraint;
-use Formz\Field;
-use Formz\Error;
 
 /**
  * Callback.

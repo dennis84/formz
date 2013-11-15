@@ -2,9 +2,7 @@
 
 namespace Formz\Extension;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Formz\Event;
-use Formz\Events;
 use Formz\Field;
 
 /**

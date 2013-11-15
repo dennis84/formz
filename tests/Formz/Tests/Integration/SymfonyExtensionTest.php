@@ -57,7 +57,6 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
             ->enableAnnotationMapping()
             ->getValidator();
 
-        $this->symfonyValidator = $validator;
         return $validator;
     }
 }
