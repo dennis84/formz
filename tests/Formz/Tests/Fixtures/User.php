@@ -38,7 +38,7 @@ class User
     }
 
     /**
-     * @Assert\True
+     * @Assert\True(message = "foo")
      */
     public function isPasswordValid()
     {

@@ -51,6 +51,7 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $form['last_name']->getErrors());
         $this->assertCount(1, $form->getErrors());
         $this->assertSame('passwordValid', $form->getErrors()[0]->getField());
+        $this->assertSame('foo', $form->getErrors()[0]->getMessage());
     }
 
     private function createValidator()
