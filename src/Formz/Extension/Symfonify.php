@@ -56,12 +56,12 @@ class Symfonify implements ExtensionInterface
             $violations = $this->validator->validate($event->getData());
             foreach ($violations as $violation) {
                 $field = $event->getField();
-                if (!$field->hasChild($violation->getPropertyPath())) {
-                    continue;
-                }
 
-                $child = $field->getChild($violation->getPropertyPath());
-                $child->addError(new Error(
+                if ($field->hasChild($violation->getPropertyPath())) {
+                    $field = $field->getChild($violation->getPropertyPath());
+                }
+                
+                $field->addError(new Error(
                     $violation->getPropertyPath(),
                     $violation->getMessage()
                 ));

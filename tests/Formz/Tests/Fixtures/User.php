@@ -36,4 +36,12 @@ class User
         $this->password = $password;
         $this->address  = $address;
     }
+
+    /**
+     * @Assert\True
+     */
+    public function isPasswordValid()
+    {
+        return false;
+    }
 }
