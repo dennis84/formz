@@ -80,15 +80,12 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     public function getTransformers()
     {
         $transformers = $this->transformers;
-        krsort($transformers);
-        $sorted = [];
-        foreach ($transformers as $list) {
-            foreach ($list as $transformer) {
-                $sorted[] = $transformer;
-            }
+        if (0 === count($transformers)) {
+            return $transformers;
         }
 
-        return $sorted;
+        krsort($transformers);
+        return call_user_func_array('array_merge', $transformers);
     }
 
     /**
