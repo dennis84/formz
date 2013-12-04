@@ -129,7 +129,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return string
      */
-    public function getFieldName()
+    public function getName()
     {
         return $this->name;
     }
@@ -174,7 +174,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function addChild(Field $child)
     {
-        $this->children[$child->getFieldName()] = $child;
+        $this->children[$child->getName()] = $child;
     }
 
     /**
@@ -368,6 +368,16 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns the field options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
      * Binds the client data to the field and all children.
      *
      * @param mixed $input The client data
@@ -387,14 +397,14 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         foreach ($this->children as $child) {
-            if (isset($input[$child->getFieldName()])) {
-                $child->bind($input[$child->getFieldName()]);
+            if (isset($input[$child->getName()])) {
+                $child->bind($input[$child->getName()]);
             } else {
                 $child->bind(null);
             }
 
-            $value[$child->getFieldName()] = $child->getValue();
-            $data[$child->getFieldName()] = $child->getData();
+            $value[$child->getName()] = $child->getValue();
+            $data[$child->getName()] = $child->getData();
         }
 
         $this->value = $value;
@@ -448,9 +458,9 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         $value = [];
 
         foreach ($this->getChildren() as $child) {
-            if (isset($data[$child->getFieldName()])) {
-                $value[$child->getFieldName()] =
-                    $child->fill($data[$child->getFieldName()]);
+            if (isset($data[$child->getName()])) {
+                $value[$child->getName()] =
+                    $child->fill($data[$child->getName()]);
             }
         }
 
@@ -470,7 +480,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         foreach ($this->constraints as $constraint) {
             if (false === $constraint->validate($data)) {
                 $this->addError(new Error(
-                    $this->getFieldName(),
+                    $this->getName(),
                     $constraint->getMessage()
                 ));
             }

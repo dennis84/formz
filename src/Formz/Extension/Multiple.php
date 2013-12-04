@@ -26,7 +26,7 @@ class Multiple implements ExtensionInterface
     {
         $resizer = new MultipleResizeListener();
 
-        $name  = $proto->getFieldName();
+        $name  = $proto->getName();
         $disp  = new EventDispatcher();
         $field = new Field($name, $disp, $proto->getExtensions());
         $field->setOption('prototype', $proto);

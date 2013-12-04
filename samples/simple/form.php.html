@@ -16,11 +16,11 @@
       <?php endif ?>
 
       <label for="subject">Subject</label>
-      <input type="text" name="<?php echo $form['subject']->getName() ?>" value="<?php echo $form['subject']->getValue() ?>">
+      <input type="text" name="<?php echo $form['subject']->name() ?>" value="<?php echo $form['subject']->getValue() ?>">
       <br>
 
       <label for="message">Message</label>
-      <textarea name="<?php echo $form['message']->getName() ?>"><?php echo $form['message']->getValue() ?></textarea>
+      <textarea name="<?php echo $form['message']->name() ?>"><?php echo $form['message']->getValue() ?></textarea>
       <br>
 
       <input type="submit">

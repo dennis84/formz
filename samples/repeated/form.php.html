@@ -17,7 +17,7 @@
 
       <label for="tags">Tags</label>
       <input type="text"
-        name="<?php echo $form['title']->getName() ?>"
+        name="<?php echo $form['title']->name() ?>"
         value="<?php echo $form['title']->getValue() ?>">
       <br>
 
@@ -54,12 +54,12 @@
         <div>
           <input
             type="text"
-            name="<?php echo $attr['name']->getName() ?>"
+            name="<?php echo $attr['name']->name() ?>"
             value="<?php echo $attr['name']->getValue() ?>"
             placeholder="Name">
           <input
             type="text"
-            name="<?php echo $attr['value']->getName() ?>"
+            name="<?php echo $attr['value']->name() ?>"
             value="<?php echo $attr['value']->getValue() ?>"
             placeholder="Value">
           <span onclick="removeAttr(this);">x</span>

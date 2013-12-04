@@ -22,8 +22,8 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
             ])->multiple(),
         ]);
 
-        $this->assertSame('', $form->getName());
-        $this->assertSame('username', $form['username']->getName());
-        $this->assertSame('address[street]', $form['address']['street']->getName());
+        $this->assertSame('', $form->name());
+        $this->assertSame('username', $form['username']->name());
+        $this->assertSame('address[street]', $form['address']['street']->name());
     }
 }
