@@ -169,7 +169,7 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $form->bind(['choices' => 'foo']);
     }
 
-    public function test_bind_and_get_name()
+    public function test_bind_and_getName()
     {
         $builder = new Builder();
         $form = $builder->form([
@@ -188,10 +188,10 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
 
         $form->bind($data);
 
-        $this->assertSame('choices[0][key]', $form['choices']['0']['key']->name());
-        $this->assertSame('choices[0][value]', $form['choices']['0']['value']->name());
-        $this->assertSame('choices[1][key]', $form['choices']['1']['key']->name());
-        $this->assertSame('choices[1][value]', $form['choices']['1']['value']->name());
+        $this->assertSame('choices[0][key]', $form['choices']['0']['key']->getName());
+        $this->assertSame('choices[0][value]', $form['choices']['0']['value']->getName());
+        $this->assertSame('choices[1][key]', $form['choices']['1']['key']->getName());
+        $this->assertSame('choices[1][value]', $form['choices']['1']['value']->getName());
     }
 
     public function test_fill_flat_form_unapplied_from_array()

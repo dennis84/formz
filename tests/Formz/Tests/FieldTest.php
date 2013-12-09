@@ -18,7 +18,7 @@ class FieldTest extends FormzTestCase
         ]);
 
         $this->assertInstanceOf('Formz\Field', $form->getChild('username'));
-        $this->assertSame('username', $form->getChild('username')->getName());
+        $this->assertSame('username', $form->getChild('username')->getFieldName());
     }
 
     public function testGetChildFail()
