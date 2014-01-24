@@ -24,9 +24,21 @@ class Rendering implements ExtensionInterface
         $parent = $field->getParent();
 
         if (null !== $parent && '' !== $parent->getName()) {
-            return $parent->getName() . '[' . $field->getFieldName() . ']';
+            return $parent->getName() . '[' . $field->getInternalName() . ']';
         }
 
-        return $field->getFieldName();
+        return $field->getInternalName();
+    }
+
+    /**
+     * An alias for `getName` method.
+     *
+     * @param Field $field The field object
+     *
+     * @return string
+     */
+    public function name(Field $field)
+    {
+        return $this->getName($field);
     }
 }

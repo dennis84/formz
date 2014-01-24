@@ -129,7 +129,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return string
      */
-    public function getFieldName()
+    public function getInternalName()
     {
         return $this->name;
     }
@@ -174,7 +174,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function addChild(Field $child)
     {
-        $this->children[$child->getFieldName()] = $child;
+        $this->children[$child->getInternalName()] = $child;
     }
 
     /**
@@ -387,14 +387,14 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         foreach ($this->children as $child) {
-            if (isset($input[$child->getFieldName()])) {
-                $child->bind($input[$child->getFieldName()]);
+            if (isset($input[$child->getInternalName()])) {
+                $child->bind($input[$child->getInternalName()]);
             } else {
                 $child->bind(null);
             }
 
-            $value[$child->getFieldName()] = $child->getValue();
-            $data[$child->getFieldName()] = $child->getData();
+            $value[$child->getInternalName()] = $child->getValue();
+            $data[$child->getInternalName()] = $child->getData();
         }
 
         $this->value = $value;
@@ -448,9 +448,9 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         $value = [];
 
         foreach ($this->getChildren() as $child) {
-            if (isset($data[$child->getFieldName()])) {
-                $value[$child->getFieldName()] =
-                    $child->fill($data[$child->getFieldName()]);
+            if (isset($data[$child->getInternalName()])) {
+                $value[$child->getInternalName()] =
+                    $child->fill($data[$child->getInternalName()]);
             }
         }
 
@@ -470,7 +470,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         foreach ($this->constraints as $constraint) {
             if (false === $constraint->validate($data)) {
                 $this->addError(new Error(
-                    $this->getFieldName(),
+                    $this->getInternalName(),
                     $constraint->getMessage()
                 ));
             }
