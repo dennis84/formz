@@ -14,7 +14,7 @@ class Builder
     protected $extensions = [];
 
     /**
-     * Constructor.
+     * Instantiate a new form builder.
      *
      * @param ExtensionInterface[] $extension The form extensions
      */
@@ -32,7 +32,7 @@ class Builder
     }
 
     /**
-     * Registers a set of extensions.
+     * Registers an array of extensions.
      *
      * @param ExtensionInterface[] $extensions The form extensions
      */
@@ -44,7 +44,8 @@ class Builder
     }
 
     /**
-     * Adds an extension.
+     * Registers an extension. All extensions will be passed to the fields and 
+     * can be called via the magic __call mathod.
      *
      * @param ExtensionInterface $extension The extension object
      */
@@ -54,7 +55,14 @@ class Builder
     }
 
     /**
-     * Use this function to build the root form.
+     * Creates a new field object with the name ''. Each field and the form 
+     * itself is based on the Field class, so the root form is just a field with
+     * a blank name. (If you want to namespace a form, then use the "field()" 
+     * method.)
+     *
+     * $form = $builder->form([
+     *   // add fields here
+     * ]);
      *
      * @param callable $apply   The apply function
      * @param callable $unapply The unapply function
@@ -67,11 +75,27 @@ class Builder
     }
 
     /**
-     * Creates a field object.
+     * Creates a named field. Use this function to create form fields, embedded
+     * forms or namespaced forms.
+     *
+     * Creates a single field:
+     * $username = $builder->field('username');
+     *
+     * Create an embedded form:
+     * $address = $builder->field('address', [
+     *   $builder->field('street'),
+     *   $builder->field('city'),
+     * ]);
+     *
+     * Creates a namespaced form (The rendered fields gets a name prefix e.g.
+     * <input type="text" name="user[username]">):
+     * $form = $builder->field('user', [
+     *   // add fields here
+     * ]);
      *
      * @param string   $name     The field name
      * @param Field[]  $children The field children
-     * @param callable $apply    This apply function
+     * @param callable $apply    The apply function
      * @param callable $unapply  The unapply function
      *
      * @return Field
