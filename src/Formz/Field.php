@@ -115,17 +115,17 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Sets the field name.
+     * Sets the internal name.
      *
-     * @param string $name The field name
+     * @param string $name The internal name
      */
-    public function setFieldName($name)
+    public function setInternalName($name)
     {
         $this->name = $name;
     }
 
     /**
-     * Gets the field name.
+     * Gets the internal name.
      *
      * @return string
      */

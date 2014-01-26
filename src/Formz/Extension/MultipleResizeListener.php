@@ -53,7 +53,7 @@ class MultipleResizeListener
             $proto  = $field->getOption('prototype');
             $choice = $this->cloneField($proto);
 
-            $choice->setFieldName((string) $index);
+            $choice->setInternalName((string) $index);
             $choice->setParent($field);
 
             foreach ($choice->getChildren() as $child) {
