@@ -1,6 +1,6 @@
 {
     "name": "dennis84/formz",
-    "description": "Formz is a simple form mapper for PHP. This library is based on the ScalaForms by Playframework.",
+    "description": "A simple form libary for PHP, inspired by the form component from the PlayFramework",
     "keywords": ["form"],
     "homepage": "http://github.com/dennis84/formz",
     "license": "MIT",
@@ -12,13 +12,13 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "symfony/event-dispatcher": "2.4.*"
+        "symfony/event-dispatcher": "2.*"
     },
     "require-dev": {
-        "symfony/http-foundation": "2.4.*",
-        "symfony/validator": "2.4.*",
-        "symfony/finder": "2.4.*",
-        "doctrine/common": "2.3.*",
+        "symfony/http-foundation": "2.*",
+        "symfony/validator": "2.*",
+        "symfony/finder": "2.*",
+        "doctrine/common": "2.*",
         "twig/twig": "1.*"
     },
     "autoload": {
