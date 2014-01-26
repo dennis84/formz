@@ -30,7 +30,7 @@ class Symfonify implements ExtensionInterface
     }
 
     /**
-     * Allows to pass the symfony request object to the bind method.
+     * Allows to bind the form with Symfony's request object.
      *
      * @param Field   $field   The form field
      * @param Request $request The symfony request object
@@ -44,7 +44,7 @@ class Symfonify implements ExtensionInterface
     }
 
     /**
-     * Enables symfony's annotation asserts.
+     * Enables Symfony's annotation asserts.
      *
      * @param Field $field The form field
      *
@@ -60,7 +60,7 @@ class Symfonify implements ExtensionInterface
                 if ($field->hasChild($violation->getPropertyPath())) {
                     $field = $field->getChild($violation->getPropertyPath());
                 }
-                
+
                 $field->addError(new Error(
                     $violation->getPropertyPath(),
                     $violation->getMessage()

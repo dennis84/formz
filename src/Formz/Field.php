@@ -40,9 +40,9 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Adds an extension.
+     * Registers an extension.
      *
-     * @param ExtensionInterface $extension The form extension
+     * @param ExtensionInterface $extension The extension object
      */
     public function extend(ExtensionInterface $extension)
     {
@@ -89,7 +89,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Invokes an extension method if is not defined in field class or throws
+     * Invokes an extension method. If this method is not defined it will throw
      * an exception.
      *
      * @param string  $method    The called method name
@@ -111,7 +111,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         throw new \BadMethodCallException(
-            sprintf('Method "%s" does not exists.', $method)); 
+            sprintf('Method "%s" does not exists.', $method));
     }
 
     /**
@@ -135,7 +135,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Resets the existing field children and sets the new ones.
+     * Sets a new array of child fields.
      *
      * @param Field[] $children An array of field obejcts
      */
@@ -158,7 +158,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Gets the field children.
+     * Gets the child fields.
      *
      * @return Field[]
      */
@@ -178,7 +178,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns true if a child by name exists, otherwise false.
+     * Returns true if a child with given name exists, otherwise false.
      *
      * @param boolean $name The field name
      *
@@ -196,7 +196,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return Field
      *
-     * @throws InvalidArgumentException If the child by name does not exists
+     * @throws InvalidArgumentException If the child does not exists
      */
     public function getChild($name)
     {
@@ -229,7 +229,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Adds a error to the field.
+     * Adds an error.
      *
      * @param Error $error The error object
      */
@@ -239,7 +239,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Gets all errors from field and children as an flat array.
+     * Returns a flat array with errors from this and all child fields.
      *
      * @return Error[]
      */
@@ -285,7 +285,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Replaces all constraints with an new array of constaints.
+     * Sets a new array of constraints.
      *
      * @param Constraint[] $constraints An array of constraints
      */
@@ -368,7 +368,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Binds the client data to the field and all children.
+     * Binds the submitted data to the field.
      *
      * @param mixed $input The client data
      */
@@ -398,7 +398,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         $this->value = $value;
-        
+
         if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
             $event = new Event($this, $data, $value, $input);
             $this->dispatcher->dispatch(Events::BEFORE_TRANSFORM, $event);
@@ -420,7 +420,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Fills the data to the field and all children.
+     * Fills any data to the field.
      *
      * @param mixed $data The data to fill as value
      */
@@ -459,9 +459,10 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Triggers the validation. Normally the validation will be triggered
-     * against the final bound data, but some constrains must be checked against
-     * the input or value.
+     * Triggers the validation process. Normally, the validation is triggered
+     * automatically against the final bound data, but some constraints have to
+     * be checked at a different time and with other data. (e.g. the required
+     * constraint)
      *
      * @param mixed $data The data to validate
      */
@@ -478,8 +479,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns true if the field and all children have no errors, otherwise
-     * false.
+     * Returns true if the field has no errors, otherwise false.
      *
      * @return boolean
      */
@@ -521,7 +521,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Gets an iterator of field chilren.
+     * Gets an iterator of child fields.
      *
      * @return ArrayIterator
      */

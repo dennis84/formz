@@ -10,15 +10,15 @@ namespace Formz;
 abstract class Transformer
 {
     /**
-     * Transforms the incoming data.
+     * Transforms the submitted data.
      *
-     * @param mixed $data The incoming data
+     * @param mixed $data The submitted data
      */
     public function transform($data)
     {
         return $data;
     }
-    
+
     /**
      * Transforms the filled data.
      *

@@ -25,7 +25,7 @@ class Error
     }
 
     /**
-     * Gets field name.
+     * Gets the field name.
      *
      * @return string
      */

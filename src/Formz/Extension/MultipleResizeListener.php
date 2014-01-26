@@ -13,7 +13,7 @@ use Formz\Field;
 class MultipleResizeListener
 {
     /**
-     * On bind field.
+     * On bind.
      *
      * @param Event $event The form event
      */
@@ -27,7 +27,7 @@ class MultipleResizeListener
     }
 
     /**
-     * On fill field.
+     * On fill.
      *
      * @param Event $event The form event
      */
@@ -35,14 +35,14 @@ class MultipleResizeListener
     {
         $this->prepare($event->getField(), $event->getData());
     }
-    
+
     /**
      * Prepares the multiple field.
      *
      * @param Field $field The field object
      * @param mixed $data  The data
      */
-    public function prepare(Field $field, $data)
+    protected function prepare(Field $field, $data)
     {
         if (!is_array($data)) {
             throw new \InvalidArgumentException('');

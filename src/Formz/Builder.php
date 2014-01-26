@@ -44,7 +44,7 @@ class Builder
     }
 
     /**
-     * Registers an extension. All extensions will be passed to the fields and 
+     * Registers an extension. All extensions will be passed to the fields and
      * can be called via the magic __call mathod.
      *
      * @param ExtensionInterface $extension The extension object
@@ -55,9 +55,9 @@ class Builder
     }
 
     /**
-     * Creates a new field object with the name ''. Each field and the form 
+     * Creates a new field object with the name ''. Each field and the form
      * itself is based on the Field class, so the root form is just a field with
-     * a blank name. (If you want to namespace a form, then use the "field()" 
+     * a blank name. (If you want to namespace a form, then use the "field()"
      * method.)
      *
      * $form = $builder->form([

@@ -6,7 +6,7 @@ use Formz\Field;
 use Formz\ExtensionInterface;
 
 /**
- * This extension provides a simpler api to add a custom constraint.
+ * This extension offers a simpler API to add custom constraints.
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */

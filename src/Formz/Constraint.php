@@ -24,7 +24,7 @@ abstract class Constraint
     }
 
     /**
-     * Checks is the field is valid.
+     * Checks if the submitted value is valid or not.
      *
      * @param mixed $value The field value
      *
@@ -33,8 +33,8 @@ abstract class Constraint
     abstract protected function check($value);
 
     /**
-     * Validates the data against this constraint. If the constraint was already
-     * triggered before, then it will return the last result.
+     * Validates the given data against this constraint. If the constraint was
+     * already triggered before, then it will return the last result.
      *
      * @param mixed $data The data
      *

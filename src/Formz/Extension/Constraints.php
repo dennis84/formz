@@ -50,7 +50,7 @@ class Constraints implements ExtensionInterface
     }
 
     /**
-     * Checks if the field value is numeric.
+     * Checks if the field value is numeric and convert it to an integer.
      *
      * @param Field  $field   The form field
      * @param string $message The error message
@@ -65,7 +65,7 @@ class Constraints implements ExtensionInterface
     }
 
     /**
-     * Checks if the field value is numeric.
+     * Checks if the field value is numeric and convert it to a float.
      *
      * @param Field  $field   The form field
      * @param string $message The error message
