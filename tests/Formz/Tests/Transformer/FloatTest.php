@@ -17,7 +17,7 @@ class FloatTest extends \PHPUnit_Framework_TestCase
             array('42a', '42a'),
         );
     }
-    
+
     /**
      * @dataProvider validData
      */
