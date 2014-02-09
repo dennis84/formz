@@ -20,7 +20,7 @@ class CallableTest extends \PHPUnit_Framework_TestCase
             $builder->field('password'),
         ], function ($username, $password) use (&$applied) {
             $applied = true;
-        }, function  (User $user) use (&$unapplied) {
+        }, function (User $user) use (&$unapplied) {
             $unapplied = true;
         });
 

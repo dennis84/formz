@@ -4,8 +4,6 @@ namespace Formz\Tests\Integration;
 
 use Formz\Builder;
 use Formz\Tests\Fixtures\User;
-use Formz\Tests\Fixtures\Address;
-use Formz\Tests\Fixtures\Location;
 
 class BindIncorrectDataTest extends \PHPUnit_Framework_TestCase
 {

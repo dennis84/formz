@@ -51,7 +51,7 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('dennis84', $form['username']->getValue());
         $this->assertSame('demo123', $form['password']->getValue());
-        
+
         $this->assertSame([
             'city'   => 'Footown',
             'street' => 'Foostreet',
@@ -133,7 +133,7 @@ class UnbindCompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('Footown', $form['address']['city']->getValue());
         $this->assertSame('Foostreet', $form['address']['street']->getValue());
-       
+
         $this->assertSame('50', $form['address']['location']['lat']->getValue());
         $this->assertSame('8', $form['address']['location']['lng']->getValue());
     }

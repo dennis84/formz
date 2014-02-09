@@ -15,7 +15,7 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $form->bind([ 'username' => '' ]);
-        
+
         $this->assertSame(
             'formz.error.non_empty_text',
             $form['username']->getErrors()[0]->getMessage()

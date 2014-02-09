@@ -3,9 +3,7 @@
 namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Fixtures\User;
 use Formz\Tests\Fixtures\Address;
-use Formz\Tests\Fixtures\Location;
 
 class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +44,7 @@ class UnbindIncompleteFormsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('dennis84', $form['username']->getValue());
         $this->assertSame(null, $form['password']->getValue());
-        
+
         $this->assertSame(null, $form['address']['city']->getValue());
         $this->assertSame('Foostreet', $form['address']['street']->getValue());
     }

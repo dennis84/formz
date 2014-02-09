@@ -82,7 +82,7 @@ class Constraints implements ExtensionInterface
     /**
      * Checks if the field value is boolean.
      *
-     * @param Field  $field   The form field
+     * @param Field $field The form field
      * @param string message The error message
      *
      * @return Field

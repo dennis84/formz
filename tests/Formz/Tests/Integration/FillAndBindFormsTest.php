@@ -3,9 +3,6 @@
 namespace Formz\Tests\Integration;
 
 use Formz\Builder;
-use Formz\Tests\Fixtures\User;
-use Formz\Tests\Fixtures\Address;
-use Formz\Tests\Fixtures\Location;
 
 class FillAndBindFormsTest extends \PHPUnit_Framework_TestCase
 {

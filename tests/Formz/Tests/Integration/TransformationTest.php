@@ -3,7 +3,6 @@
 namespace Formz\Tests;
 
 use Formz\Builder;
-use Formz\Transformer;
 use Formz\Tests\Fixtures\NonsenseTransformer;
 
 class TransformationTest extends \PHPUnit_Framework_TestCase

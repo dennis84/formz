@@ -3,7 +3,6 @@
 namespace Formz\Extension;
 
 use Formz\Field;
-use Formz\Event;
 use Formz\Events;
 use Formz\ExtensionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;

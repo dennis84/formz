@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Formz\Tests;
 
 use Formz\Builder;
@@ -59,7 +59,7 @@ class FieldTest extends FormzTestCase
         $field = $this->createField('foo');
         unset($field['foo']);
     }
-    
+
     public function testValidExtensionMethod()
     {
         $field = $this->createField('foo', [

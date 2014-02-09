@@ -1,28 +1,28 @@
 {
-    "name": "dennis84/formz",
-    "description": "A simple form libary for PHP, inspired by the form component from the PlayFramework",
-    "keywords": ["form"],
-    "homepage": "http://github.com/dennis84/formz",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Dennis Dietrich",
-            "email": "d.dietrich84@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "symfony/event-dispatcher": "2.*"
-    },
-    "require-dev": {
-        "symfony/http-foundation": "2.*",
-        "symfony/validator": "2.*",
-        "symfony/finder": "2.*",
-        "doctrine/common": "2.*",
-        "twig/twig": "1.*"
-    },
-    "autoload": {
-        "psr-0": { "Formz": "src/" }
-    },
-    "minimum-stability": "dev"
+  "name": "dennis84/formz",
+  "description": "A simple form libary for PHP, inspired by the form component from the PlayFramework",
+  "keywords": ["form"],
+  "homepage": "http://github.com/dennis84/formz",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dennis Dietrich",
+      "email": "d.dietrich84@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "symfony/event-dispatcher": "2.*"
+  },
+  "require-dev": {
+    "symfony/http-foundation": "2.*",
+    "symfony/validator": "2.*",
+    "symfony/finder": "2.*",
+    "doctrine/common": "2.*",
+    "twig/twig": "1.*"
+  },
+  "autoload": {
+    "psr-0": { "Formz": "src/" }
+  },
+  "minimum-stability": "dev"
 }

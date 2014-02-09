@@ -4,7 +4,7 @@ namespace Formz\Tests\Extension;
 
 use Formz\Builder;
 
-class HelpersTest extends \PHPUnit_Framework_TestCase
+class RenderingTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetName()
     {
