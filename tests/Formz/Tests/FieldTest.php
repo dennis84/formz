@@ -126,4 +126,18 @@ class FieldTest extends FormzTestCase
         $this->assertEquals($c, $transformers[1]);
         $this->assertEquals($a, $transformers[2]);
     }
+
+    public function testSetAndGetOption()
+    {
+        $foo = $this->createField('foo');
+        $foo->setOption('foo', 'Foo');
+        $this->assertSame('Foo', $foo->getOption('foo'));
+    }
+
+    public function testGetOptionFail()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $foo = $this->createField('foo');
+        $foo->getOption('foo');
+    }
 }
