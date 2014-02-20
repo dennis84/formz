@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
-         bootstrap="tests/bootstrap.php"
->
-    <testsuites>
-        <testsuite name="Formz Test Suite">
-            <directory>tests/Formz/</directory>
-        </testsuite>
-    </testsuites>
+<phpunit
+  backupGlobals="false"
+  backupStaticAttributes="false"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  processIsolation="false"
+  stopOnFailure="false"
+  syntaxCheck="false"
+  bootstrap="tests/bootstrap.php">
 
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/Formz/</directory>
-        </whitelist>
-    </filter>
+  <testsuites>
+    <testsuite name="Formz Test Suite">
+      <directory>tests/Formz/</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist>
+      <directory suffix=".php">src/Formz/</directory>
+    </whitelist>
+  </filter>
 </phpunit>
