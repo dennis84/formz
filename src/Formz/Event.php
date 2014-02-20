@@ -13,7 +13,6 @@ class Event extends BaseEvent
 {
     protected $field;
     protected $data;
-    protected $value;
     protected $input;
 
     /**
@@ -21,14 +20,12 @@ class Event extends BaseEvent
      *
      * @param Field $field The field object
      * @param mixed $data  The field data
-     * @param mixed $value The field value
      * @param mixed $input The field input
      */
-    public function __construct(Field $field, $data = null, $value = null, $input = null)
+    public function __construct(Field $field, $data = null, $input = null)
     {
         $this->field = $field;
         $this->data = $data;
-        $this->value = $value;
         $this->input = $input;
     }
 
@@ -60,16 +57,6 @@ class Event extends BaseEvent
     public function setData($data)
     {
         $this->data = $data;
-    }
-
-    /**
-     * Gets the value.
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**

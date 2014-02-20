@@ -375,7 +375,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     public function bind($input)
     {
         if ($this->dispatcher->hasListeners(Events::BIND)) {
-            $event = new Event($this, $this->data, $this->value, $input);
+            $event = new Event($this, $this->data, $input);
             $this->dispatcher->dispatch(Events::BIND, $event);
             $input = $event->getInput();
         }
@@ -400,7 +400,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->value = $value;
 
         if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
-            $event = new Event($this, $data, $value, $input);
+            $event = new Event($this, $data, $input);
             $this->dispatcher->dispatch(Events::BEFORE_TRANSFORM, $event);
             $data = $event->getData();
         }
@@ -410,7 +410,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $data, $value, $input);
+            $event = new Event($this, $data, $input);
             $this->dispatcher->dispatch(Events::APPLIED, $event);
             $data = $event->getData();
         }
