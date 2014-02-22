@@ -15,16 +15,22 @@ class Rendering implements ExtensionInterface
     /**
      * Gets the name for form view.
      *
-     * @param Field $field The field object
+     * @param Field   $field The field object
+     * @param boolean $fst   This flag is used to find out which field was 
+     *                       called first.
      *
      * @return string
      */
-    public function getName(Field $field)
+    public function getName(Field $field, $fst = true)
     {
         $parent = $field->getParent();
 
-        if (null !== $parent && '' !== $parent->getName()) {
-            return $parent->getName() . '[' . $field->getInternalName() . ']';
+        if (null !== $parent && '' !== $parent->getName(false)) {
+            return $parent->getName(false) . '[' . $field->getInternalName() . ']';
+        }
+
+        if ($fst && $field->hasOption('prototype')) {
+            return $field->getInternalName() . '[]';
         }
 
         return $field->getInternalName();

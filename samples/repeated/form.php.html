@@ -15,14 +15,14 @@
       </ul>
       <?php endif ?>
 
-      <label for="tags">Tags</label>
+      <label for="title">Title</label>
       <input type="text"
         name="<?php echo $form['title']->getName() ?>"
         value="<?php echo $form['title']->getValue() ?>">
       <br>
 
       <label for="tags">Tags</label>
-      <select name="tags[]" multiple>
+      <select name="<?php echo $form['tags']->getName() ?>" multiple>
         <option value="foo">Foo</option>
         <option value="bar">Bar</option>
         <option value="baz">Baz</option>

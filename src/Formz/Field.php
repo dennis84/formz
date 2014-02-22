@@ -368,6 +368,18 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns true if an option with given name exists, otherwise false.
+     *
+     * @param boolean $name The option name
+     *
+     * @return boolean
+     */
+    public function hasOption($name)
+    {
+        return array_key_exists($name, $this->options);
+    }
+
+    /**
      * Binds the submitted data to the field.
      *
      * @param mixed $input The client data

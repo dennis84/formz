@@ -23,6 +23,8 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($formData, [
             'choices' => ['foo', 'bar', 'baz'],
         ]);
+
+        $this->assertSame('choices[]', $form['choices']->getName());
     }
 
     public function test_bind_and_pass_empty()
@@ -167,31 +169,6 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $form->bind(['choices' => 'foo']);
-    }
-
-    public function test_bind_and_getName()
-    {
-        $builder = new Builder();
-        $form = $builder->form([
-            $builder->field('choices', [
-                $builder->field('key'),
-                $builder->field('value'),
-            ])->multiple(),
-        ]);
-
-        $data = [
-            'choices' => [
-                ['key' => 'foo', 'value' => 'bar'],
-                ['key' => 'bla', 'value' => 'blubb'],
-            ],
-        ];
-
-        $form->bind($data);
-
-        $this->assertSame('choices[0][key]', $form['choices']['0']['key']->getName());
-        $this->assertSame('choices[0][value]', $form['choices']['0']['value']->getName());
-        $this->assertSame('choices[1][key]', $form['choices']['1']['key']->getName());
-        $this->assertSame('choices[1][value]', $form['choices']['1']['value']->getName());
     }
 
     public function test_fill_flat_form_unapplied_from_array()

@@ -127,11 +127,13 @@ class FieldTest extends FormzTestCase
         $this->assertEquals($a, $transformers[2]);
     }
 
-    public function testSetAndGetOption()
+    public function testSetGetAndHasOption()
     {
         $foo = $this->createField('foo');
         $foo->setOption('foo', 'Foo');
         $this->assertSame('Foo', $foo->getOption('foo'));
+        $this->assertTrue($foo->hasOption('foo'));
+        $this->assertFalse($foo->hasOption('bar'));
     }
 
     public function testGetOptionFail()
