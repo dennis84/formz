@@ -56,6 +56,10 @@ class Callback extends Transformer
             return $data;
         }
 
+        if (!is_array($data)) {
+            $data = [$data];
+        }
+
         return call_user_func_array($func, $data);
     }
 }

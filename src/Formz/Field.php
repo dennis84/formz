@@ -444,17 +444,13 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
             $data = $event->getData();
         }
 
+        foreach ($this->getTransformers() as $transformer) {
+            $data = $transformer->reverseTransform($data);
+        }
+
         if (!$this->hasChildren()) {
             $this->value = $data;
             return $data;
-        }
-
-        if (!is_array($data)) {
-            $data = [$data];
-        }
-
-        foreach ($this->getTransformers() as $transformer) {
-            $data = $transformer->reverseTransform($data);
         }
 
         $value = [];
