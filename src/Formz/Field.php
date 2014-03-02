@@ -476,11 +476,11 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function validate($data)
     {
-        foreach ($this->constraints as $constraint) {
-            if (false === $constraint->validate($data)) {
+        foreach ($this->constraints as $cons) {
+            if (!$cons->isChecked() && false === $cons->validate($data)) {
                 $this->addError(new Error(
                     $this->getInternalName(),
-                    $constraint->getMessage()
+                    $cons->getMessage()
                 ));
             }
         }

@@ -60,4 +60,14 @@ abstract class Constraint
     {
         return $this->message;
     }
+
+    /**
+     * Returns true or false.
+     *
+     * @return boolean
+     */
+    public function isChecked()
+    {
+        return $this->checked;
+    }
 }

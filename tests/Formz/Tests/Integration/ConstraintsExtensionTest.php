@@ -126,11 +126,27 @@ class ConstraintsExtensionTest extends \PHPUnit_Framework_TestCase
             'c' => 'true',
             'd' => 'false',
         ]);
-        $formData = $form->getData();
 
+        $formData = $form->getData();
         $this->assertTrue($formData['a']);
         $this->assertFalse($formData['b']);
         $this->assertTrue($formData['c']);
         $this->assertFalse($formData['d']);
+    }
+
+    public function test_required_boolean()
+    {
+        $builder = new Builder();
+
+        $form = $builder->form([
+            $builder->field('accept')->required()->boolean(),
+        ]);
+
+        $form->bind([]);
+        $errors = $form->getErrorsFlat();
+
+        $this->assertSame(2, count($errors));
+        $this->assertSame('formz.error.required', $errors[0]->getMessage());
+        $this->assertSame('formz.error.boolean', $errors[1]->getMessage());
     }
 }
