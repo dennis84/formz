@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign Up</title>
+  </head>
+
+  <body>
+    <form method="post">
+      <?php if ($form->hasErrors()) : ?>
+      <ul class="errors">
+        <?php foreach ($form->getErrorsFlat() as $error) : ?>
+        <li><?php echo $error->getField() ?>: <?php echo $error->getMessage() ?></li>
+        <?php endforeach ?>
+      </ul>
+      <?php endif ?>
+
+      <label>Username</label>
+      <input
+        type="text"
+        name="<?php echo $form['username']->getName() ?>"
+        value="<?php echo $form['username']->getValue() ?>">
+      <br>
+
+      <label>Password</label>
+      <input
+        type="password"
+        name="<?php echo $form['password']['main']->getName() ?>">
+      <br>
+
+      <label>Confirm Password</label>
+      <input
+        type="password"
+        name="<?php echo $form['password']['confirm']->getName() ?>">
+      <br>
+
+      <input
+        type="checkbox"
+        name="<?php echo $form['accept']->getName() ?>"
+        value="true"
+        <?php if ($form['accept']->getValue()): ?>checked<?php endif ?>>
+      <br>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </body>
+</html>
