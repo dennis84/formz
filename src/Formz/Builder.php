@@ -20,38 +20,13 @@ class Builder
      */
     public function __construct(array $extensions = [])
     {
-        $this->registerExtensions([
+        $this->extensions = array_merge([
             new \Formz\Extension\Rendering(),
             new \Formz\Extension\Constraints(),
             new \Formz\Extension\Optional(),
             new \Formz\Extension\Multiple(),
             new \Formz\Extension\Verifying(),
-        ]);
-
-        $this->registerExtensions($extensions);
-    }
-
-    /**
-     * Registers an array of extensions.
-     *
-     * @param ExtensionInterface[] $extensions The form extensions
-     */
-    public function registerExtensions(array $extensions)
-    {
-        foreach ($extensions as $extension) {
-            $this->extend($extension);
-        }
-    }
-
-    /**
-     * Registers an extension. All extensions will be passed to the fields and
-     * can be called via the magic __call mathod.
-     *
-     * @param ExtensionInterface $extension The extension object
-     */
-    public function extend(ExtensionInterface $extension)
-    {
-        $this->extensions[] = $extension;
+        ], $extensions);
     }
 
     /**

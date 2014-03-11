@@ -34,21 +34,10 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
     {
         $this->name = $name;
         $this->dispatcher = $dispatcher;
+        $this->extensions = $extensions;
         foreach ($extensions as $extension) {
-            $this->extend($extension);
             $extension->initialize($this);
         }
-    }
-
-    /**
-     * Registers an extension.
-     *
-     * @param ExtensionInterface $extension The extension object
-     */
-    public function extend(ExtensionInterface $extension)
-    {
-        $this->extensions[] = $extension;
-        return $this;
     }
 
     /**
