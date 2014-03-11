@@ -15,6 +15,13 @@ use Formz\ExtensionInterface;
 class Optional implements ExtensionInterface
 {
     /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+    }
+
+    /**
      * Makes this field to an optional.
      *
      * @param Field $field The field object

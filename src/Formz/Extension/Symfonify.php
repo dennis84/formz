@@ -22,11 +22,43 @@ class Symfonify implements ExtensionInterface
     /**
      * Constructor.
      *
-     * @param ValidatorInterface $validator The symfony validator
+     * @param ValidatorInterface|null $validator The symfony validator
      */
-    public function __construct(ValidatorInterface $validator)
+    public function __construct(ValidatorInterface $validator = null)
     {
         $this->validator = $validator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+        // Activates annotation validation
+        if (null !== $this->validator) {
+            $disp = $field->getDispatcher();
+            $disp->addListener(Events::APPLIED, function (Event $event) {
+                $data = $event->getData();
+                if (!is_object($data)) {
+                    return;
+                }
+
+                $violations = $this->validator->validate($data);
+
+                foreach ($violations as $violation) {
+                    $field = $event->getField();
+
+                    if ($field->hasChild($violation->getPropertyPath())) {
+                        $field = $field->getChild($violation->getPropertyPath());
+                    }
+
+                    $field->addError(new Error(
+                        $violation->getPropertyPath(),
+                        $violation->getMessage()
+                    ));
+                }
+            });
+        }
     }
 
     /**
@@ -40,34 +72,6 @@ class Symfonify implements ExtensionInterface
     public function bindFromRequest(Field $field, Request $request)
     {
         $field->bind($request->request->all());
-        return $field;
-    }
-
-    /**
-     * Enables Symfony's annotation asserts.
-     *
-     * @param Field $field The form field
-     *
-     * @return Field
-     */
-    public function verifyByAnnotations(Field $field)
-    {
-        $field->getDispatcher()->addListener(Events::APPLIED, function (Event $event) {
-            $violations = $this->validator->validate($event->getData());
-            foreach ($violations as $violation) {
-                $field = $event->getField();
-
-                if ($field->hasChild($violation->getPropertyPath())) {
-                    $field = $field->getChild($violation->getPropertyPath());
-                }
-
-                $field->addError(new Error(
-                    $violation->getPropertyPath(),
-                    $violation->getMessage()
-                ));
-            }
-        });
-
         return $field;
     }
 }

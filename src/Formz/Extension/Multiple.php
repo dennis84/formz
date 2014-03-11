@@ -15,6 +15,13 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class Multiple implements ExtensionInterface
 {
     /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+    }
+
+    /**
      * Makes this field to a multiple.
      *
      * @param Field $field The field object

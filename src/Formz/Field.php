@@ -36,6 +36,7 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->dispatcher = $dispatcher;
         foreach ($extensions as $extension) {
             $this->extend($extension);
+            $extension->initialize($this);
         }
     }
 
@@ -101,6 +102,10 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function __call($method, $arguments)
     {
+        if ('initialize' === $method) {
+            return;
+        }
+
         foreach ($this->extensions as $extension) {
             if (false === method_exists($extension, $method)) {
                 continue;

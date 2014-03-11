@@ -26,10 +26,10 @@ class SymfonyExtensionTest extends \PHPUnit_Framework_TestCase
                 $builder->field('street')
             ], function ($city, $street) {
                 return new Address($city, $street);
-            })->verifyByAnnotations(),
+            }),
         ], function ($username, $password, $address) {
             return new User($username, $password, $address);
-        })->verifyByAnnotations();
+        });
 
         $request = Request::create('/', 'POST', [
             'username' => 'dennis',

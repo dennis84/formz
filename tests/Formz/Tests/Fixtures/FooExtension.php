@@ -7,6 +7,10 @@ use Formz\ExtensionInterface;
 
 class FooExtension implements ExtensionInterface
 {
+    public function initialize(Field $field)
+    {
+    }
+
     public function foo(Field $field)
     {
         return $field;

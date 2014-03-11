@@ -6,6 +6,25 @@ use Formz\Field;
 
 class FieldTest extends FormzTestCase
 {
+    public function testInitialize()
+    {
+        $ext = $this->getMock('Formz\ExtensionInterface');
+        $ext->expects($this->once())
+            ->method('initialize');
+
+        $field = $this->createField('foo', [$ext]);
+    }
+
+    public function testInitializeMethodMustNotBeCallable()
+    {
+        $ext = $this->getMock('Formz\ExtensionInterface');
+        $ext->expects($this->once())
+            ->method('initialize');
+
+        $field = $this->createField('foo', [$ext]);
+        $field->initialize($field);
+    }
+
     public function testGetChild()
     {
         $builder = new Builder();

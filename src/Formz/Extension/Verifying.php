@@ -13,6 +13,13 @@ use Formz\ExtensionInterface;
 class Verifying implements ExtensionInterface
 {
     /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+    }
+
+    /**
      * Adds a constraint to the field.
      *
      * @param Field    $field   The field object

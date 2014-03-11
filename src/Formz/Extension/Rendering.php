@@ -13,6 +13,13 @@ use Formz\ExtensionInterface;
 class Rendering implements ExtensionInterface
 {
     /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+    }
+
+    /**
      * Gets the name for form view.
      *
      * @param Field   $field The field object

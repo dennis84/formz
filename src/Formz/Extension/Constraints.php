@@ -16,6 +16,13 @@ use Formz\Event;
 class Constraints implements ExtensionInterface
 {
     /**
+     * {@inheritdoc}
+     */
+    public function initialize(Field $field)
+    {
+    }
+
+    /**
      * Check if this field is empty or not.
      *
      * @param Field  $field   The form field
