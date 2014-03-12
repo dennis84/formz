@@ -36,7 +36,9 @@ class Constraints implements ExtensionInterface
         $disp = $field->getDispatcher();
 
         $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) {
-            $event->getField()->validate($event->getInput());
+            foreach ($event->getField()->getConstraints() as $cons) {
+                $cons->validate($event->getField(), $event->getInput());
+            }
         });
 
         return $field;

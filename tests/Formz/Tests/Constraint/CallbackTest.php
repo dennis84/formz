@@ -14,6 +14,6 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
             return true;
         });
 
-        $this->assertTrue($constraint->validate($expected));
+        $this->assertTrue($constraint->check($expected));
     }
 }

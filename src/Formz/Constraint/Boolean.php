@@ -14,7 +14,7 @@ class Boolean extends Constraint
     /**
      * {@inheritDoc}
      */
-    protected function check($value)
+    public function check($value)
     {
         return 'true' === $value
             || 'false' === $value

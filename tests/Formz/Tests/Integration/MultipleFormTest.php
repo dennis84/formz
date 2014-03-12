@@ -254,13 +254,13 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
         $form = $builder->form([
             $builder->field('emails')->verifying('email', function ($value) {
-                return filter_var($value, FILTER_VALIDATE_EMAIL);
+                return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
 
-        $form->bind(array(
-            'emails' => array('foo@bar.de', 'blah@blub.de'),
-        ));
+        $form->bind([
+            'emails' => ['foo@bar.de', 'blah@blub.de'],
+        ]);
 
         $this->assertTrue($form->isValid());
     }
@@ -270,13 +270,13 @@ class MultipleFormTest extends \PHPUnit_Framework_TestCase
         $builder = new Builder();
         $form = $builder->form([
             $builder->field('emails')->verifying('email', function ($value) {
-                return filter_var($value, FILTER_VALIDATE_EMAIL);
+                return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
 
-        $form->bind(array(
-            'emails' => array('foo@bar.de', 'blah'),
-        ));
+        $form->bind([
+            'emails' => ['foo@bar.de', 'blah'],
+        ]);
 
         $this->assertFalse($form->isValid());
     }

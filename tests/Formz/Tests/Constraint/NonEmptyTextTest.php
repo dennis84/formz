@@ -6,14 +6,14 @@ class NonEmptyTextTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
-        return array(
-            array(true, 'foo'),
-            array(true, '\\n'),
-            array(true, ' '),
-            array(false, ''),
-            array(false, 1),
-            array(false, array()),
-        );
+        return [
+            [true, 'foo'],
+            [true, '\\n'],
+            [true, ' '],
+            [false, ''],
+            [false, 1],
+            [false, []],
+        ];
     }
 
     /**
@@ -22,6 +22,6 @@ class NonEmptyTextTest extends \PHPUnit_Framework_TestCase
     public function testCheck($expected, $value)
     {
         $constraint = new \Formz\Constraint\NonEmptyText('');
-        $this->assertSame($expected, $constraint->validate($value));
+        $this->assertSame($expected, $constraint->check($value));
     }
 }

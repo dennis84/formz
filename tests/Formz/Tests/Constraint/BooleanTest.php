@@ -6,16 +6,16 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
-        return array(
-            array(true, true),
-            array(true, 'true'),
-            array(true, false),
-            array(true, 'false'),
-            array(false, 1),
-            array(false, '1'),
-            array(false, '0'),
-            array(false, 'a'),
-        );
+        return [
+            [true, true],
+            [true, 'true'],
+            [true, false],
+            [true, 'false'],
+            [false, 1],
+            [false, '1'],
+            [false, '0'],
+            [false, 'a'],
+        ];
     }
 
     /**
@@ -24,6 +24,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     public function testCheck($expected, $value)
     {
         $constraint = new \Formz\Constraint\Boolean('');
-        $this->assertSame($expected, $constraint->validate($value));
+        $this->assertSame($expected, $constraint->check($value));
     }
 }

@@ -6,12 +6,12 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
-        return array(
-            array(true, true),
-            array(true, 'true'),
-            array(false, false),
-            array(false, 'false'),
-        );
+        return [
+            [true, true],
+            [true, 'true'],
+            [false, false],
+            [false, 'false'],
+        ];
     }
 
     /**

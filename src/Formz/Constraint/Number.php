@@ -14,7 +14,7 @@ class Number extends Constraint
     /**
      * {@inheritDoc}
      */
-    protected function check($value)
+    public function check($value)
     {
         return is_numeric($value);
     }

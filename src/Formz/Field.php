@@ -421,7 +421,10 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
             $data = $event->getData();
         }
 
-        $this->validate($data);
+        foreach ($this->constraints as $cons) {
+            $cons->validate($this, $data);
+        }
+
         $this->data = $data;
     }
 
@@ -458,26 +461,6 @@ class Field implements \ArrayAccess, \IteratorAggregate, \Countable
 
         $this->value = $value;
         return $value;
-    }
-
-    /**
-     * Triggers the validation process. Normally, the validation is triggered
-     * automatically against the final bound data, but some constraints have to
-     * be checked at a different time and with other data. (e.g. the required
-     * constraint)
-     *
-     * @param mixed $data The data to validate
-     */
-    public function validate($data)
-    {
-        foreach ($this->constraints as $cons) {
-            if (!$cons->isChecked() && false === $cons->validate($data)) {
-                $this->addError(new Error(
-                    $this->getInternalName(),
-                    $cons->getMessage()
-                ));
-            }
-        }
     }
 
     /**

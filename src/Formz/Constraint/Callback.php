@@ -29,7 +29,7 @@ class Callback extends Constraint
     /**
      * {@inheritDoc}
      */
-    protected function check($value)
+    public function check($value)
     {
         if (!is_array($value)) {
             $value = [$value];

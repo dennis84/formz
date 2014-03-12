@@ -30,7 +30,7 @@ abstract class Constraint
      *
      * @return boolean
      */
-    abstract protected function check($value);
+    abstract public function check($value);
 
     /**
      * Validates the given data against this constraint. If the constraint was
@@ -40,15 +40,22 @@ abstract class Constraint
      *
      * @return boolean
      */
-    public function validate($data)
+    public function validate(Field $field, $data)
     {
         if (true === $this->checked) {
-            return $this->result;
+            return;
         }
 
         $this->checked = true;
-        $this->result = $this->check($data);
-        return $this->result;
+
+        if (true === $this->check($data)) {
+            return;
+        }
+
+        $field->addError(new Error(
+            $field->getInternalName(),
+            $this->getMessage()
+        ));
     }
 
     /**
@@ -59,15 +66,5 @@ abstract class Constraint
     public function getMessage()
     {
         return $this->message;
-    }
-
-    /**
-     * Returns true or false.
-     *
-     * @return boolean
-     */
-    public function isChecked()
-    {
-        return $this->checked;
     }
 }

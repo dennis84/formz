@@ -14,7 +14,7 @@ class NonEmptyText extends Constraint
     /**
      * {@inheritDoc}
      */
-    protected function check($value)
+    public function check($value)
     {
         return is_string($value) && null !== $value && '' !== $value;
     }
